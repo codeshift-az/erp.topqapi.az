@@ -15,62 +15,62 @@ This is a template for a React Admin Panel.
 
 1. Clone the repository
 
-    ```bash
-    git clone https://github.com/tarlansoltanov/react-admin-template.git
-    ```
+   ```bash
+   git clone https://github.com/tarlansoltanov/erp.topqapi.az.git
+   ```
 
 2. Install dependencies
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
-    or
+   or
 
-    ```bash
-    yarn
-    ```
+   ```bash
+   yarn
+   ```
 
 3. Run the development server
 
-    ```bash
-    npm run dev
-    ```
+   ```bash
+   npm run dev
+   ```
 
-    or
+   or
 
-    ```bash
-    yarn dev
-    ```
+   ```bash
+   yarn dev
+   ```
 
 ### Production
 
 1. Clone the repository
 
-    ```bash
-    git clone https://github.com/tarlansoltanov/react-admin-template.git
-    ```
+   ```bash
+   git clone https://github.com/tarlansoltanov/erp.topqapi.az.git
+   ```
 
 2. Install dependencies
 
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
-    or
+   or
 
-    ```bash
-    yarn
-    ```
+   ```bash
+   yarn
+   ```
 
 3. Build the project
 
-    ```bash
-    npm run build
-    ```
+   ```bash
+   npm run build
+   ```
 
-    or
+   or
 
-    ```bash
-    yarn build
-    ```
+   ```bash
+   yarn build
+   ```
