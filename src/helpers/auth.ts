@@ -1,16 +1,13 @@
-// Constants
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/constants";
-
-// External
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
-interface TokePair {
-  access: string;
-  refresh: string;
-}
+// Types
+import { TokenPair } from "@/types";
 
-export const setAuthCookies = ({ access, refresh }: TokePair, remember: boolean = false) => {
+// Constants
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/constants";
+
+export const setAuthCookies = ({ access, refresh }: TokenPair, remember: boolean = false) => {
   const accessDecoded = jwtDecode(access);
 
   Cookies.set(ACCESS_TOKEN, access, {
