@@ -13,7 +13,6 @@ import { resetAccount } from "@/store/account/slice";
 export const login = createAsyncThunk("auth/login", async (credentials: FormData, thunkAPI) => {
   try {
     const response = await API.postLogin(credentials);
-    console.log(credentials.get("remember"));
     setAuthCookies(response, credentials.get("remember") === "true");
   } catch (error: any) {
     throw thunkAPI.rejectWithValue(error.response.data);
