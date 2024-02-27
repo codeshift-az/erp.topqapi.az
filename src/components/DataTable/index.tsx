@@ -1,7 +1,7 @@
 import React from "react";
 
 // Reactstrap
-import { Table, Row, Col, Button, Input } from "reactstrap";
+import { Table, Row, Col, Button, Input, Alert, Spinner } from "reactstrap";
 
 // React Table
 import {
@@ -19,9 +19,6 @@ import {
 
 // React Table Types
 import { ColumnDef } from "@tanstack/react-table";
-
-// Components
-import Loader from "@/components/Loader";
 
 interface Props {
   data: any[];
@@ -143,7 +140,17 @@ const DataTable = ({
             {loading ? (
               <tr>
                 <td colSpan={100} className="text-center">
-                  <Loader />
+                  <Alert
+                    color="primary"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      gap: "15px",
+                    }}>
+                    <Spinner className="ms-2" color="primary" />
+                    Yüklənir...
+                  </Alert>
                 </td>
               </tr>
             ) : (
