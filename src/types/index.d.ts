@@ -6,3 +6,6 @@ export type { User } from "./user";
 
 // Category Type
 export type { Category } from "./category";
+
+// Supplier Type
+export type { Supplier } from "./supplier";
