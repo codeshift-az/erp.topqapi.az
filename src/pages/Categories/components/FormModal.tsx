@@ -81,8 +81,8 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
   // Failure
   useEffect(() => {
     if (show && status.failure) {
-      if (errors && errors.response && errors.response.status === 400) {
-        validation.setErrors({ ...validation.errors, ...errors.response.data });
+      if (errors && errors.status === 400) {
+        validation.setErrors({ ...validation.errors, ...errors.data });
       } else {
         setAlertError("Əməliyyat zamanı xəta baş verdi!");
       }
