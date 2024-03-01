@@ -1,41 +1,23 @@
 import { Navigate } from "react-router-dom";
 
-// Dashboard
-import Dashboard from "@/pages/Dashboard";
-
-// Branches
-import Branches from "@/pages/Branches";
-
-// Suppliers
-import Suppliers from "@/pages/Suppliers";
-
-// Categories
-import Categories from "@/pages/Categories";
-
-// Account
-import Account from "@/pages/Account";
-
-// Login
-import Login from "@/pages/Auth/Login";
-
-// Logout
-import Logout from "@/pages/Auth/Logout";
+// Pages
+import * as Pages from "@/pages";
 
 const protectedRoutes = [
   // Dashboard
-  { path: "/dashboard", component: <Dashboard /> },
+  { path: "/dashboard", component: <Pages.Dashboard /> },
 
   // Branches
-  { path: "/branches", component: <Branches /> },
+  { path: "/branches", component: <Pages.Branches /> },
 
   // Suppliers
-  { path: "/suppliers", component: <Suppliers /> },
+  { path: "/suppliers", component: <Pages.Suppliers /> },
 
   // Categories
-  { path: "/categories", component: <Categories /> },
+  { path: "/categories", component: <Pages.Categories /> },
 
   // Account
-  { path: "/account", component: <Account /> },
+  { path: "/account", component: <Pages.Account /> },
 
   // Default Redirect
   {
@@ -47,10 +29,10 @@ const protectedRoutes = [
 
 const publicRoutes = [
   // Login
-  { path: "/auth/login", component: <Login /> },
+  { path: "/auth/login", component: <Pages.Login /> },
 
   // Logout
-  { path: "/auth/logout", component: <Logout /> },
+  { path: "/auth/logout", component: <Pages.Logout /> },
 ];
 
 export { protectedRoutes, publicRoutes };

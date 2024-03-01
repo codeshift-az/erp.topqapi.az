@@ -35,7 +35,7 @@ import { getPageTitle } from "@/helpers";
 // Actions
 import { updateAccount } from "@/store/account/actions";
 
-const UserProfile = () => {
+const Account = () => {
   document.title = getPageTitle("Profil");
 
   const dispatch = useDispatch<AppDispatch>();
@@ -230,4 +230,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default Account;

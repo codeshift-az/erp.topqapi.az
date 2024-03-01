@@ -1,5 +1,5 @@
 import { DefaultFilter } from "./default";
 
-export type CategoryFilter = DefaultFilter & {
+export type BranchFilter = DefaultFilter & {
   name?: string;
 };

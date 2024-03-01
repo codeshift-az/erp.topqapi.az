@@ -37,8 +37,10 @@ export const supplierSlice = createSlice({
   reducers: {
     resetState: (state) => {
       state.status = { ...initialState.status };
+      state.update = initialState.update;
       state.errors = initialState.errors;
       state.items = initialState.items;
+      state.count = initialState.count;
     },
   },
   extraReducers: (builder) => {
