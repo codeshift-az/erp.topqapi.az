@@ -31,9 +31,15 @@ const menuItems: (IMenuHeader | IMenuItem)[] = [
     link: "/dashboard",
   },
   {
+    id: "branches",
+    label: "Filiallar",
+    icon: "bx bx-building",
+    link: "/branches",
+  },
+  {
     id: "suppliers",
     label: "Firmalar",
-    icon: "bx bx-building",
+    icon: "bx bx-building-house",
     link: "/suppliers",
   },
   {

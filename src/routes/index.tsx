@@ -3,6 +3,9 @@ import { Navigate } from "react-router-dom";
 // Dashboard
 import Dashboard from "@/pages/Dashboard";
 
+// Branches
+import Branches from "@/pages/Branches";
+
 // Suppliers
 import Suppliers from "@/pages/Suppliers";
 
@@ -21,6 +24,9 @@ import Logout from "@/pages/Auth/Logout";
 const protectedRoutes = [
   // Dashboard
   { path: "/dashboard", component: <Dashboard /> },
+
+  // Branches
+  { path: "/branches", component: <Branches /> },
 
   // Suppliers
   { path: "/suppliers", component: <Suppliers /> },
