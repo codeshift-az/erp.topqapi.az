@@ -9,3 +9,6 @@ export type { CategoryFilter } from "./category";
 
 // Supplier Filter Type
 export type { SupplierFilter } from "./supplier";
+
+// Branch Filter Type
+export type { BranchFilter } from "./branch";
