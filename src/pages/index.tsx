@@ -17,4 +17,24 @@ import Suppliers from "./Suppliers";
 // Branches
 import Branches from "./Branches";
 
-export { Login, Logout, Account, Dashboard, Categories, Suppliers, Branches };
+// Drivers
+import Drivers from "./Staff/Drivers";
+
+// Sellers
+import Sellers from "./Staff/Sellers";
+
+// Workers
+import Workers from "./Staff/Workers";
+
+export {
+  Login,
+  Logout,
+  Account,
+  Dashboard,
+  Categories,
+  Suppliers,
+  Branches,
+  Drivers,
+  Sellers,
+  Workers,
+};

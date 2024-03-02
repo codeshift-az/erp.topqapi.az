@@ -31,6 +31,32 @@ const menuItems: (IMenuHeader | IMenuItem)[] = [
     link: "/dashboard",
   },
   {
+    id: "staff",
+    label: "İşçilər",
+    icon: "bx bx-user",
+    link: "/staff",
+    subItems: [
+      {
+        id: "staff-drivers",
+        label: "Taksilər",
+        link: "/staff/drivers",
+        parentId: "staff",
+      },
+      {
+        id: "staff-sellers",
+        label: "Satıcılar",
+        link: "/staff/sellers",
+        parentId: "staff",
+      },
+      {
+        id: "staff-workers",
+        label: "Ustalar",
+        link: "/staff/workers",
+        parentId: "staff",
+      },
+    ],
+  },
+  {
     id: "branches",
     label: "Filiallar",
     icon: "bx bx-building",

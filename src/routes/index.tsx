@@ -7,6 +7,15 @@ const protectedRoutes = [
   // Dashboard
   { path: "/dashboard", component: <Pages.Dashboard /> },
 
+  // Drivers
+  { path: "/staff/drivers", component: <Pages.Drivers /> },
+
+  // Sellers
+  { path: "/staff/sellers", component: <Pages.Sellers /> },
+
+  // Workers
+  { path: "/staff/workers", component: <Pages.Workers /> },
+
   // Branches
   { path: "/branches", component: <Pages.Branches /> },
 
