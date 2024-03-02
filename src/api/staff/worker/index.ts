@@ -4,7 +4,7 @@ import axios from "@/api";
 import { getUrlWithFilter } from "@/helpers";
 
 // Types
-import { Worker } from "@/types";
+import { Worker } from "@/types/models";
 import { WorkerFilter } from "@/types/filters";
 import { PaginationResult } from "@/types/result";
 

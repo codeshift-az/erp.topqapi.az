@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { LOADING, SUCCESS, FAILURE } from "@/constants";
 
 // Types
-import { Branch } from "@/types";
+import { Branch } from "@/types/models";
 import { Status } from "@/types/store";
 
 // Actions

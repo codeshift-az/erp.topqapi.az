@@ -17,7 +17,7 @@ import * as Filters from "@/components/DataTable/Filters";
 import { usePagination, useSorting, useColumnFiltering } from "@/components/DataTable/Hooks";
 
 // Types
-import { Branch } from "@/types";
+import { Branch } from "@/types/models";
 
 // Actions
 import { getBranches } from "@/store/actions";

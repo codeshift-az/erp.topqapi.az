@@ -109,7 +109,7 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
             return false;
           }}>
           <Row>
-            {/* Amount */}
+            {/* Name */}
             <Col className="col-12 mb-3">
               <Label>Ad</Label>
 

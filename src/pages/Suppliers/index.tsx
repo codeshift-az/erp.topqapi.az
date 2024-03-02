@@ -15,7 +15,7 @@ import VerifyModal from "@/components/VerifyModal";
 import { getPageTitle } from "@/helpers";
 
 // Types
-import { Supplier } from "@/types";
+import { Supplier } from "@/types/models";
 
 // Actions
 import { createSupplier, deleteSupplier, updateSupplier } from "@/store/actions";

@@ -15,7 +15,7 @@ import VerifyModal from "@/components/VerifyModal";
 import { getPageTitle } from "@/helpers";
 
 // Types
-import { Branch } from "@/types";
+import { Branch } from "@/types/models";
 
 // Actions
 import { createBranch, deleteBranch, updateBranch } from "@/store/actions";

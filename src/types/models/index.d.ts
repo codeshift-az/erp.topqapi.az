@@ -1,17 +1,17 @@
-// Auth Type
+// Auth Models
 export type { TokenPair } from "./auth";
 
-// User Type
+// User Model
 export type { User } from "./user";
 
-// Category Type
+// Category Model
 export type { Category } from "./category";
 
-// Supplier Type
+// Supplier Model
 export type { Supplier } from "./supplier";
 
-// Branch Type
+// Branch Model
 export type { Branch } from "./branch";
 
-// Staff Type
+// Staff Models
 export type { Driver, Seller, Worker } from "./staff";

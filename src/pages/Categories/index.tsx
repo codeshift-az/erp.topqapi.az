@@ -15,7 +15,7 @@ import VerifyModal from "@/components/VerifyModal";
 import { getPageTitle } from "@/helpers";
 
 // Types
-import { Category } from "@/types";
+import { Category } from "@/types/models";
 
 // Actions
 import { createCategory, deleteCategory, updateCategory } from "@/store/actions";

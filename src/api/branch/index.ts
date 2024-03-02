@@ -4,7 +4,7 @@ import axios from "@/api";
 import { getUrlWithFilter } from "@/helpers";
 
 // Types
-import { Branch } from "@/types";
+import { Branch } from "@/types/models";
 import { BranchFilter } from "@/types/filters";
 import { PaginationResult } from "@/types/result";
 

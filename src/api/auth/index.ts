@@ -1,7 +1,7 @@
 import axios from "@/api";
 
 // Types
-import { TokenPair } from "@/types";
+import { TokenPair } from "@/types/models";
 
 // URLs
 import * as URL from "./urls";

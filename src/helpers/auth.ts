@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
 // Types
-import { TokenPair } from "@/types";
+import { TokenPair } from "@/types/models";
 
 // Constants
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/constants";

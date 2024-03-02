@@ -1,4 +1,3 @@
-// Type User
 export type User = {
   id: number;
   first_name: string;

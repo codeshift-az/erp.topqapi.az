@@ -17,7 +17,7 @@ import * as Filters from "@/components/DataTable/Filters";
 import { usePagination, useSorting, useColumnFiltering } from "@/components/DataTable/Hooks";
 
 // Types
-import { Category } from "@/types";
+import { Category } from "@/types/models";
 
 // Actions
 import { getCategories } from "@/store/actions";

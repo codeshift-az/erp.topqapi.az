@@ -4,7 +4,7 @@ import axios from "@/api";
 import { getUrlWithFilter } from "@/helpers";
 
 // Types
-import { Driver } from "@/types";
+import { Driver } from "@/types/models";
 import { DriverFilter } from "@/types/filters";
 import { PaginationResult } from "@/types/result";
 
