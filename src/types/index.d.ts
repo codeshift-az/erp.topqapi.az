@@ -12,3 +12,6 @@ export type { Supplier } from "./supplier";
 
 // Branch Type
 export type { Branch } from "./branch";
+
+// Staff Type
+export type { Driver, Seller, Worker } from "./staff";

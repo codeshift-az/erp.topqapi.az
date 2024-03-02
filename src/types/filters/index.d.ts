@@ -12,3 +12,6 @@ export type { SupplierFilter } from "./supplier";
 
 // Branch Filter Type
 export type { BranchFilter } from "./branch";
+
+// Staff Filter Type
+export type { DriverFilter, SellerFilter, WorkerFilter } from "./staff";
