@@ -7,6 +7,9 @@ const protectedRoutes = [
   // Dashboard
   { path: "/dashboard", component: <Pages.Dashboard /> },
 
+  // Products
+  { path: "/products", component: <Pages.Products /> },
+
   // Drivers
   { path: "/staff/drivers", component: <Pages.Drivers /> },
 

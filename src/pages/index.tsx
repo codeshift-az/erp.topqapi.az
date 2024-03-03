@@ -26,6 +26,9 @@ import Sellers from "./Staff/Sellers";
 // Workers
 import Workers from "./Staff/Workers";
 
+// Products
+import Products from "./Products";
+
 export {
   Login,
   Logout,
@@ -37,4 +40,5 @@ export {
   Drivers,
   Sellers,
   Workers,
+  Products,
 };
