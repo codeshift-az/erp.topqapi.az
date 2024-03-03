@@ -80,6 +80,12 @@ const menuItems: (IMenuHeader | IMenuItem)[] = [
     icon: "bx bx-list-ol",
     link: "/categories",
   },
+  {
+    id: "expenses",
+    label: "Xərclər",
+    icon: "bx bx-money",
+    link: "/expenses",
+  },
 ];
 
 export { menuItems };

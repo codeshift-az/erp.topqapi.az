@@ -29,6 +29,9 @@ import Workers from "./Staff/Workers";
 // Products
 import Products from "./Products";
 
+// Expenses
+import Expenses from "./Expenses";
+
 export {
   Login,
   Logout,
@@ -41,4 +44,5 @@ export {
   Sellers,
   Workers,
   Products,
+  Expenses,
 };

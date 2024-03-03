@@ -28,6 +28,9 @@ const protectedRoutes = [
   // Categories
   { path: "/categories", component: <Pages.Categories /> },
 
+  // Expenses
+  { path: "/expenses", component: <Pages.Expenses /> },
+
   // Account
   { path: "/account", component: <Pages.Account /> },
 
