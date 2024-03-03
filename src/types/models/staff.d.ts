@@ -12,6 +12,6 @@ export type Seller = DefaultModel & {
   salary: number;
 };
 
-export type Worker = DefaultModels & {
+export type Worker = DefaultModel & {
   name: string;
 };

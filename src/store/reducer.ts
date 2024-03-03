@@ -9,6 +9,7 @@ import branchReducer from "./branch/slice";
 import driverReducer from "./staff/driver/slice";
 import sellerReducer from "./staff/seller/slice";
 import workerReducer from "./staff/worker/slice";
+import productReducer from "./product/slice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   driver: driverReducer,
   seller: sellerReducer,
   worker: workerReducer,
+  product: productReducer,
 });
 
 export default rootReducer;

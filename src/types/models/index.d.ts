@@ -15,3 +15,6 @@ export type { Branch } from "./branch";
 
 // Staff Models
 export type { Driver, Seller, Worker } from "./staff";
+
+// Product Model
+export type { Product } from "./product";
