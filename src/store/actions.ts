@@ -24,3 +24,6 @@ export * from "./staff/worker/actions";
 
 // Product actions
 export * from "./product/actions";
+
+// Expense actions
+export * from "./expense/actions";

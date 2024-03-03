@@ -18,3 +18,6 @@ export type { Driver, Seller, Worker } from "./staff";
 
 // Product Model
 export type { Product } from "./product";
+
+// Expense Model
+export type { Expense } from "./expense";

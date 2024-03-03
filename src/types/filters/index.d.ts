@@ -18,3 +18,6 @@ export type { DriverFilter, SellerFilter, WorkerFilter } from "./staff";
 
 // Product Filter Type
 export type { ProductFilter } from "./product";
+
+// Expense Filter Type
+export type { ExpenseFilter } from "./expense";
