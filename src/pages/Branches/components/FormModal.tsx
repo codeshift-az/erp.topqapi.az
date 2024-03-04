@@ -48,10 +48,17 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
     initialValues: {
       name: (data && data.name) || "",
+      username: (data && data.username) || "",
+      password: "",
     },
 
     validationSchema: Yup.object({
       name: Yup.string().required("Zəhmət olmasa ad daxil edin!"),
+      username: Yup.string().required("Zəhmət olmasa istifadəçi adı daxil edin!"),
+      password: Yup.string().when("isEdit", (_, schema) => {
+        if (isEdit) return schema;
+        return schema.required("Zəhmət olmasa şifrə daxil edin!");
+      }),
     }),
 
     onSubmit: (values) => {
@@ -59,6 +66,14 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
       // Name
       if (!data || values["name"] !== data["name"]) formData.append("name", values["name"]);
+
+      // Username
+      if (!data || values["username"] !== data["username"])
+        formData.append("username", values["username"]);
+
+      // Password
+      if (!data || values["password"] !== data["password"])
+        formData.append("password", values["password"]);
 
       handleSubmit(formData);
     },
@@ -125,6 +140,48 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
               {validation.touched.name && validation.errors.name ? (
                 <FormFeedback type="invalid">{validation.errors.name.toString()}</FormFeedback>
+              ) : null}
+            </Col>
+          </Row>
+
+          <Row>
+            {/* Username */}
+            <Col className="col-12 mb-3">
+              <Label>İstifadəçi Adı</Label>
+
+              <Input
+                type="text"
+                name="username"
+                placeholder="İstifadəçi Adı daxil edin"
+                onBlur={validation.handleBlur}
+                onChange={validation.handleChange}
+                value={validation.values.username}
+                invalid={validation.touched.username && validation.errors.username ? true : false}
+              />
+
+              {validation.touched.username && validation.errors.username ? (
+                <FormFeedback type="invalid">{validation.errors.username.toString()}</FormFeedback>
+              ) : null}
+            </Col>
+          </Row>
+
+          <Row>
+            {/* Password */}
+            <Col className="col-12 mb-3">
+              <Label>Şifrə</Label>
+
+              <Input
+                type="password"
+                name="password"
+                placeholder="Şifrə daxil edin"
+                onBlur={validation.handleBlur}
+                onChange={validation.handleChange}
+                value={validation.values.password}
+                invalid={validation.touched.password && validation.errors.password ? true : false}
+              />
+
+              {validation.touched.password && validation.errors.password ? (
+                <FormFeedback type="invalid">{validation.errors.password.toString()}</FormFeedback>
               ) : null}
             </Col>
           </Row>
