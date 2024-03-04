@@ -21,7 +21,7 @@ export const createWorker = async (formData: FormData): Promise<Worker> => {
 };
 
 export const updateWorker = async (id: number, formData: FormData): Promise<Worker> => {
-  const { data } = await axios.put(URL.WORKER_DETAIL_URL(id), formData);
+  const { data } = await axios.patch(URL.WORKER_DETAIL_URL(id), formData);
   return data;
 };
 

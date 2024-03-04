@@ -23,7 +23,7 @@ export const createCategory = async (formData: FormData): Promise<Category> => {
 };
 
 export const updateCategory = async (id: number, formData: FormData): Promise<Category> => {
-  const { data } = await axios.put(URL.CATEGORY_DETAIL_URL(id), formData);
+  const { data } = await axios.patch(URL.CATEGORY_DETAIL_URL(id), formData);
   return data;
 };
 

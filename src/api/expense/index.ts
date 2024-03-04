@@ -21,7 +21,7 @@ export const createExpense = async (formData: FormData): Promise<Expense> => {
 };
 
 export const updateExpense = async (id: number, formData: FormData): Promise<Expense> => {
-  const { data } = await axios.put(URL.EXPENSE_DETAIL_URL(id), formData);
+  const { data } = await axios.patch(URL.EXPENSE_DETAIL_URL(id), formData);
   return data;
 };
 

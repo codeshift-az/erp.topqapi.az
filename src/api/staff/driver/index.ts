@@ -21,7 +21,7 @@ export const createDriver = async (formData: FormData): Promise<Driver> => {
 };
 
 export const updateDriver = async (id: number, formData: FormData): Promise<Driver> => {
-  const { data } = await axios.put(URL.DRIVER_DETAIL_URL(id), formData);
+  const { data } = await axios.patch(URL.DRIVER_DETAIL_URL(id), formData);
   return data;
 };
 

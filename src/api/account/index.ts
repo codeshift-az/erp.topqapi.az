@@ -11,5 +11,5 @@ export const getAccount = async (): Promise<User> => {
 };
 
 export const updateAccount = async (data: FormData): Promise<User> => {
-  return axios.put(URL.ACCOUNT_URL, data).then((response) => response.data);
+  return axios.patch(URL.ACCOUNT_URL, data).then((response) => response.data);
 };

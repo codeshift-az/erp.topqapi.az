@@ -21,7 +21,7 @@ export const createSupplier = async (formData: FormData): Promise<Supplier> => {
 };
 
 export const updateSupplier = async (id: number, formData: FormData): Promise<Supplier> => {
-  const { data } = await axios.put(URL.SUPPLIER_DETAIL_URL(id), formData);
+  const { data } = await axios.patch(URL.SUPPLIER_DETAIL_URL(id), formData);
   return data;
 };
 

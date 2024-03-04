@@ -21,7 +21,7 @@ export const createBranch = async (formData: FormData): Promise<Branch> => {
 };
 
 export const updateBranch = async (id: number, formData: FormData): Promise<Branch> => {
-  const { data } = await axios.put(URL.BRANCH_DETAIL_URL(id), formData);
+  const { data } = await axios.patch(URL.BRANCH_DETAIL_URL(id), formData);
   return data;
 };
 

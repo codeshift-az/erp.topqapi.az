@@ -21,7 +21,7 @@ export const createSeller = async (formData: FormData): Promise<Seller> => {
 };
 
 export const updateSeller = async (id: number, formData: FormData): Promise<Seller> => {
-  const { data } = await axios.put(URL.SELLER_DETAIL_URL(id), formData);
+  const { data } = await axios.patch(URL.SELLER_DETAIL_URL(id), formData);
   return data;
 };
 
