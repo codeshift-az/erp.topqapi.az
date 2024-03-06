@@ -31,9 +31,6 @@ const protectedRoutes = [
   // Expenses
   { path: "/expenses", component: <Pages.Expenses /> },
 
-  // Account
-  { path: "/account", component: <Pages.Account /> },
-
   // Default Redirect
   {
     path: "/",

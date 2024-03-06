@@ -7,7 +7,7 @@ import { LOADING, SUCCESS, FAILURE } from "@/constants";
 import { User } from "@/types/models";
 
 // Actions
-import { getAccount, updateAccount } from "./actions";
+import { getAccount } from "./actions";
 
 interface StateProps {
   status: {
@@ -54,19 +54,6 @@ export const accountSlice = createSlice({
       })
       .addCase(getAccount.rejected, (state, { payload }) => {
         state.status = { ...FAILURE, lastAction: getAccount.typePrefix };
-        state.errors = payload;
-      });
-    builder
-      .addCase(updateAccount.pending, (state) => {
-        state.status = { ...LOADING, lastAction: updateAccount.typePrefix };
-        state.errors = null;
-      })
-      .addCase(updateAccount.fulfilled, (state, { payload }) => {
-        state.status = { ...SUCCESS, lastAction: updateAccount.typePrefix };
-        state.user = payload;
-      })
-      .addCase(updateAccount.rejected, (state, { payload }) => {
-        state.status = { ...FAILURE, lastAction: updateAccount.typePrefix };
         state.errors = payload;
       });
   },

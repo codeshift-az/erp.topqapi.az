@@ -8,7 +8,6 @@ import { LogoSmall, LogoLightSmall } from "@/assets/images";
 import { toggleFullscreen } from "@/helpers";
 
 // Related Components
-import NotificationDropdown from "./NotificationDropdown";
 import ProfileMenu from "./ProfileMenu";
 
 const Header = () => {
@@ -100,8 +99,6 @@ const Header = () => {
                 <i className="bx bx-fullscreen" />
               </button>
             </div>
-
-            <NotificationDropdown />
 
             <ProfileMenu />
           </div>

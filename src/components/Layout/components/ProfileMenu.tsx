@@ -44,18 +44,6 @@ const ProfileMenu = () => {
         </DropdownToggle>
 
         <DropdownMenu className="dropdown-menu-end">
-          <Link to="/account" className="dropdown-item">
-            <i className="bx bx-user font-size-16 align-middle me-1" />
-            <span>Profil</span>
-          </Link>
-
-          <Link to="/settings" className="dropdown-item">
-            <i className="bx bx-wrench font-size-16 align-middle me-1" />
-            <span>Tənzimləmələr</span>
-          </Link>
-
-          <div className="dropdown-divider" />
-
           <Link to="/auth/logout" className="dropdown-item">
             <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />
             <span>Çıxış</span>
