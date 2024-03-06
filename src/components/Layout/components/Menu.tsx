@@ -42,6 +42,12 @@ const menuItems: (IMenuHeader | IMenuItem)[] = [
         link: "/warehouse/entries",
         parentId: "warehouse",
       },
+      {
+        id: "warehouse-products",
+        label: "Məhsullar",
+        link: "/warehouse/products",
+        parentId: "warehouse",
+      },
     ],
   },
   {

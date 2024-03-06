@@ -30,3 +30,6 @@ export * from "./supplier/actions";
 
 // Warehouse Entry actions
 export * from "./warehouse/entry/actions";
+
+// Warehouse Product actions
+export * from "./warehouse/product/actions";

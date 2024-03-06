@@ -12,6 +12,7 @@ import sellerReducer from "./staff/seller/slice";
 import workerReducer from "./staff/worker/slice";
 import supplierReducer from "./supplier/slice";
 import warehouseEntryReducer from "./warehouse/entry/slice";
+import warehouseProductReducer from "./warehouse/product/slice";
 
 const rootReducer = combineReducers({
   account: accountReducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   worker: workerReducer,
   supplier: supplierReducer,
   warehouseEntry: warehouseEntryReducer,
+  warehouseProduct: warehouseProductReducer,
 });
 
 export default rootReducer;
