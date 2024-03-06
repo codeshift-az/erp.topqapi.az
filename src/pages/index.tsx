@@ -1,48 +1,27 @@
-// Auth
 import Login from "./Auth/Login";
 import Logout from "./Auth/Logout";
-
-// Account
-import Account from "./Account";
-
-// Dashboard
-import Dashboard from "./Dashboard";
-
-// Categories
-import Categories from "./Categories";
-
-// Suppliers
-import Suppliers from "./Suppliers";
-
-// Branches
 import Branches from "./Branches";
-
-// Drivers
-import Drivers from "./Staff/Drivers";
-
-// Sellers
-import Sellers from "./Staff/Sellers";
-
-// Workers
-import Workers from "./Staff/Workers";
-
-// Products
-import Products from "./Products";
-
-// Expenses
+import Categories from "./Categories";
+import Dashboard from "./Dashboard";
 import Expenses from "./Expenses";
+import Products from "./Products";
+import Drivers from "./Staff/Drivers";
+import Sellers from "./Staff/Sellers";
+import Workers from "./Staff/Workers";
+import Suppliers from "./Suppliers";
+import WarehouseEntries from "./Warehouse/Entries";
 
 export {
   Login,
   Logout,
-  Account,
-  Dashboard,
-  Categories,
-  Suppliers,
   Branches,
+  Categories,
+  Dashboard,
+  Expenses,
+  Products,
   Drivers,
   Sellers,
   Workers,
-  Products,
-  Expenses,
+  Suppliers,
+  WarehouseEntries,
 };

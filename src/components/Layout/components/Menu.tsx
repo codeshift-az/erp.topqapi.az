@@ -31,6 +31,20 @@ const menuItems: (IMenuHeader | IMenuItem)[] = [
     link: "/dashboard",
   },
   {
+    id: "warehouse",
+    label: "Anbar",
+    icon: "bx bx-store",
+    link: "/warehouse",
+    subItems: [
+      {
+        id: "warehouse-entries",
+        label: "Giriş tarixçəsi",
+        link: "/warehouse/entries",
+        parentId: "warehouse",
+      },
+    ],
+  },
+  {
     id: "products",
     label: "Məhsullar",
     icon: "bx bx-box",

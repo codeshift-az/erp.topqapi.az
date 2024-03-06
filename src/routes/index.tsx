@@ -7,6 +7,15 @@ const protectedRoutes = [
   // Dashboard
   { path: "/dashboard", component: <Pages.Dashboard /> },
 
+  // Branches
+  { path: "/branches", component: <Pages.Branches /> },
+
+  // Categories
+  { path: "/categories", component: <Pages.Categories /> },
+
+  // Expenses
+  { path: "/expenses", component: <Pages.Expenses /> },
+
   // Products
   { path: "/products", component: <Pages.Products /> },
 
@@ -19,17 +28,11 @@ const protectedRoutes = [
   // Workers
   { path: "/staff/workers", component: <Pages.Workers /> },
 
-  // Branches
-  { path: "/branches", component: <Pages.Branches /> },
-
   // Suppliers
   { path: "/suppliers", component: <Pages.Suppliers /> },
 
-  // Categories
-  { path: "/categories", component: <Pages.Categories /> },
-
-  // Expenses
-  { path: "/expenses", component: <Pages.Expenses /> },
+  // Warehouse Entries
+  { path: "/warehouse/entries", component: <Pages.WarehouseEntries /> },
 
   // Default Redirect
   {
