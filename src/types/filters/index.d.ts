@@ -21,3 +21,6 @@ export type { ProductFilter } from "./product";
 
 // Expense Filter Type
 export type { ExpenseFilter } from "./expense";
+
+// Warehouse Filter Type
+export type { WarehouseProductFilter, WarehouseEntryFilter } from "./warehouse";

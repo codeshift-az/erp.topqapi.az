@@ -21,3 +21,6 @@ export type { Product } from "./product";
 
 // Expense Model
 export type { Expense } from "./expense";
+
+// Warehouse Models
+export type { WarehouseProduct, WarehouseEntry } from "./warehouse";

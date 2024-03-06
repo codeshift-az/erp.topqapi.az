@@ -1,28 +1,30 @@
 import { combineReducers } from "@reduxjs/toolkit";
 
 // Reducers
-import authReducer from "./auth/slice";
 import accountReducer from "./account/slice";
-import categoryReducer from "./category/slice";
-import supplierReducer from "./supplier/slice";
+import authReducer from "./auth/slice";
 import branchReducer from "./branch/slice";
+import categoryReducer from "./category/slice";
+import expenseReducer from "./expense/slice";
+import productReducer from "./product/slice";
 import driverReducer from "./staff/driver/slice";
 import sellerReducer from "./staff/seller/slice";
 import workerReducer from "./staff/worker/slice";
-import productReducer from "./product/slice";
-import expenseReducer from "./expense/slice";
+import supplierReducer from "./supplier/slice";
+import warehouseEntryReducer from "./warehouse/entry/slice";
 
 const rootReducer = combineReducers({
-  auth: authReducer,
   account: accountReducer,
-  category: categoryReducer,
-  supplier: supplierReducer,
+  auth: authReducer,
   branch: branchReducer,
+  category: categoryReducer,
+  expense: expenseReducer,
+  product: productReducer,
   driver: driverReducer,
   seller: sellerReducer,
   worker: workerReducer,
-  product: productReducer,
-  expense: expenseReducer,
+  supplier: supplierReducer,
+  warehouseEntry: warehouseEntryReducer,
 });
 
 export default rootReducer;
