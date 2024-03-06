@@ -36,7 +36,7 @@ interface Props {
 }
 
 const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
-  const title = isEdit ? "Firma məlumatlarını redaktə et" : "Firma əlavə Et";
+  const title = isEdit ? "Usta məlumatlarını redaktə et" : "Usta əlavə Et";
 
   const { status, errors } = useSelector((state: RootState) => state.worker);
 

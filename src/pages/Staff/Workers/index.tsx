@@ -25,7 +25,7 @@ import TableContainer from "./components/TableContainer";
 import FormModal from "./components/FormModal";
 
 const Workers = () => {
-  const title = "Firmalar";
+  const title = "Ustalar";
 
   document.title = getPageTitle(title);
 

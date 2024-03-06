@@ -25,7 +25,7 @@ import TableContainer from "./components/TableContainer";
 import FormModal from "./components/FormModal";
 
 const Sellers = () => {
-  const title = "Firmalar";
+  const title = "Satıcılar";
 
   document.title = getPageTitle(title);
 

@@ -25,7 +25,7 @@ import TableContainer from "./components/TableContainer";
 import FormModal from "./components/FormModal";
 
 const Drivers = () => {
-  const title = "Sürücülər";
+  const title = "Taksilər";
 
   document.title = getPageTitle(title);
 
