@@ -92,6 +92,22 @@ const TableContainer = () => {
         filterComponent: (column) => <Filters.DateRangeFilter column={column} />,
       },
     }),
+    columnHelper.display({
+      header: "Əməliyyatlar",
+      enableSorting: false,
+      cell: (cell) => {
+        return (
+          <div className="d-flex gap-3">
+            <Link to={`/warehouse/entries/${cell.row.original.id}`} className="text-primary">
+              <i className="mdi mdi-eye font-size-18" id="viewtooltip" />
+              <UncontrolledTooltip placement="top" target="viewtooltip">
+                Ətraflı
+              </UncontrolledTooltip>
+            </Link>
+          </div>
+        );
+      },
+    }),
   ];
 
   return (
