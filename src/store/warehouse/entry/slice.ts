@@ -8,7 +8,7 @@ import { WarehouseEntry } from "@/types/models";
 import { Status } from "@/types/store";
 
 // Actions
-import { getWarehouseEntries } from "./actions";
+import { getWarehouseEntries, getWarehouseEntryDetails } from "./actions";
 
 interface StateProps {
   status: Status;
@@ -16,6 +16,7 @@ interface StateProps {
   update: boolean;
   items: WarehouseEntry[] | null;
   count: number;
+  item: WarehouseEntry | null;
 }
 
 const initialState: StateProps = {
@@ -29,6 +30,7 @@ const initialState: StateProps = {
   update: false,
   items: null,
   count: 0,
+  item: null,
 };
 
 export const warehouseEntrySlice = createSlice({
@@ -57,6 +59,20 @@ export const warehouseEntrySlice = createSlice({
       })
       .addCase(getWarehouseEntries.rejected, (state, { payload }) => {
         state.status = { ...FAILURE, lastAction: getWarehouseEntries.typePrefix };
+        state.errors = payload;
+      });
+    builder
+      .addCase(getWarehouseEntryDetails.pending, (state) => {
+        state.status = { ...LOADING, lastAction: getWarehouseEntryDetails.typePrefix };
+        state.errors = null;
+      })
+      .addCase(getWarehouseEntryDetails.fulfilled, (state, { payload }) => {
+        state.status = { ...SUCCESS, lastAction: getWarehouseEntryDetails.typePrefix };
+        state.item = payload;
+        state.update = false;
+      })
+      .addCase(getWarehouseEntryDetails.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: getWarehouseEntryDetails.typePrefix };
         state.errors = payload;
       });
   },

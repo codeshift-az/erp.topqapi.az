@@ -17,3 +17,8 @@ export const getWarehouseEntries = async (
   const { data } = await axios.get(getUrlWithFilter(URL.WAREHOUSE_ENTRY_LIST_URL, filter));
   return data;
 };
+
+export const getWarehouseEntryDetails = async (id: number): Promise<WarehouseEntry> => {
+  const { data } = await axios.get(URL.WAREHOUSE_ENTRY_DETAIL_URL(id));
+  return data;
+};
