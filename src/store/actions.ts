@@ -28,6 +28,9 @@ export * from "./staff/worker/actions";
 // Supplier actions
 export * from "./supplier/actions";
 
+// Warehouse Cart actions
+export * from "./warehouse/cart/actions";
+
 // Warehouse Entry actions
 export * from "./warehouse/entry/actions";
 

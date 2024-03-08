@@ -11,6 +11,7 @@ import driverReducer from "./staff/driver/slice";
 import sellerReducer from "./staff/seller/slice";
 import workerReducer from "./staff/worker/slice";
 import supplierReducer from "./supplier/slice";
+import warehouseCartReducer from "./warehouse/cart/slice";
 import warehouseEntryReducer from "./warehouse/entry/slice";
 import warehouseProductReducer from "./warehouse/product/slice";
 
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   seller: sellerReducer,
   worker: workerReducer,
   supplier: supplierReducer,
+  warehouseCart: warehouseCartReducer,
   warehouseEntry: warehouseEntryReducer,
   warehouseProduct: warehouseProductReducer,
 });

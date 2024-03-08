@@ -15,3 +15,9 @@ export type WarehouseEntry = DefaultModel & {
   invoice: string;
   date: string;
 };
+
+export type WarehouseCartItem = DefaultModel & {
+  product: Product;
+  quantity: number;
+  price: number;
+};
