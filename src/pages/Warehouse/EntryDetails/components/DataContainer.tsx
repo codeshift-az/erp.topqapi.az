@@ -1,33 +1,31 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // Redux
-import { AppDispatch, RootState } from "@/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 // Reactstrap
 import { Row, Col, Card, CardBody, Button, Table, CardTitle } from "reactstrap";
 
 // Actions
-import { getWarehouseEntryDetails } from "@/store/actions";
 import Loader from "@/components/Loader";
 
 interface Props {
-  onCreate?: () => void;
+  onAddProduct?: () => void;
+  onUpdateProduct?: () => void;
+  onDeleteProduct?: () => void;
   onUpdate?: () => void;
   onDelete?: () => void;
 }
 
-const DataContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
-  const location = useLocation();
-
-  const dispatch = useDispatch<AppDispatch>();
+const DataContainer = ({
+  onAddProduct,
+  onUpdateProduct,
+  onDeleteProduct,
+  onUpdate,
+  onDelete,
+}: Props) => {
   const { item: entry, status } = useSelector((state: RootState) => state.warehouseEntry);
-
-  useEffect(() => {
-    const id = location.pathname.split("/").pop();
-    dispatch(getWarehouseEntryDetails(Number(id)));
-  }, [location]);
 
   if (!entry) {
     if (status.loading) {
@@ -64,6 +62,23 @@ const DataContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
                       <td>{item.price} AZN</td>
                       <td>{item.quantity}</td>
                       <td>{Number(item.price) * Number(item.quantity)} AZN</td>
+                      <td>
+                        <div className="d-flex gap-3">
+                          <a
+                            role="button"
+                            className="action-icon text-success"
+                            onClick={onUpdateProduct}>
+                            <i className="mdi mdi-pencil font-size-18" />
+                          </a>
+
+                          <a
+                            role="button"
+                            className="action-icon text-danger"
+                            onClick={onDeleteProduct}>
+                            <i className="mdi mdi-trash-can font-size-18" />
+                          </a>
+                        </div>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -73,7 +88,7 @@ const DataContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
             <Row className="mt-4">
               <Col sm="6">
                 <div className="text-sm-end mt-2 mt-sm-0">
-                  <Button color="primary" className="mb-2 me-2" onClick={onCreate}>
+                  <Button color="primary" className="mb-2 me-2" onClick={onAddProduct}>
                     <i className={`mdi mdi-plus-circle-outline me-1`} />
                     Əlavə et
                   </Button>
@@ -87,9 +102,7 @@ const DataContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
       <Col xl="4">
         <Card>
           <CardBody>
-            <CardTitle className="mb-3 d-flex justify-content-between">
-              Giriş məlumatları
-            </CardTitle>
+            <CardTitle className="mb-3">Giriş məlumatları</CardTitle>
 
             <div className="table-responsive">
               <Table className="table mb-0">
@@ -114,6 +127,28 @@ const DataContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
                         0
                       )}{" "}
                       AZN
+                    </th>
+                  </tr>
+                  <tr>
+                    <th colSpan={2}>
+                      <div className="d-flex justify-content-between">
+                        <Link
+                          to={`/warehouse/entries/${entry.id}/invoice`}
+                          className="btn btn-primary mb-2 col-3">
+                          <i className={`mdi mdi-printer me-1`} />
+                          Qaimə
+                        </Link>
+
+                        <Button color="success" className="mb-2 col-3" onClick={onUpdate}>
+                          <i className={`mdi mdi-pencil me-1`} />
+                          Redaktə et
+                        </Button>
+
+                        <Button color="danger" className="mb-2 col-3" onClick={onDelete}>
+                          <i className={`mdi mdi-trash-can me-1`} />
+                          Sil
+                        </Button>
+                      </div>
                     </th>
                   </tr>
                 </tbody>

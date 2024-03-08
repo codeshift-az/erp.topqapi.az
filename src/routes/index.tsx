@@ -37,6 +37,9 @@ const protectedRoutes = [
   // Warehouse Entry Detail
   { path: "/warehouse/entries/:id", component: <Pages.WarehouseEntryDetails /> },
 
+  // Warehouse Entry Invoice
+  { path: "/warehouse/entries/:id/invoice", component: <Pages.WarehouseEntryInvoice /> },
+
   // Warehouse Products
   { path: "/warehouse/products", component: <Pages.WarehouseProducts /> },
 
