@@ -1,11 +1,12 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 
 // Reactstrap
-import { Row, Col, Card, CardBody } from "reactstrap";
+import { Row, Col, Card, CardBody, UncontrolledTooltip } from "reactstrap";
 
 // React Table
 import { createColumnHelper } from "@tanstack/react-table";
@@ -118,6 +119,12 @@ const TableContainer = () => {
             <DataTable
               data={items || []}
               columns={columns}
+              controls={
+                <Link to="/warehouse/entries/new" className="btn btn-primary mb-2 me-2">
+                  <i className={`mdi mdi-plus-circle-outline me-1`} />
+                  Əlavə et
+                </Link>
+              }
               loading={status.loading && status.lastAction === getWarehouseEntries.typePrefix}
               // Pagination
               pagination={pagination}

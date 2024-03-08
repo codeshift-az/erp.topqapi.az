@@ -10,6 +10,7 @@ import Sellers from "./Staff/Sellers";
 import Workers from "./Staff/Workers";
 import Suppliers from "./Suppliers";
 import WarehouseEntries from "./Warehouse/Entries";
+import WarehouseNewEntry from "./Warehouse/NewEntry";
 import WarehouseEntryDetails from "./Warehouse/EntryDetails";
 import WarehouseEntryInvoice from "./Warehouse/EntryInvoice";
 import WarehouseProducts from "./Warehouse/Products";
@@ -27,6 +28,7 @@ export {
   Workers,
   Suppliers,
   WarehouseEntries,
+  WarehouseNewEntry,
   WarehouseEntryDetails,
   WarehouseEntryInvoice,
   WarehouseProducts,
