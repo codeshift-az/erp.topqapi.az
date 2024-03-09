@@ -67,3 +67,40 @@ export const deleteWarehouseEntryProduct = createAsyncThunk(
     }
   }
 );
+
+
+export const createWarehouseEntry = createAsyncThunk(
+  "warehouse/entry/create",
+  async (data: FormData, thunkAPI) => {
+    try {
+      const response = await API.createWarehouseEntry(data);
+      return response;
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
+    }
+  }
+);
+
+export const updateWarehouseEntry = createAsyncThunk(
+  "warehouse/entry/update",
+  async ({ id, data }: UpdateArgs, thunkAPI) => {
+    try {
+      const response = await API.updateWarehouseEntry(id, data);
+      return { response, id };
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
+    }
+  }
+);
+
+export const deleteWarehouseEntry = createAsyncThunk(
+  "warehouse/entry/delete",
+  async (id: number, thunkAPI) => {
+    try {
+      await API.deleteWarehouseEntry(id);
+      return id;
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
+    }
+  }
+);

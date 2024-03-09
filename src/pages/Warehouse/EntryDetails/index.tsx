@@ -6,95 +6,50 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 
 // Reactstrap
-import { Container } from "reactstrap";
+import { Container, Row } from "reactstrap";
 
 // Components
 import Breadcrumbs from "@/components/Breadcrumb";
-import VerifyModal from "@/components/VerifyModal";
-import Loader from "@/components/Loader";
 
 // Helpers
 import { getPageTitle } from "@/helpers";
 
-// Types
-import { WarehouseProduct } from "@/types/models";
+// Actions
+import { getWarehouseEntryDetails } from "@/store/actions";
 
 // Related Components
-import ProductModal from "./components/ProductModal";
-import DataContainer from "./components/DataContainer";
-
-// Actions
-import {
-  getWarehouseEntryDetails,
-  createWarehouseEntryProduct,
-  updateWarehouseEntryProduct,
-  deleteWarehouseEntryProduct,
-} from "@/store/actions";
+import EntryContainer from "./components/EntryContainer";
+import ProductContainer from "./components/ProductContainer";
 
 const WarehouseEntry = () => {
   const location = useLocation();
+  const [entryID, setEntryID] = useState<number | null>(null);
 
   const dispatch = useDispatch<AppDispatch>();
   const { item: entry, status, update } = useSelector((state: RootState) => state.warehouseEntry);
 
+  const fetchEntry = () => {
+    if (entryID) dispatch(getWarehouseEntryDetails(entryID));
+  };
+
   useEffect(() => {
-    const id = location.pathname.split("/").pop();
-    dispatch(getWarehouseEntryDetails(Number(id)));
+    setEntryID(Number(location.pathname.split("/").pop()));
   }, [location]);
 
   useEffect(() => {
-    if (update) {
-      const id = location.pathname.split("/").pop();
-      dispatch(getWarehouseEntryDetails(Number(id)));
-    }
+    fetchEntry();
+  }, [entryID]);
+
+  useEffect(() => {
+    if (update) fetchEntry();
   }, [update]);
 
   const title = `Giriş #${entry?.id || ""}`;
 
   document.title = getPageTitle(title);
 
-  // Product Modal
-  const [item, setItem] = useState<WarehouseProduct | null>(null);
-  const [productModal, setProductModal] = useState<boolean>(false);
-
-  const onAddProduct = () => {
-    setItem(null);
-    setProductModal(true);
-  };
-
-  const onUpdateProduct = (data: WarehouseProduct) => {
-    setItem(data);
-    setProductModal(true);
-  };
-
-  const handleProductSubmit = (formData: FormData) => {
-    if (item) {
-      // Update
-      dispatch(updateWarehouseEntryProduct({ id: item.id, data: formData }));
-    } else {
-      // Create
-      formData.append("entry", entry?.id.toString() || "");
-      dispatch(createWarehouseEntryProduct(formData));
-    }
-  };
-
-  // Delete Modal
-  const [deleteModal, setDeleteModal] = useState<boolean>(false);
-
-  const onProductDelete = (data: WarehouseProduct) => {
-    setItem(data);
-    setDeleteModal(true);
-  };
-
-  const handleDelete = () => {
-    if (item) dispatch(deleteWarehouseEntryProduct(item.id));
-    setDeleteModal(false);
-  };
-
   if (!entry) {
-    if (status.loading) {
-      return <Loader />;
-    }
+    if (status.loading) return <h1 className="text-center mt-5">Loading...</h1>;
     return <h1>Not found</h1>;
   }
 
@@ -112,30 +67,10 @@ const WarehouseEntry = () => {
             ]}
           />
 
-          <DataContainer
-            onAddProduct={onAddProduct}
-            onUpdateProduct={onUpdateProduct}
-            onDeleteProduct={onProductDelete}
-          />
-
-          {/* Render Product Modal */}
-          <ProductModal
-            data={item}
-            show={productModal}
-            isEdit={item !== null}
-            toggle={() => setProductModal(false)}
-            handleSubmit={handleProductSubmit}
-          />
-
-          {/* Render Delete Modal */}
-          <VerifyModal
-            status={status}
-            show={deleteModal}
-            onVerify={handleDelete}
-            action={deleteWarehouseEntryProduct.typePrefix}
-            onClose={() => setDeleteModal(false)}
-            message="Seçilmiş məhsulu silmək istədiyinizə əminsiniz?"
-          />
+          <Row>
+            <ProductContainer />
+            <EntryContainer />
+          </Row>
         </Container>
       </div>
     </React.Fragment>
