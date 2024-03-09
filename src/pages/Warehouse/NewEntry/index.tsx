@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 
 // Reactstrap
-import { Container } from "reactstrap";
+import { Container, Row } from "reactstrap";
 
 // Components
 import Breadcrumbs from "@/components/Breadcrumb";
@@ -13,20 +13,12 @@ import Breadcrumbs from "@/components/Breadcrumb";
 // Helpers
 import { getPageTitle } from "@/helpers";
 
-// Types
-import { WarehouseCartItem } from "@/types/models";
-
 // Actions
-import {
-  createWarehouseCartItem,
-  deleteWarehouseCartItem,
-  updateWarehouseCartItem,
-} from "@/store/actions";
+import { getWarehouseCartItems } from "@/store/actions";
 
 // Related Components
-import ProductModal from "./components/ProductModal";
-import DataContainer from "./components/DataContainer";
-import VerifyModal from "@/components/VerifyModal";
+import ProductContainer from "./components/ProductContainer";
+import EntryContainer from "./components/EntryContainer";
 
 const WarehouseNewEntry = () => {
   const title = "Yeni Giriş";
@@ -34,44 +26,19 @@ const WarehouseNewEntry = () => {
   document.title = getPageTitle(title);
 
   const dispatch = useDispatch<AppDispatch>();
-  const { status } = useSelector((state: RootState) => state.warehouseCart);
+  const { update } = useSelector((state: RootState) => state.warehouseCart);
 
-  // Product Modal
-  const [item, setItem] = useState<WarehouseCartItem | null>(null);
-  const [productModal, setProductModal] = useState<boolean>(false);
-
-  const onAddProduct = () => {
-    setItem(null);
-    setProductModal(true);
+  const fetchCartItems = () => {
+    dispatch(getWarehouseCartItems());
   };
 
-  const onUpdateProduct = (data: WarehouseCartItem) => {
-    setItem(data);
-    setProductModal(true);
-  };
+  useEffect(() => {
+    fetchCartItems();
+  }, []);
 
-  const handleProductSubmit = (formData: FormData) => {
-    if (item) {
-      // Update
-      dispatch(updateWarehouseCartItem({ id: item.id, data: formData }));
-    } else {
-      // Create
-      dispatch(createWarehouseCartItem(formData));
-    }
-  };
-
-  // Delete Modal
-  const [deleteModal, setDeleteModal] = useState<boolean>(false);
-
-  const onProductDelete = (data: WarehouseCartItem) => {
-    setItem(data);
-    setDeleteModal(true);
-  };
-
-  const handleDelete = () => {
-    if (item) dispatch(deleteWarehouseCartItem(item.id));
-    setDeleteModal(false);
-  };
+  useEffect(() => {
+    if (update) fetchCartItems();
+  }, [update]);
 
   return (
     <React.Fragment>
@@ -87,30 +54,10 @@ const WarehouseNewEntry = () => {
             ]}
           />
 
-          <DataContainer
-            onAddProduct={onAddProduct}
-            onUpdateProduct={onUpdateProduct}
-            onDeleteProduct={onProductDelete}
-          />
-
-          {/* Render Product Modal */}
-          <ProductModal
-            data={item}
-            show={productModal}
-            isEdit={item !== null}
-            toggle={() => setProductModal(false)}
-            handleSubmit={handleProductSubmit}
-          />
-
-          {/* Render Delete Modal */}
-          <VerifyModal
-            status={status}
-            show={deleteModal}
-            onVerify={handleDelete}
-            action={deleteWarehouseCartItem.typePrefix}
-            onClose={() => setDeleteModal(false)}
-            message="Seçilmiş məhsulu silmək istədiyinizə əminsiniz?"
-          />
+          <Row>
+            <ProductContainer />
+            <EntryContainer />
+          </Row>
         </Container>
       </div>
     </React.Fragment>

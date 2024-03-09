@@ -44,7 +44,7 @@ interface Props {
   handleSubmit: (formData: any) => void;
 }
 
-const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
+const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
   const title = isEdit ? "Məhsul məlumatlarını redaktə et" : "Məhsul əlavə Et";
 
   const dispatch = useDispatch<AppDispatch>();
@@ -65,8 +65,12 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
     validationSchema: Yup.object({
       product: Yup.number().required("Zəhmət olmasa məhsul seçin!"),
-      price: Yup.number().required("Zəhmət olmasa qiymət daxil edin!"),
-      quantity: Yup.number().required("Zəhmət olmasa miqdar daxil edin!"),
+      price: Yup.number()
+        .required("Zəhmət olmasa qiymət daxil edin!")
+        .min(1, "Qiymət 0-dan böyük olmalıdır!"),
+      quantity: Yup.number()
+        .required("Zəhmət olmasa miqdar daxil edin!")
+        .min(1, "Miqdar 0-dan böyük olmalıdır!"),
     }),
 
     onSubmit: (values) => {
@@ -241,4 +245,4 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
   );
 };
 
-export default FormModal;
+export default ProductModal;
