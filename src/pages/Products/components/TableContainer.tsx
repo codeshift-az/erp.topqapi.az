@@ -68,7 +68,7 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
     columnHelper.accessor("name", {
       header: "Ad",
       cell: (cell) => {
-        return <Fields.TextField text={cell.getValue()} />;
+        return <Fields.TextField text={cell.getValue()} length={255} />;
       },
       meta: {
         filterComponent: (column) => <Filters.TextFilter column={column} />,

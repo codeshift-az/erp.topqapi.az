@@ -7,13 +7,13 @@ import { RootState } from "@/store";
 // Reactstrap
 import { Row, Col, Card, CardBody, Button, Table, CardTitle } from "reactstrap";
 
-// Actions
-import Loader from "@/components/Loader";
+// Types
+import { WarehouseProduct } from "@/types/models";
 
 interface Props {
   onAddProduct?: () => void;
-  onUpdateProduct?: () => void;
-  onDeleteProduct?: () => void;
+  onUpdateProduct?: (data: WarehouseProduct) => void;
+  onDeleteProduct?: (data: WarehouseProduct) => void;
   onUpdate?: () => void;
   onDelete?: () => void;
 }
@@ -29,7 +29,7 @@ const DataContainer = ({
 
   if (!entry) {
     if (status.loading) {
-      return <Loader />;
+      return <h1 className="text-center mt-5">Loading...</h1>;
     }
     return <h1>Not found</h1>;
   }
@@ -64,19 +64,22 @@ const DataContainer = ({
                       <td>{Number(item.price) * Number(item.quantity)} AZN</td>
                       <td>
                         <div className="d-flex gap-3">
-                          <a
-                            role="button"
-                            className="action-icon text-success"
-                            onClick={onUpdateProduct}>
-                            <i className="mdi mdi-pencil font-size-18" />
-                          </a>
-
-                          <a
-                            role="button"
-                            className="action-icon text-danger"
-                            onClick={onDeleteProduct}>
-                            <i className="mdi mdi-trash-can font-size-18" />
-                          </a>
+                          {onUpdateProduct && (
+                            <a
+                              role="button"
+                              className="action-icon text-success"
+                              onClick={() => onUpdateProduct(item)}>
+                              <i className="mdi mdi-pencil font-size-18" />
+                            </a>
+                          )}
+                          {onDeleteProduct && (
+                            <a
+                              role="button"
+                              className="action-icon text-danger"
+                              onClick={() => onDeleteProduct(item)}>
+                              <i className="mdi mdi-trash-can font-size-18" />
+                            </a>
+                          )}
                         </div>
                       </td>
                     </tr>

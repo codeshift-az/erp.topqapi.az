@@ -8,7 +8,13 @@ import { WarehouseEntry } from "@/types/models";
 import { Status } from "@/types/store";
 
 // Actions
-import { getWarehouseEntries, getWarehouseEntryDetails } from "./actions";
+import {
+  getWarehouseEntries,
+  getWarehouseEntryDetails,
+  createWarehouseEntryProduct,
+  updateWarehouseEntryProduct,
+  deleteWarehouseEntryProduct,
+} from "./actions";
 
 interface StateProps {
   status: Status;
@@ -73,6 +79,45 @@ export const warehouseEntrySlice = createSlice({
       })
       .addCase(getWarehouseEntryDetails.rejected, (state, { payload }) => {
         state.status = { ...FAILURE, lastAction: getWarehouseEntryDetails.typePrefix };
+        state.errors = payload;
+      });
+    builder
+      .addCase(createWarehouseEntryProduct.pending, (state) => {
+        state.status = { ...LOADING, lastAction: createWarehouseEntryProduct.typePrefix };
+        state.errors = null;
+      })
+      .addCase(createWarehouseEntryProduct.fulfilled, (state) => {
+        state.status = { ...SUCCESS, lastAction: createWarehouseEntryProduct.typePrefix };
+        state.update = true;
+      })
+      .addCase(createWarehouseEntryProduct.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: createWarehouseEntryProduct.typePrefix };
+        state.errors = payload;
+      });
+    builder
+      .addCase(updateWarehouseEntryProduct.pending, (state) => {
+        state.status = { ...LOADING, lastAction: updateWarehouseEntryProduct.typePrefix };
+        state.errors = null;
+      })
+      .addCase(updateWarehouseEntryProduct.fulfilled, (state) => {
+        state.status = { ...SUCCESS, lastAction: updateWarehouseEntryProduct.typePrefix };
+        state.update = true;
+      })
+      .addCase(updateWarehouseEntryProduct.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: updateWarehouseEntryProduct.typePrefix };
+        state.errors = payload;
+      });
+    builder
+      .addCase(deleteWarehouseEntryProduct.pending, (state) => {
+        state.status = { ...LOADING, lastAction: deleteWarehouseEntryProduct.typePrefix };
+        state.errors = null;
+      })
+      .addCase(deleteWarehouseEntryProduct.fulfilled, (state) => {
+        state.status = { ...SUCCESS, lastAction: deleteWarehouseEntryProduct.typePrefix };
+        state.update = true;
+      })
+      .addCase(deleteWarehouseEntryProduct.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: deleteWarehouseEntryProduct.typePrefix };
         state.errors = payload;
       });
   },

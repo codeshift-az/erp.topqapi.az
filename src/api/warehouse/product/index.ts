@@ -17,3 +17,21 @@ export const getWarehouseProducts = async (
   const { data } = await axios.get(getUrlWithFilter(URL.WAREHOUSE_PRODUCT_LIST_URL, filter));
   return data;
 };
+
+export const createWarehouseProduct = async (formData: FormData): Promise<WarehouseProduct> => {
+  const { data } = await axios.post(URL.WAREHOUSE_PRODUCT_LIST_URL, formData);
+  return data;
+};
+
+export const updateWarehouseProduct = async (
+  id: number,
+  formData: FormData
+): Promise<WarehouseProduct> => {
+  const { data } = await axios.patch(URL.WAREHOUSE_PRODUCT_DETAIL_URL(id), formData);
+  return data;
+};
+
+export const deleteWarehouseProduct = async (id: number): Promise<number> => {
+  await axios.delete(URL.WAREHOUSE_PRODUCT_DETAIL_URL(id));
+  return id;
+};
