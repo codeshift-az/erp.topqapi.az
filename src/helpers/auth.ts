@@ -2,10 +2,10 @@ import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
 // Types
-import { TokenPair } from "@/types/models";
+import { TokenPair, User } from "@/types/models";
 
 // Constants
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/constants";
+import { ACCESS_TOKEN, REFRESH_TOKEN, USER_TYPES } from "@/constants";
 
 export const setAuthCookies = ({ access, refresh }: TokenPair, remember: boolean = false) => {
   const accessDecoded = jwtDecode(access);
@@ -38,4 +38,14 @@ export const getAccessToken = () => {
 export const getRefreshToken = () => {
   const token = Cookies.get(REFRESH_TOKEN);
   return token ? token : "";
+};
+
+export const hasPermission = (user: User | null, types?: number[]) => {
+  if (!user) return false;
+
+  if (!types) return true;
+
+  if (user.type === USER_TYPES.ADMIN) return true;
+
+  return types.includes(user.type);
 };

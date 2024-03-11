@@ -25,7 +25,7 @@ const App = () => {
             key={index}
             path={route.path}
             element={
-              <Authmiddleware>
+              <Authmiddleware types={route.types}>
                 <Layout>{route.component}</Layout>
               </Authmiddleware>
             }

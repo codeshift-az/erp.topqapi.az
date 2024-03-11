@@ -1,5 +1,9 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+
+// Redux
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 // SimpleBar
 import SimpleBar from "simplebar-react";
@@ -8,10 +12,17 @@ import SimpleBarType from "simplebar-core";
 // Metis Menu
 import MetisMenu from "@metismenu/react";
 
+// Helpers
+import { hasPermission } from "@/helpers";
+
 // Menu Items
 import { menuItems } from "./Menu";
 
 const SidebarContent = () => {
+  // User
+  const { user } = useSelector((state: RootState) => state.account);
+
+  // MetisMenu
   const ref = useRef<SimpleBarType | null>(null);
 
   const activateParentDropdown = useCallback((item: HTMLAnchorElement) => {
@@ -123,15 +134,6 @@ const SidebarContent = () => {
     ref.current && ref.current.recalculate();
   }, []);
 
-  useEffect(() => {
-    activeMenu();
-  }, [activeMenu]);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    activeMenu();
-  }, [activeMenu]);
-
   function scrollElement(item: HTMLAnchorElement) {
     if (item) {
       const currentPosition = item.offsetTop;
@@ -142,39 +144,52 @@ const SidebarContent = () => {
     }
   }
 
+  const [userMenuItems, setUserMenuItems] = useState<typeof menuItems>([]);
+
+  useEffect(() => {
+    const items = menuItems.filter(
+      (menuItem) => !menuItem.isHeader && hasPermission(user, menuItem.types)
+    );
+    setUserMenuItems(items);
+  }, [user]);
+
+  useEffect(() => {
+    if (userMenuItems.length === 0) return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    activeMenu();
+  }, [activeMenu, userMenuItems, path.pathname]);
+
+  if (userMenuItems.length === 0) return null;
+
   return (
     <React.Fragment>
       <SimpleBar className="h-100" ref={ref}>
         <div id="sidebar-menu">
           <MetisMenu className="list-unstyled">
-            {menuItems.map((menuItem) =>
-              menuItem.isHeader ? (
-                <li className="menu-title" key={menuItem.id}>
-                  {menuItem.label}
-                </li>
-              ) : (
-                <li key={menuItem.id}>
-                  <Link to={menuItem.link} className={menuItem.subItems && "has-arrow"}>
-                    <i className={menuItem.icon}></i>
-                    {menuItem.badge && (
-                      <span className={`badge rounded-pill ${menuItem.badge.color} float-end`}>
-                        {menuItem.badge.value}
-                      </span>
-                    )}
-                    <span>{menuItem.label}</span>
-                  </Link>
-                  {menuItem.subItems && (
-                    <ul>
-                      {menuItem.subItems.map((subMenuItem) => (
-                        <li key={subMenuItem.id}>
-                          <Link to={subMenuItem.link}>{subMenuItem.label}</Link>
-                        </li>
-                      ))}
-                    </ul>
+            <li className="menu-title">Menu</li>
+
+            {userMenuItems.map((menuItem) => (
+              <li key={menuItem.id}>
+                <Link to={menuItem.link} className={menuItem.subItems && "has-arrow"}>
+                  <i className={menuItem.icon}></i>
+                  {menuItem.badge && (
+                    <span className={`badge rounded-pill ${menuItem.badge.color} float-end`}>
+                      {menuItem.badge.value}
+                    </span>
                   )}
-                </li>
-              )
-            )}
+                  <span>{menuItem.label}</span>
+                </Link>
+                {menuItem.subItems && (
+                  <ul>
+                    {menuItem.subItems.map((subMenuItem) => (
+                      <li key={subMenuItem.id}>
+                        <Link to={subMenuItem.link}>{subMenuItem.label}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
           </MetisMenu>
         </div>
       </SimpleBar>

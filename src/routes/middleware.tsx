@@ -1,23 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 
+// Components
+import Loader from "@/components/Loader";
+
 // Helpers
-import { getAccessToken, getRefreshToken } from "@/helpers/auth";
+import { getAccessToken, getRefreshToken, hasPermission } from "@/helpers/auth";
 
 // Actions
 import { refreshToken, verifyToken } from "@/store/auth/actions";
-import Loader from "@/components/Loader";
 
 interface Props {
   children: React.ReactNode;
+  types?: number[];
 }
 
-const Authmiddleware = ({ children }: Props) => {
+const Authmiddleware = ({ children, types }: Props) => {
   const { isAuth } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.account);
 
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -48,7 +52,15 @@ const Authmiddleware = ({ children }: Props) => {
     if (!isAuth && (access || refresh)) checkAuth(access, refresh);
   }, []);
 
-  if (!isAuth) return <Loader />;
+  const [permission, setPermission] = useState(false);
+
+  useEffect(() => {
+    if (!isAuth) return;
+    if (!hasPermission(user, types)) navigate("/");
+    setPermission(true);
+  }, [isAuth, user]);
+
+  if (!isAuth || !permission) return <Loader />;
 
   return <React.Fragment>{children}</React.Fragment>;
 };
