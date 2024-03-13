@@ -8,6 +8,9 @@ const protectedRoutes = [
   // Dashboard
   { path: "/dashboard", component: <Pages.Dashboard />, types: [USER_TYPES.STORE] },
 
+  // Catalog
+  { path: "/catalog", component: <Pages.Catalog />, types: [USER_TYPES.WAREHOUSE] },
+
   // Branches
   { path: "/branches", component: <Pages.Branches />, types: [USER_TYPES.WAREHOUSE] },
 

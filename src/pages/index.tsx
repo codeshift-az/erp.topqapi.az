@@ -1,6 +1,7 @@
 import Login from "./Auth/Login";
 import Logout from "./Auth/Logout";
 import Branches from "./Branches";
+import Catalog from "./Catalog";
 import Categories from "./Categories";
 import Dashboard from "./Dashboard";
 import Expenses from "./Expenses";
@@ -19,6 +20,7 @@ export {
   Login,
   Logout,
   Branches,
+  Catalog,
   Categories,
   Dashboard,
   Expenses,

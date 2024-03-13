@@ -46,6 +46,13 @@ const menuItems: IMenuItem[] = [
     ],
   },
   {
+    id: "catalog",
+    label: "Məhsul Kataloqu",
+    icon: "bx bx-list-ul",
+    link: "/catalog",
+    types: [USER_TYPES.WAREHOUSE],
+  },
+  {
     id: "products",
     label: "Məhsullar",
     icon: "bx bx-box",

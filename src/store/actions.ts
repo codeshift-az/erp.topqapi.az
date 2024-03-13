@@ -4,11 +4,14 @@ export * from "./account/actions";
 // Auth actions
 export * from "./auth/actions";
 
-// Category actions
-export * from "./category/actions";
-
 // Branch actions
 export * from "./branch/actions";
+
+// Catalog actions
+export * from "./catalog/actions";
+
+// Category actions
+export * from "./category/actions";
 
 // Expense actions
 export * from "./expense/actions";
