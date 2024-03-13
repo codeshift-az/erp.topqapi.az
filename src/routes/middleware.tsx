@@ -12,7 +12,7 @@ import Loader from "@/components/Loader";
 import { getAccessToken, getRefreshToken, hasPermission } from "@/helpers/auth";
 
 // Actions
-import { refreshToken, verifyToken } from "@/store/auth/actions";
+import { refreshToken, verifyToken, getAccount } from "@/store/actions";
 
 interface Props {
   children: React.ReactNode;
@@ -52,10 +52,16 @@ const Authmiddleware = ({ children, types }: Props) => {
     if (!isAuth && (access || refresh)) checkAuth(access, refresh);
   }, []);
 
+  useEffect(() => {
+    if (!isAuth) return;
+    dispatch(getAccount());
+  }, [isAuth]);
+
   const [permission, setPermission] = useState(false);
 
   useEffect(() => {
     if (!isAuth) return;
+    if (!user) return;
     if (!hasPermission(user, types)) navigate("/");
     setPermission(true);
   }, [isAuth, user]);
