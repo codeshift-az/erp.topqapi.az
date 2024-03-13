@@ -62,7 +62,7 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
     enableReinitialize: true,
 
     initialValues: {
-      product: (data && data.product && data.product.id) || 0,
+      product: (data && data.product && data.product.id) || "",
       price: (data && data.price) || 0,
       quantity: (data && data.quantity) || 0,
     },
@@ -182,7 +182,9 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
               />
 
               {validation.touched.product && validation.errors.product ? (
-                <FormFeedback type="invalid">{validation.errors.product.toString()}</FormFeedback>
+                <FormFeedback type="invalid" className="d-block">
+                  {validation.errors.product.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>

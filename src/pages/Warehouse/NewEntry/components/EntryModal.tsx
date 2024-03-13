@@ -55,7 +55,7 @@ const EntryModal = ({ show, toggle, handleSubmit }: Props) => {
     enableReinitialize: true,
 
     initialValues: {
-      supplier: "0",
+      supplier: "",
       invoice: "",
       date: new Date().toISOString().split("T")[0],
     },
@@ -139,7 +139,7 @@ const EntryModal = ({ show, toggle, handleSubmit }: Props) => {
           <Row>
             {/* Supplier */}
             <Col className="col-12 mb-3">
-              <Label>Məhsul</Label>
+              <Label>Firma</Label>
 
               <Select
                 name="supplier"
@@ -161,7 +161,9 @@ const EntryModal = ({ show, toggle, handleSubmit }: Props) => {
               />
 
               {validation.touched.supplier && validation.errors.supplier ? (
-                <FormFeedback type="invalid">{validation.errors.supplier.toString()}</FormFeedback>
+                <FormFeedback type="invalid" className="d-block">
+                  {validation.errors.supplier.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>

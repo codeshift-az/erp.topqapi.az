@@ -59,7 +59,7 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
     initialValues: {
       name: (data && data.name) || "",
-      category: (data && data.category && data.category.id) || 0,
+      category: (data && data.category && data.category.id) || "",
     },
 
     validationSchema: Yup.object({
@@ -189,7 +189,9 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
               />
 
               {validation.touched.category && validation.errors.category ? (
-                <FormFeedback type="invalid">{validation.errors.category.toString()}</FormFeedback>
+                <FormFeedback type="invalid" className="d-block">
+                  {validation.errors.category.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>

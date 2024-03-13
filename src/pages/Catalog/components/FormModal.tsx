@@ -64,14 +64,16 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
     initialValues: {
       product: (data && data.product && data.product.id) || 0,
-      supplier: (data && data.supplier && data.supplier.id) || 0,
+      supplier: (data && data.supplier && data.supplier.id) || "",
       price: (data && data.price) || 0,
     },
 
     validationSchema: Yup.object({
       product: Yup.number().required("Zəhmət olmasa məhsul seçin!"),
       supplier: Yup.number().required("Zəhmət olmasa firma seçin!"),
-      price: Yup.number().required("Zəhmət olmasa qiymət daxil edin!"),
+      price: Yup.number()
+        .required("Zəhmət olmasa qiymət daxil edin!")
+        .min(1, "Qiymət 0-dan böyük olmalıdır!"),
     }),
 
     onSubmit: (values) => {
@@ -197,7 +199,9 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
               />
 
               {validation.touched.product && validation.errors.product ? (
-                <FormFeedback type="invalid">{validation.errors.product.toString()}</FormFeedback>
+                <FormFeedback type="invalid" className="d-block">
+                  {validation.errors.product.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
@@ -205,7 +209,7 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
           <Row>
             {/* Supplier */}
             <Col className="col-12 mb-3">
-              <Label>Məhsul</Label>
+              <Label>Firma</Label>
 
               <Select
                 name="supplier"
@@ -227,7 +231,9 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
               />
 
               {validation.touched.supplier && validation.errors.supplier ? (
-                <FormFeedback type="invalid">{validation.errors.supplier.toString()}</FormFeedback>
+                <FormFeedback type="invalid" className="d-block">
+                  {validation.errors.supplier.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>

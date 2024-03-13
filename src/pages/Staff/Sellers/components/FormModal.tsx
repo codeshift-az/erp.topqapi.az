@@ -59,14 +59,16 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
     initialValues: {
       name: (data && data.name) || "",
-      branch: (data && data.branch && data.branch.id) || 0,
+      branch: (data && data.branch && data.branch.id) || "",
       salary: (data && data.salary) || 0,
     },
 
     validationSchema: Yup.object({
       name: Yup.string().required("Zəhmət olmasa ad daxil edin!"),
       branch: Yup.number().required("Zəhmət olmasa filial seçin!"),
-      salary: Yup.number().required("Zəhmət olmasa maaş daxil edin!"),
+      salary: Yup.number()
+        .required("Zəhmət olmasa maaş daxil edin!")
+        .min(1, "Maaş 0-dan böyük olmalıdır!"),
     }),
 
     onSubmit: (values) => {
@@ -163,7 +165,9 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
               />
 
               {validation.touched.name && validation.errors.name ? (
-                <FormFeedback type="invalid">{validation.errors.name.toString()}</FormFeedback>
+                <FormFeedback type="invalid" className="d-block">
+                  {validation.errors.name.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
@@ -193,7 +197,9 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
               />
 
               {validation.touched.branch && validation.errors.branch ? (
-                <FormFeedback type="invalid">{validation.errors.branch.toString()}</FormFeedback>
+                <FormFeedback type="invalid" className="d-block">
+                  {validation.errors.branch.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>

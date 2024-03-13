@@ -54,7 +54,9 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
     validationSchema: Yup.object({
       name: Yup.string().required("Zəhmət olmasa ad daxil edin!"),
-      amount: Yup.number().required("Zəhmət olmasa məbləğ daxil edin!"),
+      amount: Yup.number()
+        .required("Zəhmət olmasa məbləğ daxil edin!")
+        .min(1, "Məbləğ 0-dan böyük olmalıdır!"),
       date: Yup.string().required("Zəhmət olmasa tarix daxil edin!"),
     }),
 
