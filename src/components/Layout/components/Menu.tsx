@@ -53,13 +53,6 @@ const menuItems: IMenuItem[] = [
     types: [USER_TYPES.WAREHOUSE],
   },
   {
-    id: "products",
-    label: "Məhsullar",
-    icon: "bx bx-box",
-    link: "/products",
-    types: [USER_TYPES.WAREHOUSE],
-  },
-  {
     id: "staff",
     label: "İşçilər",
     icon: "bx bx-user",
@@ -104,18 +97,34 @@ const menuItems: IMenuItem[] = [
     types: [USER_TYPES.WAREHOUSE],
   },
   {
-    id: "categories",
-    label: "Kateqoriyalar",
-    icon: "bx bx-list-ol",
-    link: "/categories",
-    types: [USER_TYPES.WAREHOUSE],
-  },
-  {
     id: "expenses",
     label: "Xərclər",
     icon: "bx bx-money",
     link: "/expenses",
     types: [USER_TYPES.WAREHOUSE],
+  },
+  {
+    id: "details",
+    label: "Ətraflı",
+    icon: "bx bx-detail",
+    link: "/details",
+    types: [USER_TYPES.WAREHOUSE],
+    subItems: [
+      {
+        id: "details-products",
+        label: "Məhsullar",
+        link: "/products",
+        parentId: "details",
+        types: [USER_TYPES.WAREHOUSE],
+      },
+      {
+        id: "details-categories",
+        label: "Kateqoriyalar",
+        link: "/categories",
+        parentId: "details",
+        types: [USER_TYPES.WAREHOUSE],
+      },
+    ],
   },
 ];
 
