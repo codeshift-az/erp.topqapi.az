@@ -82,23 +82,27 @@ const ProductCatalog = () => {
           <TableContainer onCreate={onCreate} onUpdate={onUpdate} onDelete={onDelete} />
 
           {/* Render Form Modal */}
-          <FormModal
-            data={item}
-            show={formModal}
-            isEdit={item !== null}
-            toggle={() => setFormModal(false)}
-            handleSubmit={handleSubmit}
-          />
+          {formModal && (
+            <FormModal
+              data={item}
+              show={formModal}
+              isEdit={item !== null}
+              toggle={() => setFormModal(false)}
+              handleSubmit={handleSubmit}
+            />
+          )}
 
           {/* Render Delete Modal */}
-          <VerifyModal
-            status={status}
-            show={deleteModal}
-            onVerify={handleDelete}
-            action={deleteProductRecord.typePrefix}
-            onClose={() => setDeleteModal(false)}
-            message="Seçilmiş məlumatı silmək istədiyinizə əminsiniz?"
-          />
+          {deleteModal && (
+            <VerifyModal
+              status={status}
+              show={deleteModal}
+              onVerify={handleDelete}
+              action={deleteProductRecord.typePrefix}
+              onClose={() => setDeleteModal(false)}
+              message="Seçilmiş məlumatı silmək istədiyinizə əminsiniz?"
+            />
+          )}
         </Container>
       </div>
     </React.Fragment>

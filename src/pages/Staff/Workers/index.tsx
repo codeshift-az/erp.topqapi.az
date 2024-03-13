@@ -18,7 +18,7 @@ import { getPageTitle } from "@/helpers";
 import { Worker } from "@/types/models";
 
 // Actions
-import { createWorker, deleteWorker, updateWorker } from "@/store/actions";
+import { createWorker, updateWorker, deleteWorker } from "@/store/actions";
 
 // Related components
 import TableContainer from "./components/TableContainer";
@@ -82,23 +82,27 @@ const Workers = () => {
           <TableContainer onCreate={onCreate} onUpdate={onUpdate} onDelete={onDelete} />
 
           {/* Render Form Modal */}
-          <FormModal
-            data={item}
-            show={formModal}
-            isEdit={item !== null}
-            toggle={() => setFormModal(false)}
-            handleSubmit={handleSubmit}
-          />
+          {formModal && (
+            <FormModal
+              data={item}
+              show={formModal}
+              isEdit={item !== null}
+              toggle={() => setFormModal(false)}
+              handleSubmit={handleSubmit}
+            />
+          )}
 
           {/* Render Delete Modal */}
-          <VerifyModal
-            status={status}
-            show={deleteModal}
-            onVerify={handleDelete}
-            action={deleteWorker.typePrefix}
-            onClose={() => setDeleteModal(false)}
-            message="Seçilmiş məlumatı silmək istədiyinizə əminsiniz?"
-          />
+          {deleteModal && (
+            <VerifyModal
+              status={status}
+              show={deleteModal}
+              onVerify={handleDelete}
+              action={deleteWorker.typePrefix}
+              onClose={() => setDeleteModal(false)}
+              message="Seçilmiş məlumatı silmək istədiyinizə əminsiniz?"
+            />
+          )}
         </Container>
       </div>
     </React.Fragment>
