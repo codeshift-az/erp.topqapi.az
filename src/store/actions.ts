@@ -19,23 +19,20 @@ export * from "./expense/actions";
 // Product actions
 export * from "./product/actions";
 
-// Staff Driver actions
+// Staff actions
 export * from "./staff/driver/actions";
-
-// Staff Seller actions
 export * from "./staff/seller/actions";
-
-// Staff Worker actions
 export * from "./staff/worker/actions";
 
 // Supplier actions
 export * from "./supplier/actions";
 
-// Warehouse Cart actions
+// Warehouse actions
+export * from "./warehouse/entry/actions";
+export * from "./warehouse/product/actions";
 export * from "./warehouse/cart/actions";
 
-// Warehouse Entry actions
-export * from "./warehouse/entry/actions";
-
-// Warehouse Product actions
-export * from "./warehouse/product/actions";
+// Order actions
+export * from "./order/actions";
+export * from "./order/item/actions";
+export * from "./order/cart/actions";

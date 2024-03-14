@@ -1,3 +1,3 @@
-import { Order, Pagination } from "./";
+import { Sort, Pagination } from "./";
 
-export type DefaultFilter = Pagination & Order;
+export type DefaultFilter = Pagination & Sort;

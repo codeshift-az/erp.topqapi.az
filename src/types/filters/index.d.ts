@@ -1,8 +1,8 @@
 // Pagination Type
 export type { Pagination } from "./pagination";
 
-// Order Type
-export type { Order } from "./order";
+// Sort Type
+export type { Sort } from "./sort";
 
 // Category Filter Type
 export type { CategoryFilter } from "./category";
@@ -27,3 +27,6 @@ export type { WarehouseProductFilter, WarehouseEntryFilter } from "./warehouse";
 
 // Catalog Filter Type
 export type { ProductRecordFilter } from "./catalog";
+
+// Order Filter Type
+export type { OrderItemFilter, OrderFilter } from "./order";
