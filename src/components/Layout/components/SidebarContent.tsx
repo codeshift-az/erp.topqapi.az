@@ -147,9 +147,26 @@ const SidebarContent = () => {
   const [userMenuItems, setUserMenuItems] = useState<typeof menuItems>([]);
 
   useEffect(() => {
-    const items = menuItems.filter(
-      (menuItem) => !menuItem.isHeader && hasPermission(user, menuItem.types)
-    );
+    const items: typeof menuItems = [];
+
+    menuItems.forEach((menuItem) => {
+      if (menuItem.types && !hasPermission(user, menuItem.types)) return;
+
+      if (menuItem.subItems) {
+        const subItems = menuItem.subItems.filter((subItem) => {
+          return !subItem.types || hasPermission(user, subItem.types);
+        });
+
+        if (subItems.length > 0) {
+          items.push({ ...menuItem, subItems });
+        } else {
+          items.push({ ...menuItem, subItems: undefined });
+        }
+      } else {
+        items.push(menuItem);
+      }
+    });
+
     setUserMenuItems(items);
   }, [user]);
 

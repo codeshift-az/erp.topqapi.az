@@ -1,21 +1,37 @@
 import { Navigate } from "react-router-dom";
 
+// Constants
+import { USER_TYPES } from "@/constants";
+
 // Pages
 import * as Pages from "@/pages";
-import { USER_TYPES } from "@/constants";
 
 const protectedRoutes = [
   // Dashboard
   { path: "/dashboard", component: <Pages.Dashboard />, types: [USER_TYPES.STORE] },
 
-  // Catalog
-  { path: "/catalog", component: <Pages.Catalog />, types: [USER_TYPES.WAREHOUSE] },
-
   // Branches
   { path: "/branches", component: <Pages.Branches />, types: [USER_TYPES.WAREHOUSE] },
 
+  // Catalog
+  { path: "/catalog", component: <Pages.Catalog />, types: [USER_TYPES.WAREHOUSE] },
+
   // Categories
   { path: "/categories", component: <Pages.Categories />, types: [USER_TYPES.WAREHOUSE] },
+
+  // My Orders
+  {
+    path: "/orders",
+    component: <Pages.MyOrders />,
+    types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
+  },
+
+  // All Orders
+  {
+    path: "/orders/all",
+    component: <Pages.AllOrders />,
+    types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
+  },
 
   // Expenses
   { path: "/expenses", component: <Pages.Expenses />, types: [USER_TYPES.WAREHOUSE] },

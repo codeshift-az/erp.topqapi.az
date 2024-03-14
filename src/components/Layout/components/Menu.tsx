@@ -23,6 +23,29 @@ const menuItems: IMenuItem[] = [
     link: "/dashboard",
   },
   {
+    id: "orders",
+    label: "Sifarişlər",
+    icon: "bx bx-cart",
+    link: "/orders",
+    types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
+    subItems: [
+      {
+        id: "orders",
+        label: "Bütün Sifarişlər",
+        link: "/orders/all",
+        parentId: "orders",
+        types: [USER_TYPES.WAREHOUSE],
+      },
+      {
+        id: "orders-items",
+        label: "Sifariş məhsulları",
+        link: "/orders/items",
+        parentId: "orders",
+        types: [USER_TYPES.WAREHOUSE],
+      },
+    ],
+  },
+  {
     id: "warehouse",
     label: "Anbar",
     icon: "bx bx-store",

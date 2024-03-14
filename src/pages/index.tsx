@@ -10,11 +10,17 @@ import Drivers from "./Staff/Drivers";
 import Sellers from "./Staff/Sellers";
 import Workers from "./Staff/Workers";
 import Suppliers from "./Suppliers";
+
+// Warehouse
 import WarehouseEntries from "./Warehouse/Entries";
 import WarehouseNewEntry from "./Warehouse/NewEntry";
 import WarehouseEntryDetails from "./Warehouse/EntryDetails";
 import WarehouseEntryInvoice from "./Warehouse/EntryInvoice";
 import WarehouseProducts from "./Warehouse/Products";
+
+// Orders
+import MyOrders from "./Orders/MyOrders";
+import AllOrders from "./Orders/AllOrders";
 
 export {
   Login,
@@ -34,4 +40,6 @@ export {
   WarehouseEntryDetails,
   WarehouseEntryInvoice,
   WarehouseProducts,
+  MyOrders,
+  AllOrders,
 };
