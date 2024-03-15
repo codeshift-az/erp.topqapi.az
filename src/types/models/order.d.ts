@@ -19,8 +19,9 @@ export type Order = DefaultModel & {
   customer: string;
   phone: string;
   address: string;
-  status: number;
   discount: number;
+  note: string;
+  status: number;
   date: string;
 };
 

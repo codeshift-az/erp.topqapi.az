@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import { TokenPair, User } from "@/types/models";
 
 // Constants
-import { ACCESS_TOKEN, REFRESH_TOKEN, USER_TYPES } from "@/constants";
+import { ACCESS_TOKEN, ORDER_STATUS, REFRESH_TOKEN, USER_TYPES } from "@/constants";
 
 export const setAuthCookies = ({ access, refresh }: TokenPair, remember: boolean = false) => {
   const accessDecoded = jwtDecode(access);
@@ -48,4 +48,16 @@ export const hasPermission = (user: User | null, types?: number[]) => {
   if (user.type === USER_TYPES.ADMIN) return true;
 
   return types.includes(user.type);
+};
+
+export const hasPermissionByStatus = (user: User | null, status?: number) => {
+  if (!user) return false;
+
+  if (user.type === USER_TYPES.ADMIN) return true;
+
+  if (!status) return true;
+
+  if (user.type === USER_TYPES.STORE) return status == ORDER_STATUS.REGISTERED;
+
+  return true;
 };

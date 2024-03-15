@@ -17,12 +17,14 @@ import * as Fields from "@/components/DataTable/Fields";
 import * as Filters from "@/components/DataTable/Filters";
 import { usePagination, useSorting, useColumnFiltering } from "@/components/DataTable/Hooks";
 
+// Constants
+import { ORDER_STATUS_LABELS } from "@/constants";
+
 // Types
 import { Order } from "@/types/models";
 
 // Actions
 import { getOrders } from "@/store/actions";
-import { ORDER_STATUS_LABELS } from "@/constants/orderStatus";
 
 const TableContainer = () => {
   // Pagination
@@ -119,7 +121,7 @@ const TableContainer = () => {
       cell: (cell) => {
         return (
           <div className="d-flex gap-3">
-            <Link to={`/warehouse/entries/${cell.row.original.id}`} className="text-primary">
+            <Link to={`/orders/${cell.row.original.id}`} className="text-primary">
               <i className="mdi mdi-eye font-size-18" id="viewtooltip" />
               <UncontrolledTooltip placement="top" target="viewtooltip">
                 Ətraflı

@@ -21,6 +21,7 @@ import WarehouseProducts from "./Warehouse/Products";
 // Orders
 import MyOrders from "./Orders/MyOrders";
 import AllOrders from "./Orders/AllOrders";
+import OrderDetails from "./Orders/OrderDetails";
 
 export {
   Login,
@@ -42,4 +43,5 @@ export {
   WarehouseProducts,
   MyOrders,
   AllOrders,
+  OrderDetails,
 };

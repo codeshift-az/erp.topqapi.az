@@ -33,6 +33,13 @@ const protectedRoutes = [
     types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
   },
 
+  // Order Detail
+  {
+    path: "/orders/:id",
+    component: <Pages.OrderDetails />,
+    types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
+  },
+
   // Expenses
   { path: "/expenses", component: <Pages.Expenses />, types: [USER_TYPES.WAREHOUSE] },
 
