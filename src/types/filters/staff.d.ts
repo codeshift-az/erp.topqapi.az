@@ -7,6 +7,7 @@ export type DriverFilter = DefaultFilter & {
 export type SellerFilter = DefaultFilter & {
   name?: string;
   branch?: string;
+  branch_id?: number;
 };
 
 export type WorkerFilter = DefaultFilter & {

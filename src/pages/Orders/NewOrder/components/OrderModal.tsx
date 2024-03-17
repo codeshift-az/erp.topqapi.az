@@ -137,7 +137,7 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
   const [sellerOptions, setSellerOptions] = useState<Option[]>([]);
 
   useEffect(() => {
-    dispatch(getSellers({ name: sellerName, branch: validation.values.branch.toString() }));
+    dispatch(getSellers({ name: sellerName, branch_id: Number(validation.values.branch) }));
   }, [sellerName, validation.values.branch]);
 
   useEffect(() => {
