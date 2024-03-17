@@ -112,7 +112,15 @@ const TableContainer = () => {
         return <Fields.TagField value={status.label} color={status.color} />;
       },
       meta: {
-        filterComponent: (column) => <Filters.TextFilter column={column} />,
+        filterComponent: (column) => (
+          <Filters.SelectFilter
+            column={column}
+            options={Object.keys(ORDER_STATUS_LABELS).map((key) => ({
+              value: key,
+              label: ORDER_STATUS_LABELS[Number(key)].label,
+            }))}
+          />
+        ),
       },
     }),
     columnHelper.accessor("date", {
