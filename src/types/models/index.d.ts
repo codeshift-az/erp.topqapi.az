@@ -22,11 +22,11 @@ export type { Product } from "./product";
 // Expense Model
 export type { Expense } from "./expense";
 
-// Warehouse Models
-export type { WarehouseProduct, WarehouseEntry, WarehouseCartItem } from "./warehouse";
-
 // Catalog Models
 export type { ProductRecord } from "./catalog";
+
+// Warehouse Models
+export type { WarehouseEntry, WarehouseItem, WarehouseCartItem } from "./warehouse";
 
 // Order Models
 export type { Order, OrderItem, OrderCartItem } from "./order";

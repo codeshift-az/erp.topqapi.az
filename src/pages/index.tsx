@@ -16,7 +16,7 @@ import WarehouseEntries from "./Warehouse/Entries";
 import WarehouseNewEntry from "./Warehouse/NewEntry";
 import WarehouseEntryDetails from "./Warehouse/EntryDetails";
 import WarehouseEntryInvoice from "./Warehouse/EntryInvoice";
-import WarehouseProducts from "./Warehouse/Products";
+import WarehouseItems from "./Warehouse/Products";
 
 // Orders
 import MyOrders from "./Orders/MyOrders";
@@ -41,7 +41,7 @@ export {
   WarehouseNewEntry,
   WarehouseEntryDetails,
   WarehouseEntryInvoice,
-  WarehouseProducts,
+  WarehouseItems,
   MyOrders,
   AllOrders,
   NewOrder,

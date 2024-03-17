@@ -1,6 +1,6 @@
 import { DefaultFilter } from "./default";
 
-export type WarehouseProductFilter = DefaultFilter & {
+export type WarehouseItemFilter = DefaultFilter & {
   product?: string;
 };
 

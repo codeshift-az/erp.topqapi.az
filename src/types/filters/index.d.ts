@@ -22,11 +22,11 @@ export type { ProductFilter } from "./product";
 // Expense Filter Type
 export type { ExpenseFilter } from "./expense";
 
-// Warehouse Filter Type
-export type { WarehouseProductFilter, WarehouseEntryFilter } from "./warehouse";
-
 // Catalog Filter Type
 export type { ProductRecordFilter } from "./catalog";
+
+// Warehouse Filter Type
+export type { WarehouseItemFilter, WarehouseEntryFilter } from "./warehouse";
 
 // Order Filter Type
 export type { OrderItemFilter, OrderFilter } from "./order";

@@ -11,13 +11,13 @@ import { Row, Col, Card, CardBody, Button, Table } from "reactstrap";
 import VerifyModal from "@/components/VerifyModal";
 
 // Types
-import { WarehouseProduct } from "@/types/models";
+import { WarehouseItem } from "@/types/models";
 
 // Actions
 import {
-  createWarehouseEntryProduct,
-  updateWarehouseEntryProduct,
-  deleteWarehouseEntryProduct,
+  createWarehouseEntryItem,
+  updateWarehouseEntryItem,
+  deleteWarehouseEntryItem,
 } from "@/store/actions";
 
 // Related Components
@@ -28,7 +28,7 @@ const ProductContainer = () => {
   const { item: entry, status } = useSelector((state: RootState) => state.warehouseEntry);
 
   // Product Modal
-  const [item, setItem] = useState<WarehouseProduct | null>(null);
+  const [item, setItem] = useState<WarehouseItem | null>(null);
   const [productModal, setProductModal] = useState<boolean>(false);
 
   const onCreate = () => {
@@ -36,7 +36,7 @@ const ProductContainer = () => {
     setProductModal(true);
   };
 
-  const onUpdate = (data: WarehouseProduct) => {
+  const onUpdate = (data: WarehouseItem) => {
     setItem(data);
     setProductModal(true);
   };
@@ -44,24 +44,24 @@ const ProductContainer = () => {
   const handleSubmit = (formData: FormData) => {
     if (item) {
       // Update
-      dispatch(updateWarehouseEntryProduct({ id: item.id, data: formData }));
+      dispatch(updateWarehouseEntryItem({ id: item.id, data: formData }));
     } else {
       // Create
       formData.append("entry", entry?.id.toString() || "");
-      dispatch(createWarehouseEntryProduct(formData));
+      dispatch(createWarehouseEntryItem(formData));
     }
   };
 
   // Delete Modal
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
-  const onDelete = (data: WarehouseProduct) => {
+  const onDelete = (data: WarehouseItem) => {
     setItem(data);
     setDeleteModal(true);
   };
 
   const handleDelete = () => {
-    if (item) dispatch(deleteWarehouseEntryProduct(item.id));
+    if (item) dispatch(deleteWarehouseEntryItem(item.id));
     setDeleteModal(false);
   };
 
@@ -89,7 +89,7 @@ const ProductContainer = () => {
                 </thead>
 
                 <tbody>
-                  {entry.products.map((item) => (
+                  {entry.items.map((item) => (
                     <tr key={item.id}>
                       <td>
                         <h5 className="font-size-14 text-truncate">
@@ -158,7 +158,7 @@ const ProductContainer = () => {
           status={status}
           show={deleteModal}
           onVerify={handleDelete}
-          action={deleteWarehouseEntryProduct.typePrefix}
+          action={deleteWarehouseEntryItem.typePrefix}
           onClose={() => setDeleteModal(false)}
           message="Seçilmiş məhsulu silmək istədiyinizə əminsiniz?"
         />

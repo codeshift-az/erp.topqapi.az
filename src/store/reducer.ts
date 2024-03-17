@@ -31,8 +31,8 @@ import supplierReducer from "./supplier/slice";
 
 // Warehouse
 import warehouseCartReducer from "./warehouse/cart/slice";
+import warehouseItemReducer from "./warehouse/item/slice";
 import warehouseEntryReducer from "./warehouse/entry/slice";
-import warehouseProductReducer from "./warehouse/product/slice";
 
 // Order
 import orderReducer from "./order/slice";
@@ -61,8 +61,8 @@ const rootReducer = combineReducers({
   supplier: supplierReducer,
 
   warehouseCart: warehouseCartReducer,
+  warehouseItem: warehouseItemReducer,
   warehouseEntry: warehouseEntryReducer,
-  warehouseProduct: warehouseProductReducer,
 
   order: orderReducer,
   orderItem: orderItemReducer,

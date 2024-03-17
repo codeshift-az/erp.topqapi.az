@@ -76,7 +76,7 @@ const EntryContainer = () => {
                   <tr>
                     <th>Ümumi Cəm :</th>
                     <th>
-                      {entry.products.reduce(
+                      {entry.items.reduce(
                         (a, b) => Number(a) + Number(b["price"] || 0) * Number(b["quantity"] || 0),
                         0
                       )}{" "}

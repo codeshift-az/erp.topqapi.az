@@ -113,7 +113,7 @@ const WarehouseEntryInvoice = () => {
                       </thead>
 
                       <tbody>
-                        {entry.products.map((item, index) => (
+                        {entry.items.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{item.product.name}</td>
@@ -130,7 +130,7 @@ const WarehouseEntryInvoice = () => {
 
                           <td className="border-0 text-end">
                             <h5 className="m-0">
-                              {entry.products.reduce(
+                              {entry.items.reduce(
                                 (acc, item) => acc + item.price * item.quantity,
                                 0
                               )}{" "}

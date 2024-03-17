@@ -12,7 +12,7 @@ import { getPageTitle } from "@/helpers";
 // Related components
 import TableContainer from "./components/TableContainer";
 
-const WarehouseProducts = () => {
+const WarehouseItems = () => {
   const title = "Məhsullar";
 
   document.title = getPageTitle(title);
@@ -38,4 +38,4 @@ const WarehouseProducts = () => {
   );
 };
 
-export default WarehouseProducts;
+export default WarehouseItems;

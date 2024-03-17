@@ -29,7 +29,7 @@ export * from "./supplier/actions";
 
 // Warehouse actions
 export * from "./warehouse/entry/actions";
-export * from "./warehouse/product/actions";
+export * from "./warehouse/item/actions";
 export * from "./warehouse/cart/actions";
 
 // Order actions

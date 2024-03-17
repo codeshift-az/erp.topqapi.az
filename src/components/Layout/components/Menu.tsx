@@ -60,9 +60,9 @@ const menuItems: IMenuItem[] = [
         types: [USER_TYPES.WAREHOUSE],
       },
       {
-        id: "warehouse-products",
-        label: "Məhsullar",
-        link: "/warehouse/products",
+        id: "warehouse-items",
+        label: "Məhsul girişləri",
+        link: "/warehouse/items",
         parentId: "warehouse",
         types: [USER_TYPES.WAREHOUSE],
       },

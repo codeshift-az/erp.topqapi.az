@@ -5,16 +5,16 @@ import { LOADING, SUCCESS, FAILURE } from "@/constants";
 
 // Types
 import { Status } from "@/types/store";
-import { WarehouseProduct } from "@/types/models";
+import { WarehouseItem } from "@/types/models";
 
 // Actions
-import { getWarehouseProducts } from "./actions";
+import { getWarehouseItems } from "./actions";
 
 interface StateProps {
   status: Status;
   errors: any;
   update: boolean;
-  items: WarehouseProduct[] | null;
+  items: WarehouseItem[] | null;
   count: number;
 }
 
@@ -31,8 +31,8 @@ const initialState: StateProps = {
   count: 0,
 };
 
-export const warehouseProductSlice = createSlice({
-  name: "warehouseProduct",
+export const warehouseItemSlice = createSlice({
+  name: "warehouseItem",
   initialState,
   reducers: {
     resetState: (state) => {
@@ -45,23 +45,23 @@ export const warehouseProductSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getWarehouseProducts.pending, (state) => {
-        state.status = { ...LOADING, lastAction: getWarehouseProducts.typePrefix };
+      .addCase(getWarehouseItems.pending, (state) => {
+        state.status = { ...LOADING, lastAction: getWarehouseItems.typePrefix };
         state.errors = null;
       })
-      .addCase(getWarehouseProducts.fulfilled, (state, { payload }) => {
-        state.status = { ...SUCCESS, lastAction: getWarehouseProducts.typePrefix };
+      .addCase(getWarehouseItems.fulfilled, (state, { payload }) => {
+        state.status = { ...SUCCESS, lastAction: getWarehouseItems.typePrefix };
         state.items = payload.results;
         state.count = payload.count;
         state.update = false;
       })
-      .addCase(getWarehouseProducts.rejected, (state, { payload }) => {
-        state.status = { ...FAILURE, lastAction: getWarehouseProducts.typePrefix };
+      .addCase(getWarehouseItems.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: getWarehouseItems.typePrefix };
         state.errors = payload;
       });
   },
 });
 
-export const { resetState } = warehouseProductSlice.actions;
+export const { resetState } = warehouseItemSlice.actions;
 
-export default warehouseProductSlice.reducer;
+export default warehouseItemSlice.reducer;

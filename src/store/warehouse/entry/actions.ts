@@ -6,7 +6,7 @@ import { WarehouseEntryFilter } from "@/types/filters";
 
 // API
 import * as API from "@/api/warehouse/entry";
-import * as ProductAPI from "@/api/warehouse/product";
+import * as ProductAPI from "@/api/warehouse/item";
 
 export const getWarehouseEntries = createAsyncThunk(
   "warehouse/entry/get",
@@ -32,11 +32,11 @@ export const getWarehouseEntryDetails = createAsyncThunk(
   }
 );
 
-export const createWarehouseEntryProduct = createAsyncThunk(
-  "warehouse/entry/product/create",
+export const createWarehouseEntryItem = createAsyncThunk(
+  "warehouse/entry/item/create",
   async (data: FormData, thunkAPI) => {
     try {
-      const response = await ProductAPI.createWarehouseProduct(data);
+      const response = await ProductAPI.createWarehouseItem(data);
       return response;
     } catch (error: any) {
       throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
@@ -44,11 +44,11 @@ export const createWarehouseEntryProduct = createAsyncThunk(
   }
 );
 
-export const updateWarehouseEntryProduct = createAsyncThunk(
-  "warehouse/entry/product/update",
+export const updateWarehouseEntryItem = createAsyncThunk(
+  "warehouse/entry/item/update",
   async ({ id, data }: UpdateArgs, thunkAPI) => {
     try {
-      const response = await ProductAPI.updateWarehouseProduct(id, data);
+      const response = await ProductAPI.updateWarehouseItem(id, data);
       return { response, id };
     } catch (error: any) {
       throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
@@ -56,18 +56,17 @@ export const updateWarehouseEntryProduct = createAsyncThunk(
   }
 );
 
-export const deleteWarehouseEntryProduct = createAsyncThunk(
-  "warehouse/entry/product/delete",
+export const deleteWarehouseEntryItem = createAsyncThunk(
+  "warehouse/entry/item/delete",
   async (id: number, thunkAPI) => {
     try {
-      await ProductAPI.deleteWarehouseProduct(id);
+      await ProductAPI.deleteWarehouseItem(id);
       return id;
     } catch (error: any) {
       throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
     }
   }
 );
-
 
 export const createWarehouseEntry = createAsyncThunk(
   "warehouse/entry/create",

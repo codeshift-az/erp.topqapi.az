@@ -3,14 +3,14 @@ import { DefaultModel } from "./default";
 import { Product } from "./product";
 import { Supplier } from "./supplier";
 
-export type WarehouseProduct = DefaultModel & {
+export type WarehouseItem = DefaultModel & {
   product: Product;
   quantity: number;
   price: number;
 };
 
 export type WarehouseEntry = DefaultModel & {
-  products: WarehouseProduct[];
+  items: WarehouseItem[];
   supplier: Supplier;
   invoice: string;
   date: string;

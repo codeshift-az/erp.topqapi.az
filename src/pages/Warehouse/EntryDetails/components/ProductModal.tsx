@@ -34,11 +34,7 @@ import { getOptions, getSelectStyle } from "@/helpers";
 import { Option } from "@/types/option";
 
 // Actions
-import {
-  getProducts,
-  createWarehouseEntryProduct,
-  updateWarehouseEntryProduct,
-} from "@/store/actions";
+import { getProducts, createWarehouseEntryItem, updateWarehouseEntryItem } from "@/store/actions";
 
 interface Props {
   data: any;
@@ -117,8 +113,8 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
   useEffect(() => {
     if (show && status) {
       if (
-        ((isEdit && status.lastAction === updateWarehouseEntryProduct.typePrefix) ||
-          (!isEdit && status.lastAction === createWarehouseEntryProduct.typePrefix)) &&
+        ((isEdit && status.lastAction === updateWarehouseEntryItem.typePrefix) ||
+          (!isEdit && status.lastAction === createWarehouseEntryItem.typePrefix)) &&
         status.success
       ) {
         validation.resetForm();

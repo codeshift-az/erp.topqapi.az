@@ -17,10 +17,10 @@ import * as Filters from "@/components/DataTable/Filters";
 import { usePagination, useSorting, useColumnFiltering } from "@/components/DataTable/Hooks";
 
 // Types
-import { WarehouseProduct } from "@/types/models";
+import { WarehouseItem } from "@/types/models";
 
 // Actions
-import { getWarehouseProducts } from "@/store/actions";
+import { getWarehouseItems } from "@/store/actions";
 
 const TableContainer = () => {
   // Pagination
@@ -34,12 +34,10 @@ const TableContainer = () => {
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, items, status, count } = useSelector(
-    (state: RootState) => state.warehouseProduct
-  );
+  const { update, items, status, count } = useSelector((state: RootState) => state.warehouseItem);
 
   const fetchItems = () => {
-    dispatch(getWarehouseProducts({ ...filters, page, limit, ordering }));
+    dispatch(getWarehouseItems({ ...filters, page, limit, ordering }));
   };
 
   useEffect(() => {
@@ -51,7 +49,7 @@ const TableContainer = () => {
   }, [update]);
 
   // Columns
-  const columnHelper = createColumnHelper<WarehouseProduct>();
+  const columnHelper = createColumnHelper<WarehouseItem>();
 
   const columns = [
     columnHelper.display({
@@ -99,7 +97,7 @@ const TableContainer = () => {
             <DataTable
               data={items || []}
               columns={columns}
-              loading={status.loading && status.lastAction === getWarehouseProducts.typePrefix}
+              loading={status.loading && status.lastAction === getWarehouseItems.typePrefix}
               // Pagination
               pagination={pagination}
               onPaginationChange={onPaginationChange}
