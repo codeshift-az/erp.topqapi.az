@@ -57,7 +57,7 @@ export const hasPermissionByStatus = (user: User | null, status?: number) => {
 
   if (!status) return true;
 
-  if (user.type === USER_TYPES.STORE) return status == ORDER_STATUS.REGISTERED;
+  if (user.type === USER_TYPES.STORE) return status < ORDER_STATUS.PENDING;
 
   return true;
 };

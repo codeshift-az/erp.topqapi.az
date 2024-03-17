@@ -177,21 +177,6 @@ const OrderContainer = () => {
                     </tr>
                   )}
 
-                  {hasPermission(user, [USER_TYPES.WAREHOUSE]) &&
-                    order.status === ORDER_STATUS.REGISTERED && (
-                      <tr>
-                        <th colSpan={2}>
-                          <Button
-                            color="success"
-                            className="mb-2 col-12"
-                            onClick={() => handleStatusUpdate(ORDER_STATUS.ACCEPTED)}>
-                            <i className={`mdi mdi-check me-1`} />
-                            Sifariş hazırlanır
-                          </Button>
-                        </th>
-                      </tr>
-                    )}
-
                   {order.status === ORDER_STATUS.DRAFT && (
                     <tr>
                       <th colSpan={2}>
@@ -205,6 +190,36 @@ const OrderContainer = () => {
                       </th>
                     </tr>
                   )}
+
+                  {hasPermission(user, [USER_TYPES.WAREHOUSE]) &&
+                    order.status === ORDER_STATUS.REGISTERED && (
+                      <tr>
+                        <th colSpan={2}>
+                          <Button
+                            color="success"
+                            className="mb-2 col-12"
+                            onClick={() => handleStatusUpdate(ORDER_STATUS.ACCEPTED)}>
+                            <i className={`mdi mdi-check me-1`} />
+                            Sifariş qəbul olundu
+                          </Button>
+                        </th>
+                      </tr>
+                    )}
+
+                  {hasPermission(user, [USER_TYPES.WAREHOUSE]) &&
+                    order.status === ORDER_STATUS.ACCEPTED && (
+                      <tr>
+                        <th colSpan={2}>
+                          <Button
+                            color="success"
+                            className="mb-2 col-12"
+                            onClick={() => handleStatusUpdate(ORDER_STATUS.PENDING)}>
+                            <i className={`mdi mdi-check me-1`} />
+                            Sifariş hazırlanır
+                          </Button>
+                        </th>
+                      </tr>
+                    )}
 
                   {order.status !== ORDER_STATUS.DRAFT && (
                     <tr>
