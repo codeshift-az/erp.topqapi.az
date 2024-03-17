@@ -49,7 +49,7 @@ const OrderContainer = () => {
   };
 
   const handleDelete = () => {
-    if (order) dispatch(deleteOrder(order.id)).then(() => navigate("/warehouse/entries"));
+    if (order) dispatch(deleteOrder(order.id)).then(() => navigate("/orders"));
     setDeleteModal(false);
   };
 
@@ -69,7 +69,7 @@ const OrderContainer = () => {
     if (order) dispatch(updateOrder({ id: order.id, data: getFormData({ status }) }));
   };
 
-  if (!order) return null;
+  if (!order || status.loading) return null;
 
   const orderStatus = ORDER_STATUS_LABELS[order.status];
 
@@ -114,11 +114,6 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <td>Qeyd: </td>
-                    <td>{order.note}</td>
-                  </tr>
-
-                  <tr>
                     <th>Status :</th>
                     <th>
                       <a
@@ -135,13 +130,13 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <td>Endirim: </td>
-                    <td>{order.discount}</td>
+                    <td>Ümumi Cəm :</td>
+                    <td>{priceSum} AZN</td>
                   </tr>
 
                   <tr>
-                    <th>Ümumi Cəm :</th>
-                    <th>{priceSum} AZN</th>
+                    <td>Endirim: </td>
+                    <td>{order.discount} AZN</td>
                   </tr>
 
                   <tr>
@@ -149,20 +144,10 @@ const OrderContainer = () => {
                     <th>{priceSum - order.discount} AZN</th>
                   </tr>
 
-                  {hasPermission(user, [USER_TYPES.WAREHOUSE]) &&
-                    order.status === ORDER_STATUS.REGISTERED && (
-                      <tr>
-                        <th colSpan={2}>
-                          <Button
-                            color="success"
-                            className="mb-2 col-12"
-                            onClick={() => handleStatusUpdate(ORDER_STATUS.ACCEPTED)}>
-                            <i className={`mdi mdi-check me-1`} />
-                            Sifariş qəbul olundu
-                          </Button>
-                        </th>
-                      </tr>
-                    )}
+                  <tr>
+                    <td>Qeyd: </td>
+                    <td>{order.note}</td>
+                  </tr>
 
                   {hasPermissionByStatus(user, order.status) && (
                     <tr>
@@ -192,16 +177,47 @@ const OrderContainer = () => {
                     </tr>
                   )}
 
-                  <tr>
-                    <th colSpan={2}>
-                      <Link
-                        to={`/orders/${order.id}/invoice`}
-                        className="btn btn-primary mb-2 col-12">
-                        <i className={`mdi mdi-printer me-1`} />
-                        Qaimə
-                      </Link>
-                    </th>
-                  </tr>
+                  {hasPermission(user, [USER_TYPES.WAREHOUSE]) &&
+                    order.status === ORDER_STATUS.REGISTERED && (
+                      <tr>
+                        <th colSpan={2}>
+                          <Button
+                            color="success"
+                            className="mb-2 col-12"
+                            onClick={() => handleStatusUpdate(ORDER_STATUS.ACCEPTED)}>
+                            <i className={`mdi mdi-check me-1`} />
+                            Sifariş hazırlanır
+                          </Button>
+                        </th>
+                      </tr>
+                    )}
+
+                  {order.status === ORDER_STATUS.DRAFT && (
+                    <tr>
+                      <th colSpan={2}>
+                        <Button
+                          color="success"
+                          className="mb-2 col-12"
+                          onClick={() => handleStatusUpdate(ORDER_STATUS.REGISTERED)}>
+                          <i className={`mdi mdi-check me-1`} />
+                          Sifariş tamamlandı
+                        </Button>
+                      </th>
+                    </tr>
+                  )}
+
+                  {order.status !== ORDER_STATUS.DRAFT && (
+                    <tr>
+                      <th colSpan={2}>
+                        <Link
+                          to={`/orders/${order.id}/invoice`}
+                          className="btn btn-primary mb-2 col-12">
+                          <i className={`mdi mdi-printer me-1`} />
+                          Qaimə
+                        </Link>
+                      </th>
+                    </tr>
+                  )}
                 </tbody>
               </Table>
             </div>

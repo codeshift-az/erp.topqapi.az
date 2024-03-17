@@ -11,24 +11,20 @@ import { Row, Col, Card, CardBody, Button, Table } from "reactstrap";
 import VerifyModal from "@/components/VerifyModal";
 
 // Types
-import { OrderItem } from "@/types/models";
-
-// Helpers
-import { hasPermissionByStatus } from "@/helpers";
+import { OrderCartItem } from "@/types/models";
 
 // Actions
-import { createOrderItem, updateOrderItem, deleteOrderItem } from "@/store/actions";
+import { createOrderCartItem, updateOrderCartItem, deleteOrderCartItem } from "@/store/actions";
 
 // Related Components
 import ProductModal from "./ProductModal";
 
 const ProductContainer = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.account);
-  const { item: order, status } = useSelector((state: RootState) => state.order);
+  const { items, status } = useSelector((state: RootState) => state.orderCart);
 
   // Product Modal
-  const [item, setItem] = useState<OrderItem | null>(null);
+  const [item, setItem] = useState<OrderCartItem | null>(null);
   const [productModal, setProductModal] = useState<boolean>(false);
 
   const onCreate = () => {
@@ -36,7 +32,7 @@ const ProductContainer = () => {
     setProductModal(true);
   };
 
-  const onUpdate = (data: OrderItem) => {
+  const onUpdate = (data: OrderCartItem) => {
     setItem(data);
     setProductModal(true);
   };
@@ -44,28 +40,30 @@ const ProductContainer = () => {
   const handleSubmit = (formData: FormData) => {
     if (item) {
       // Update
-      dispatch(updateOrderItem({ id: item.id, data: formData }));
+      dispatch(updateOrderCartItem({ id: item.id, data: formData }));
     } else {
       // Create
-      formData.append("order", order?.id.toString() || "");
-      dispatch(createOrderItem(formData));
+      dispatch(createOrderCartItem(formData));
     }
   };
 
   // Delete Modal
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
-  const onDelete = (data: OrderItem) => {
+  const onDelete = (data: OrderCartItem) => {
     setItem(data);
     setDeleteModal(true);
   };
 
   const handleDelete = () => {
-    if (item) dispatch(deleteOrderItem(item.id));
+    if (item) dispatch(deleteOrderCartItem(item.id));
     setDeleteModal(false);
   };
 
-  if (!order || status.loading) return null;
+  if (!items) {
+    if (status.loading) return <h1 className="text-center mt-5">Loading...</h1>;
+    return <h1>Not found</h1>;
+  }
 
   return (
     <React.Fragment>
@@ -85,7 +83,7 @@ const ProductContainer = () => {
                 </thead>
 
                 <tbody>
-                  {order.items.map((item) => (
+                  {items.map((item) => (
                     <tr key={item.id}>
                       <td>
                         <h5 className="font-size-14 text-truncate">
@@ -97,47 +95,43 @@ const ProductContainer = () => {
                       <td>{item.price} AZN</td>
                       <td>{item.quantity}</td>
                       <td>{Number(item.price) * Number(item.quantity)} AZN</td>
-                      {hasPermissionByStatus(user, order.status) && (
-                        <td>
-                          <div className="d-flex gap-3">
-                            {onUpdate && (
-                              <a
-                                role="button"
-                                className="action-icon text-success"
-                                onClick={() => onUpdate(item)}>
-                                <i className="mdi mdi-pencil font-size-18" />
-                              </a>
-                            )}
+                      <td>
+                        <div className="d-flex gap-3">
+                          {onUpdate && (
+                            <a
+                              role="button"
+                              className="action-icon text-success"
+                              onClick={() => onUpdate(item)}>
+                              <i className="mdi mdi-pencil font-size-18" />
+                            </a>
+                          )}
 
-                            {onDelete && (
-                              <a
-                                role="button"
-                                className="action-icon text-danger"
-                                onClick={() => onDelete(item)}>
-                                <i className="mdi mdi-trash-can font-size-18" />
-                              </a>
-                            )}
-                          </div>
-                        </td>
-                      )}
+                          {onDelete && (
+                            <a
+                              role="button"
+                              className="action-icon text-danger"
+                              onClick={() => onDelete(item)}>
+                              <i className="mdi mdi-trash-can font-size-18" />
+                            </a>
+                          )}
+                        </div>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </Table>
             </div>
 
-            {hasPermissionByStatus(user, order.status) && (
-              <Row className="mt-4">
-                <Col sm="6">
-                  <div className="text-sm-end mt-2 mt-sm-0">
-                    <Button color="primary" className="mb-2 me-2" onClick={onCreate}>
-                      <i className={`mdi mdi-plus-circle-outline me-1`} />
-                      Əlavə et
-                    </Button>
-                  </div>
-                </Col>
-              </Row>
-            )}
+            <Row className="mt-4">
+              <Col sm="6">
+                <div className="text-sm-end mt-2 mt-sm-0">
+                  <Button color="primary" className="mb-2 me-2" onClick={onCreate}>
+                    <i className={`mdi mdi-plus-circle-outline me-1`} />
+                    Əlavə et
+                  </Button>
+                </div>
+              </Col>
+            </Row>
           </CardBody>
         </Card>
       </Col>
@@ -159,7 +153,7 @@ const ProductContainer = () => {
           status={status}
           show={deleteModal}
           onVerify={handleDelete}
-          action={deleteOrderItem.typePrefix}
+          action={deleteOrderCartItem.typePrefix}
           onClose={() => setDeleteModal(false)}
           message="Seçilmiş məhsulu silmək istədiyinizə əminsiniz?"
         />

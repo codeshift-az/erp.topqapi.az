@@ -26,8 +26,8 @@ export type Order = DefaultModel & {
 };
 
 export type OrderCartItem = DefaultModel & {
-  product: Supplier;
-  supplier: Product;
+  product: Product;
+  supplier: Supplier;
   quantity: number;
   price: number;
 };

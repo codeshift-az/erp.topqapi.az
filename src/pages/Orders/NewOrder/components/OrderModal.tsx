@@ -34,18 +34,17 @@ import { getOptions, getSelectStyle } from "@/helpers";
 import { Option } from "@/types/option";
 
 // Actions
-import { getBranches, getSellers, updateOrder } from "@/store/actions";
+import { getBranches, getSellers, createOrder } from "@/store/actions";
 import { USER_TYPES } from "@/constants";
 
 interface Props {
-  data: any;
   show: boolean;
   toggle: () => void;
   handleSubmit: (formData: any) => void;
 }
 
-const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
-  const title = "Sifariş məlumatlarını redaktə et";
+const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
+  const title = "Sifariş məlumatlarını daxil et";
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -59,14 +58,14 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
     enableReinitialize: true,
 
     initialValues: {
-      branch: (data && data.branch && data.branch.id) || "",
-      seller: (data && data.seller && data.seller.id) || "",
-      customer: (data && data.customer) || "",
-      phone: (data && data.phone) || "",
-      address: (data && data.address) || "",
-      note: (data && data.note) || "",
-      discount: (data && data.discount) || 0,
-      date: (data && data.date) || new Date().toISOString().split("T")[0],
+      branch: (user && user.type === USER_TYPES.STORE && user.branch.id) || "",
+      seller: "",
+      customer: "",
+      phone: "",
+      address: "",
+      note: "",
+      discount: 0,
+      date: new Date().toISOString().split("T")[0],
     },
 
     validationSchema: Yup.object({
@@ -84,31 +83,28 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       const formData = new FormData();
 
       // Branch
-      if (!data || values["branch"] !== data["branch"]) formData.append("branch", values["branch"]);
+      formData.append("branch", values["branch"].toString());
 
       // Seller
-      if (!data || values["seller"] !== data["seller"]) formData.append("seller", values["seller"]);
+      formData.append("seller", values["seller"]);
 
       // Customer
-      if (!data || values["customer"] !== data["customer"])
-        formData.append("customer", values["customer"]);
+      formData.append("customer", values["customer"]);
 
       // Phone
-      if (!data || values["phone"] !== data["phone"]) formData.append("phone", values["phone"]);
+      formData.append("phone", values["phone"]);
 
       // Address
-      if (!data || values["address"] !== data["address"])
-        formData.append("address", values["address"]);
+      formData.append("address", values["address"]);
 
       // Note
-      if (!data || values["note"] !== data["note"]) formData.append("note", values["note"]);
+      formData.append("note", values["note"]);
 
       // Discount
-      if (!data || values["discount"] !== data["discount"])
-        formData.append("discount", values["discount"]);
+      formData.append("discount", values["discount"].toString());
 
       // Date
-      if (!data || values["date"] !== data["date"]) formData.append("date", values["date"]);
+      formData.append("date", values["date"]);
 
       handleSubmit(formData);
     },
@@ -129,8 +125,10 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
   }, [branches]);
 
   useEffect(() => {
-    if (data && data.branch) setBranchName(data.branch.name);
-  }, [data]);
+    if (user && user.type === USER_TYPES.STORE) {
+      setBranchName(user.branch.name);
+    }
+  }, [user]);
 
   // Seller Options
   const { items: sellers } = useSelector((state: RootState) => state.seller);
@@ -139,16 +137,12 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
   const [sellerOptions, setSellerOptions] = useState<Option[]>([]);
 
   useEffect(() => {
-    dispatch(getSellers({ name: sellerName, branch: validation.values.branch }));
+    dispatch(getSellers({ name: sellerName, branch: validation.values.branch.toString() }));
   }, [sellerName, validation.values.branch]);
 
   useEffect(() => {
     setSellerOptions(getOptions(sellers));
   }, [sellers]);
-
-  useEffect(() => {
-    if (data && data.seller) setBranchName(data.seller.name);
-  }, [data]);
 
   useEffect(() => {
     validation.values.seller = "";
@@ -157,7 +151,7 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
   // Success
   useEffect(() => {
     if (show && status) {
-      if (status.lastAction === updateOrder.typePrefix && status.success) {
+      if (status.lastAction === createOrder.typePrefix && status.success) {
         validation.resetForm();
         toggle();
       }

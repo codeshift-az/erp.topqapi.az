@@ -142,7 +142,7 @@ const TableContainer = () => {
               data={items || []}
               columns={columns}
               controls={
-                <Link to="/warehouse/entries/new" className="btn btn-primary mb-2 me-2">
+                <Link to="/orders/new" className="btn btn-primary mb-2 me-2">
                   <i className={`mdi mdi-plus-circle-outline me-1`} />
                   Əlavə et
                 </Link>

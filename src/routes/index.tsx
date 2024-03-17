@@ -30,6 +30,13 @@ const protectedRoutes = [
   {
     path: "/orders/all",
     component: <Pages.AllOrders />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
+
+  // New Order
+  {
+    path: "/orders/new",
+    component: <Pages.NewOrder />,
     types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
   },
 

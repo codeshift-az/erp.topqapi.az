@@ -66,10 +66,14 @@ const OrderDetails = () => {
             ]}
           />
 
-          <Row>
-            <ProductContainer />
-            <EntryContainer />
-          </Row>
+          {status.loading && <h1 className="text-center mt-5">Yüklənir...</h1>}
+
+          {order && status.success && (
+            <Row>
+              <ProductContainer />
+              <EntryContainer />
+            </Row>
+          )}
         </Container>
       </div>
     </React.Fragment>

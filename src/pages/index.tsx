@@ -21,6 +21,7 @@ import WarehouseProducts from "./Warehouse/Products";
 // Orders
 import MyOrders from "./Orders/MyOrders";
 import AllOrders from "./Orders/AllOrders";
+import NewOrder from "./Orders/NewOrder";
 import OrderDetails from "./Orders/OrderDetails";
 
 export {
@@ -43,5 +44,6 @@ export {
   WarehouseProducts,
   MyOrders,
   AllOrders,
+  NewOrder,
   OrderDetails,
 };
