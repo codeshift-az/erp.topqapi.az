@@ -41,6 +41,7 @@ import orderCartReducer from "./order/cart/slice";
 
 // Factory
 import factoryProductReducer from "./factory/product/slice";
+import factoryStorageReducer from "./factory/storage/slice";
 
 const rootReducer = combineReducers({
   account: accountReducer,
@@ -72,6 +73,7 @@ const rootReducer = combineReducers({
   orderCart: orderCartReducer,
 
   factoryProduct: factoryProductReducer,
+  factoryStorage: factoryStorageReducer,
 });
 
 export default rootReducer;
