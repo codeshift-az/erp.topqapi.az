@@ -10,62 +10,32 @@ const protectedRoutes = [
   // Dashboard
   { path: "/dashboard", component: <Pages.Dashboard />, types: [USER_TYPES.STORE] },
 
+  // ------------------------------ //
+
   // Branches
   { path: "/branches", component: <Pages.Branches />, types: [USER_TYPES.WAREHOUSE] },
+
+  // ------------------------------ //
 
   // Catalog
   { path: "/catalog", component: <Pages.Catalog />, types: [USER_TYPES.WAREHOUSE] },
 
+  // ------------------------------ //
+
   // Categories
   { path: "/categories", component: <Pages.Categories />, types: [USER_TYPES.WAREHOUSE] },
 
-  // My Orders
-  {
-    path: "/orders",
-    component: <Pages.MyOrders />,
-    types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
-  },
-
-  // All Orders
-  {
-    path: "/orders/all",
-    component: <Pages.AllOrders />,
-    types: [USER_TYPES.WAREHOUSE],
-  },
-
-  // New Order
-  {
-    path: "/orders/new",
-    component: <Pages.NewOrder />,
-    types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
-  },
-
-  // Order Detail
-  {
-    path: "/orders/:id",
-    component: <Pages.OrderDetails />,
-    types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
-  },
-
-  // // Order Invoice
-  // {
-  //   path: "/orders/:id/invoice",
-  //   component: <Pages.OrderInvoice />,
-  //   types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
-  // },
-
-  // // Order Items
-  // {
-  //   path: "/orders/items",
-  //   component: <Pages.OrderItems />,
-  //   types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
-  // },
+  // ------------------------------ //
 
   // Expenses
   { path: "/expenses", component: <Pages.Expenses />, types: [USER_TYPES.WAREHOUSE] },
 
+  // ------------------------------ //
+
   // Products
   { path: "/products", component: <Pages.Products />, types: [USER_TYPES.WAREHOUSE] },
+
+  // ------------------------------ //
 
   // Staff
   {
@@ -83,8 +53,12 @@ const protectedRoutes = [
   // Staff Workers
   { path: "/staff/workers", component: <Pages.Workers />, types: [USER_TYPES.WAREHOUSE] },
 
+  // ------------------------------ //
+
   // Suppliers
   { path: "/suppliers", component: <Pages.Suppliers />, types: [USER_TYPES.WAREHOUSE] },
+
+  // ------------------------------ //
 
   // Warehouse
   {
@@ -132,6 +106,59 @@ const protectedRoutes = [
   {
     path: "/warehouse/products",
     component: <Pages.WarehouseProducts />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
+
+  // ------------------------------ //
+
+  // My Orders
+  {
+    path: "/orders",
+    component: <Pages.MyOrders />,
+    types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
+  },
+
+  // All Orders
+  {
+    path: "/orders/all",
+    component: <Pages.AllOrders />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
+
+  // New Order
+  {
+    path: "/orders/new",
+    component: <Pages.NewOrder />,
+    types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
+  },
+
+  // Order Detail
+  {
+    path: "/orders/:id",
+    component: <Pages.OrderDetails />,
+    types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
+  },
+
+  // // Order Invoice
+  // {
+  //   path: "/orders/:id/invoice",
+  //   component: <Pages.OrderInvoice />,
+  //   types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
+  // },
+
+  // // Order Items
+  // {
+  //   path: "/orders/items",
+  //   component: <Pages.OrderItems />,
+  //   types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
+  // },
+
+  // ------------------------------ //
+
+  // Factory Products
+  {
+    path: "/factory/products",
+    component: <Pages.FactoryProducts />,
     types: [USER_TYPES.WAREHOUSE],
   },
 

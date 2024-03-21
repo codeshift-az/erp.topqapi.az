@@ -113,6 +113,22 @@ const menuItems: IMenuItem[] = [
     ],
   },
   {
+    id: "factory",
+    label: "İstehsalat",
+    icon: "bx bx-store",
+    link: "/factory",
+    types: [USER_TYPES.WAREHOUSE],
+    subItems: [
+      {
+        id: "factory-products",
+        label: "Məhsullar",
+        link: "/factory/products",
+        parentId: "factory",
+        types: [USER_TYPES.WAREHOUSE],
+      },
+    ],
+  },
+  {
     id: "branches",
     label: "Filiallar",
     icon: "bx bx-building",

@@ -27,6 +27,9 @@ import OrderDetails from "./Orders/OrderDetails";
 // import OrderInvoice from "./Orders/EntryInvoice";
 // import OrderItems from "./Orders/OrderItems";
 
+// Factory
+import FactoryProducts from "./Factory/Products";
+
 export {
   Login,
   Logout,
@@ -52,4 +55,5 @@ export {
   OrderDetails,
   // OrderInvoice,
   // OrderItems,
+  FactoryProducts,
 };
