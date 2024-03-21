@@ -17,3 +17,15 @@ export const getWarehouseItems = createAsyncThunk(
     }
   }
 );
+
+export const getWarehouseItemStats = createAsyncThunk(
+  "warehouse/item/stats/get",
+  async (filter: WarehouseItemFilter, thunkAPI) => {
+    try {
+      const response = await API.getWarehouseItemStats(filter);
+      return response;
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
+    }
+  }
+);

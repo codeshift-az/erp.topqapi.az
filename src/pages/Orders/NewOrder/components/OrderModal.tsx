@@ -27,6 +27,9 @@ import Select from "react-select";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
+// Constants
+import { USER_TYPES } from "@/constants";
+
 // Helpers
 import { getOptions, getSelectStyle } from "@/helpers";
 
@@ -35,7 +38,6 @@ import { Option } from "@/types/option";
 
 // Actions
 import { getBranches, getSellers, createOrder } from "@/store/actions";
-import { USER_TYPES } from "@/constants";
 
 interface Props {
   show: boolean;
@@ -65,7 +67,7 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
       address: "",
       note: "",
       discount: 0,
-      date: new Date().toISOString().split("T")[0],
+      sale_date: new Date().toISOString().split("T")[0],
     },
 
     validationSchema: Yup.object({
@@ -76,7 +78,7 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
       address: Yup.string().required("Zəhmət olmasa ünvan daxil edin!"),
       note: Yup.string(),
       discount: Yup.number(),
-      date: Yup.string().required("Zəhmət olmasa tarix daxil edin!"),
+      sale_date: Yup.string().required("Zəhmət olmasa tarix daxil edin!"),
     }),
 
     onSubmit: (values) => {
@@ -104,7 +106,7 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
       formData.append("discount", values["discount"].toString());
 
       // Date
-      formData.append("date", values["date"]);
+      formData.append("sale_date", values["sale_date"]);
 
       handleSubmit(formData);
     },
@@ -360,22 +362,22 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
           </Row>
 
           <Row>
-            {/* Date */}
+            {/* Sale Date */}
             <Col className="col-12 mb-3">
               <Label>Tarix</Label>
 
               <Input
-                name="date"
+                name="sale_date"
                 type="date"
-                placeholder="Tarix daxil edin"
+                placeholder="Satış tarixi daxil edin"
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
-                value={validation.values.date}
-                invalid={validation.touched.date && validation.errors.date ? true : false}
+                value={validation.values.sale_date}
+                invalid={validation.touched.sale_date && validation.errors.sale_date ? true : false}
               />
 
-              {validation.touched.date && validation.errors.date ? (
-                <FormFeedback type="invalid">{validation.errors.date.toString()}</FormFeedback>
+              {validation.touched.sale_date && validation.errors.sale_date ? (
+                <FormFeedback type="invalid">{validation.errors.sale_date.toString()}</FormFeedback>
               ) : null}
             </Col>
           </Row>

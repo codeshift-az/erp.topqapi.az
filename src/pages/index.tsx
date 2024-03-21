@@ -16,13 +16,16 @@ import WarehouseEntries from "./Warehouse/Entries";
 import WarehouseNewEntry from "./Warehouse/NewEntry";
 import WarehouseEntryDetails from "./Warehouse/EntryDetails";
 import WarehouseEntryInvoice from "./Warehouse/EntryInvoice";
-import WarehouseItems from "./Warehouse/Products";
+import WarehouseItems from "./Warehouse/Items";
+import WarehouseProducts from "./Warehouse/Products";
 
 // Orders
 import MyOrders from "./Orders/MyOrders";
 import AllOrders from "./Orders/AllOrders";
 import NewOrder from "./Orders/NewOrder";
 import OrderDetails from "./Orders/OrderDetails";
+// import OrderInvoice from "./Orders/EntryInvoice";
+// import OrderItems from "./Orders/OrderItems";
 
 export {
   Login,
@@ -42,8 +45,11 @@ export {
   WarehouseEntryDetails,
   WarehouseEntryInvoice,
   WarehouseItems,
+  WarehouseProducts,
   MyOrders,
   AllOrders,
   NewOrder,
   OrderDetails,
+  // OrderInvoice,
+  // OrderItems,
 };

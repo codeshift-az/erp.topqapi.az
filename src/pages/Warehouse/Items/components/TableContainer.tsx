@@ -17,10 +17,10 @@ import * as Filters from "@/components/DataTable/Filters";
 import { usePagination, useSorting, useColumnFiltering } from "@/components/DataTable/Hooks";
 
 // Types
-import { WarehouseItemStats } from "@/types/models";
+import { WarehouseItem } from "@/types/models";
 
 // Actions
-import { getWarehouseItemStats } from "@/store/actions";
+import { getWarehouseItems } from "@/store/actions";
 
 const TableContainer = () => {
   // Pagination
@@ -34,12 +34,10 @@ const TableContainer = () => {
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, stats, status, statsCount } = useSelector(
-    (state: RootState) => state.warehouseItem
-  );
+  const { update, items, status, count } = useSelector((state: RootState) => state.warehouseItem);
 
   const fetchItems = () => {
-    dispatch(getWarehouseItemStats({ ...filters, page, limit, ordering }));
+    dispatch(getWarehouseItems({ ...filters, page, limit, ordering }));
   };
 
   useEffect(() => {
@@ -51,7 +49,7 @@ const TableContainer = () => {
   }, [update]);
 
   // Columns
-  const columnHelper = createColumnHelper<WarehouseItemStats>();
+  const columnHelper = createColumnHelper<WarehouseItem>();
 
   const columns = [
     columnHelper.display({
@@ -64,31 +62,35 @@ const TableContainer = () => {
     columnHelper.accessor("product", {
       header: "Məhsul",
       cell: (cell) => {
-        return <Fields.TextField text={cell.row.original.name} length={255} />;
+        return <Fields.TextField text={cell.getValue().name} length={255} />;
       },
       meta: {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
       },
     }),
+    columnHelper.accessor("price", {
+      header: "Qiymət",
+      cell: (cell) => {
+        return <Fields.PriceField amount={cell.getValue()} />;
+      },
+    }),
     columnHelper.accessor("quantity", {
-      header: "Ümumi Giriş Miqdarı",
+      header: "Giriş Miqdarı",
       cell: (cell) => {
         return <Fields.NumberField value={cell.getValue()} />;
       },
     }),
     columnHelper.accessor("sale_count", {
-      header: "Ümumi Satış Miqdarı",
+      header: "Satış Miqdarı",
       cell: (cell) => {
         return <Fields.NumberField value={cell.getValue()} />;
       },
     }),
     columnHelper.display({
-      header: "Qalıq Miqdar",
+      header: "Cəm",
       enableSorting: false,
       cell: (cell) => {
-        return (
-          <Fields.NumberField value={cell.row.original.quantity - cell.row.original.sale_count} />
-        );
+        return <Fields.PriceField amount={cell.row.original.price * cell.row.original.quantity} />;
       },
     }),
   ];
@@ -99,13 +101,13 @@ const TableContainer = () => {
         <Card>
           <CardBody>
             <DataTable
-              data={stats || []}
+              data={items || []}
               columns={columns}
-              loading={status.loading && status.lastAction === getWarehouseItemStats.typePrefix}
+              loading={status.loading && status.lastAction === getWarehouseItems.typePrefix}
               // Pagination
               pagination={pagination}
               onPaginationChange={onPaginationChange}
-              pageCount={Math.ceil(statsCount / limit)}
+              pageCount={Math.ceil(count / limit)}
               // Sorting
               sorting={sorting}
               onSortingChange={onSortingChange}

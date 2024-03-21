@@ -26,7 +26,12 @@ export type { Expense } from "./expense";
 export type { ProductRecord } from "./catalog";
 
 // Warehouse Models
-export type { WarehouseEntry, WarehouseItem, WarehouseCartItem } from "./warehouse";
+export type {
+  WarehouseEntry,
+  WarehouseItem,
+  WarehouseItemStats,
+  WarehouseCartItem,
+} from "./warehouse";
 
 // Order Models
 export type { Order, OrderItem, OrderCartItem } from "./order";

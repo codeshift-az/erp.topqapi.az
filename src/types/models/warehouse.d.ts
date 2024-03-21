@@ -7,6 +7,14 @@ export type WarehouseItem = DefaultModel & {
   product: Product;
   quantity: number;
   price: number;
+  sale_count: number;
+};
+
+export type WarehouseItemStats = {
+  product: number;
+  name: string;
+  quantity: number;
+  sale_count: number;
 };
 
 export type WarehouseEntry = DefaultModel & {

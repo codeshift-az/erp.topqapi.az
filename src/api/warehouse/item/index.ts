@@ -4,7 +4,7 @@ import axios from "@/api";
 import { getUrlWithFilter } from "@/helpers";
 
 // Types
-import { WarehouseItem } from "@/types/models";
+import { WarehouseItem, WarehouseItemStats } from "@/types/models";
 import { WarehouseItemFilter } from "@/types/filters";
 import { PaginationResult } from "@/types/result";
 
@@ -34,4 +34,11 @@ export const updateWarehouseItem = async (
 export const deleteWarehouseItem = async (id: number): Promise<number> => {
   await axios.delete(URL.WAREHOUSE_ITEM_DETAIL_URL(id));
   return id;
+};
+
+export const getWarehouseItemStats = async (
+  filter: WarehouseItemFilter
+): Promise<PaginationResult<WarehouseItemStats>> => {
+  const { data } = await axios.get(getUrlWithFilter(URL.WAREHOUSE_ITEM_STATS_LIST_URL, filter));
+  return data;
 };

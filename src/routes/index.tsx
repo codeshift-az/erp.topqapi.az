@@ -47,6 +47,20 @@ const protectedRoutes = [
     types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
   },
 
+  // // Order Invoice
+  // {
+  //   path: "/orders/:id/invoice",
+  //   component: <Pages.OrderInvoice />,
+  //   types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
+  // },
+
+  // // Order Items
+  // {
+  //   path: "/orders/items",
+  //   component: <Pages.OrderItems />,
+  //   types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
+  // },
+
   // Expenses
   { path: "/expenses", component: <Pages.Expenses />, types: [USER_TYPES.WAREHOUSE] },
 
@@ -107,10 +121,17 @@ const protectedRoutes = [
     types: [USER_TYPES.WAREHOUSE],
   },
 
-  // Warehouse Products
+  // Warehouse Items
   {
     path: "/warehouse/items",
     component: <Pages.WarehouseItems />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
+
+  // Warehouse Products
+  {
+    path: "/warehouse/products",
+    component: <Pages.WarehouseProducts />,
     types: [USER_TYPES.WAREHOUSE],
   },
 
