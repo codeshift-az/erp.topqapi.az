@@ -162,6 +162,15 @@ const protectedRoutes = [
     types: [USER_TYPES.WAREHOUSE],
   },
 
+  // Factory Storage
+  {
+    path: "/factory/storage",
+    component: <Pages.FactoryStorage />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
+
+  // ------------------------------ //
+
   // Default Redirect
   {
     path: "/",

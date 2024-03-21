@@ -120,6 +120,13 @@ const menuItems: IMenuItem[] = [
     types: [USER_TYPES.WAREHOUSE],
     subItems: [
       {
+        id: "factory-storage",
+        label: "Anbar",
+        link: "/factory/storage",
+        parentId: "factory",
+        types: [USER_TYPES.WAREHOUSE],
+      },
+      {
         id: "factory-products",
         label: "Məhsullar",
         link: "/factory/products",
