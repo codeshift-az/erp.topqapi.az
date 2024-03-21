@@ -125,8 +125,8 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <td>Tarix: </td>
-                    <td>{order.date}</td>
+                    <td>Satış Tarixi: </td>
+                    <td>{order.sale_date}</td>
                   </tr>
 
                   <tr>
@@ -142,6 +142,11 @@ const OrderContainer = () => {
                   <tr>
                     <th>Toplam :</th>
                     <th>{priceSum - order.discount} AZN</th>
+                  </tr>
+
+                  <tr>
+                    <td>Satıcı Payı: </td>
+                    <td>{order.seller_share} AZN</td>
                   </tr>
 
                   <tr>

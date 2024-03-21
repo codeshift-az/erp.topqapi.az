@@ -14,15 +14,21 @@ export type OrderItem = DefaultModel & {
 
 export type Order = DefaultModel & {
   items: OrderItem[];
+
   branch: Branch;
   seller: Seller;
+
   customer: string;
   phone: string;
   address: string;
-  discount: number;
+
   note: string;
+
+  discount: number;
+  seller_share: number;
+  sale_date: string;
+
   status: number;
-  date: string;
 };
 
 export type OrderCartItem = DefaultModel & {

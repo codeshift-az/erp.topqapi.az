@@ -64,9 +64,10 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       customer: (data && data.customer) || "",
       phone: (data && data.phone) || "",
       address: (data && data.address) || "",
-      note: (data && data.note) || "",
       discount: (data && data.discount) || 0,
-      date: (data && data.date) || new Date().toISOString().split("T")[0],
+      seller_share: (data && data.seller_share) || 0,
+      note: (data && data.note) || "",
+      sale_date: (data && data.sale_date) || new Date().toISOString().split("T")[0],
     },
 
     validationSchema: Yup.object({
@@ -75,9 +76,10 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       customer: Yup.string().required("Zəhmət olmasa müştəri adı daxil edin!"),
       phone: Yup.string().required("Zəhmət olmasa telefon nömrəsi daxil edin!"),
       address: Yup.string().required("Zəhmət olmasa ünvan daxil edin!"),
-      note: Yup.string(),
       discount: Yup.number(),
-      date: Yup.string().required("Zəhmət olmasa tarix daxil edin!"),
+      seller_share: Yup.number(),
+      note: Yup.string(),
+      sale_date: Yup.string().required("Zəhmət olmasa satış tarixi daxil edin!"),
     }),
 
     onSubmit: (values) => {
@@ -100,15 +102,20 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       if (!data || values["address"] !== data["address"])
         formData.append("address", values["address"]);
 
-      // Note
-      if (!data || values["note"] !== data["note"]) formData.append("note", values["note"]);
-
       // Discount
       if (!data || values["discount"] !== data["discount"])
         formData.append("discount", values["discount"]);
 
+      // Seller Share
+      if (!data || values["seller_share"] !== data["seller_share"])
+        formData.append("seller_share", values["seller_share"]);
+
+      // Note
+      if (!data || values["note"] !== data["note"]) formData.append("note", values["note"]);
+
       // Date
-      if (!data || values["date"] !== data["date"]) formData.append("date", values["date"]);
+      if (!data || values["sale_date"] !== data["sale_date"])
+        formData.append("sale_date", values["sale_date"]);
 
       handleSubmit(formData);
     },
@@ -345,6 +352,31 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
           </Row>
 
           <Row>
+            {/* Seller Share */}
+            <Col className="col-12 mb-3">
+              <Label>Satıcı Payı</Label>
+
+              <Input
+                type="number"
+                name="seller_share"
+                placeholder="Satıcı Payı daxil edin"
+                onBlur={validation.handleBlur}
+                onChange={validation.handleChange}
+                value={validation.values.seller_share}
+                invalid={
+                  validation.touched.seller_share && validation.errors.seller_share ? true : false
+                }
+              />
+
+              {validation.touched.seller_share && validation.errors.seller_share ? (
+                <FormFeedback type="invalid">
+                  {validation.errors.seller_share.toString()}
+                </FormFeedback>
+              ) : null}
+            </Col>
+          </Row>
+
+          <Row>
             {/* Note */}
             <Col className="col-12 mb-3">
               <Label>Qeyd</Label>
@@ -368,20 +400,20 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
           <Row>
             {/* Date */}
             <Col className="col-12 mb-3">
-              <Label>Tarix</Label>
+              <Label>Satış Tarixi</Label>
 
               <Input
-                name="date"
+                name="sale_date"
                 type="date"
                 placeholder="Tarix daxil edin"
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
-                value={validation.values.date}
-                invalid={validation.touched.date && validation.errors.date ? true : false}
+                value={validation.values.sale_date}
+                invalid={validation.touched.sale_date && validation.errors.sale_date ? true : false}
               />
 
-              {validation.touched.date && validation.errors.date ? (
-                <FormFeedback type="invalid">{validation.errors.date.toString()}</FormFeedback>
+              {validation.touched.sale_date && validation.errors.sale_date ? (
+                <FormFeedback type="invalid">{validation.errors.sale_date.toString()}</FormFeedback>
               ) : null}
             </Col>
           </Row>

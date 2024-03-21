@@ -65,8 +65,9 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
       customer: "",
       phone: "",
       address: "",
-      note: "",
       discount: 0,
+      seller_share: 0,
+      note: "",
       sale_date: new Date().toISOString().split("T")[0],
     },
 
@@ -76,8 +77,9 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
       customer: Yup.string().required("Zəhmət olmasa müştəri adı daxil edin!"),
       phone: Yup.string().required("Zəhmət olmasa telefon nömrəsi daxil edin!"),
       address: Yup.string().required("Zəhmət olmasa ünvan daxil edin!"),
-      note: Yup.string(),
       discount: Yup.number(),
+      seller_share: Yup.number(),
+      note: Yup.string(),
       sale_date: Yup.string().required("Zəhmət olmasa tarix daxil edin!"),
     }),
 
@@ -104,6 +106,9 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
 
       // Discount
       formData.append("discount", values["discount"].toString());
+
+      // Seller Share
+      formData.append("seller_share", values["seller_share"].toString());
 
       // Date
       formData.append("sale_date", values["sale_date"]);
@@ -336,6 +341,31 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
 
               {validation.touched.discount && validation.errors.discount ? (
                 <FormFeedback type="invalid">{validation.errors.discount.toString()}</FormFeedback>
+              ) : null}
+            </Col>
+          </Row>
+
+          <Row>
+            {/* Seller Share */}
+            <Col className="col-12 mb-3">
+              <Label>Satıcı payı</Label>
+
+              <Input
+                type="number"
+                name="seller_share"
+                placeholder="Satıcı payı daxil edin"
+                onBlur={validation.handleBlur}
+                onChange={validation.handleChange}
+                value={validation.values.seller_share}
+                invalid={
+                  validation.touched.seller_share && validation.errors.seller_share ? true : false
+                }
+              />
+
+              {validation.touched.seller_share && validation.errors.seller_share ? (
+                <FormFeedback type="invalid">
+                  {validation.errors.seller_share.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>

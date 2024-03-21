@@ -86,22 +86,12 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <td>Qeyd: </td>
-                    <td></td>
-                  </tr>
-
-                  <tr>
                     <th>Status :</th>
                     <th></th>
                   </tr>
 
                   <tr>
-                    <td>Tarix: </td>
-                    <td></td>
-                  </tr>
-
-                  <tr>
-                    <td>Endirim: </td>
+                    <td>Satış Tarixi: </td>
                     <td></td>
                   </tr>
 
@@ -111,8 +101,23 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
+                    <td>Endirim: </td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
                     <th>Toplam :</th>
                     <th>{priceSum} AZN</th>
+                  </tr>
+
+                  <tr>
+                    <td>Satıcı Payı: </td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Qeyd: </td>
+                    <td></td>
                   </tr>
 
                   <tr>
