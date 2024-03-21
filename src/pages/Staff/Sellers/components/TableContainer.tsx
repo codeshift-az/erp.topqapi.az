@@ -89,6 +89,18 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
         return <Fields.PriceField amount={cell.getValue()} currency="AZN" />;
       },
     }),
+    columnHelper.accessor("total_orders", {
+      header: "Ümumi Satış sayı",
+      cell: (cell) => {
+        return <Fields.NumberField value={cell.getValue()} />;
+      },
+    }),
+    columnHelper.accessor("total_share", {
+      header: "Ümumi Satış payı",
+      cell: (cell) => {
+        return <Fields.PriceField amount={cell.getValue()} currency="AZN" />;
+      },
+    }),
     columnHelper.display({
       header: "Əməliyyatlar",
       enableSorting: false,

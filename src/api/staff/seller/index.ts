@@ -15,6 +15,7 @@ export const getSellers = async (filter: SellerFilter): Promise<PaginationResult
   const { data } = await axios.get(getUrlWithFilter(URL.SELLER_LIST_URL, filter));
   return data;
 };
+
 export const createSeller = async (formData: FormData): Promise<Seller> => {
   const { data } = await axios.post(URL.SELLER_LIST_URL, formData);
   return data;
