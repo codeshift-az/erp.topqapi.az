@@ -30,3 +30,6 @@ export type { WarehouseItemFilter, WarehouseEntryFilter } from "./warehouse";
 
 // Order Filter Type
 export type { OrderItemFilter, OrderFilter } from "./order";
+
+// Factory Filter Type
+export type { FactoryProductFilter } from "./factory";

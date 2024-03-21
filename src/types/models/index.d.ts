@@ -35,3 +35,6 @@ export type {
 
 // Order Models
 export type { Order, OrderItem, OrderCartItem } from "./order";
+
+// Factory Models
+export type { FactoryProduct } from "./factory";

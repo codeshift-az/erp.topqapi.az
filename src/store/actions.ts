@@ -36,3 +36,6 @@ export * from "./warehouse/cart/actions";
 export * from "./order/actions";
 export * from "./order/item/actions";
 export * from "./order/cart/actions";
+
+// Factory actions
+export * from "./factory/product/actions";
