@@ -4,6 +4,7 @@ import { Branch } from "./branch";
 
 export type Driver = DefaultModel & {
   name: string;
+  total_orders: number;
 };
 
 export type Seller = DefaultModel & {
