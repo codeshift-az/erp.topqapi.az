@@ -16,4 +16,5 @@ export type Seller = DefaultModel & {
 
 export type Worker = DefaultModel & {
   name: string;
+  total_orders: number;
 };

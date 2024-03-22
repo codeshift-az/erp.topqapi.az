@@ -74,6 +74,12 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
       },
     }),
+    columnHelper.accessor("total_orders", {
+      header: "Ümumi Sifarişlər",
+      cell: (cell) => {
+        return <Fields.NumberField value={cell.getValue()} />;
+      },
+    }),
     columnHelper.display({
       header: "Əməliyyatlar",
       enableSorting: false,
