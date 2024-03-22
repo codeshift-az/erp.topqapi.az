@@ -139,12 +139,12 @@ const protectedRoutes = [
     types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
   },
 
-  // // Order Invoice
-  // {
-  //   path: "/orders/:id/invoice",
-  //   component: <Pages.OrderInvoice />,
-  //   types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
-  // },
+  // Order Invoice
+  {
+    path: "/orders/:id/invoice",
+    component: <Pages.OrderInvoice />,
+    types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
+  },
 
   // // Order Items
   // {
