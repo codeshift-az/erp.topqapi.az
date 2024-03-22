@@ -46,7 +46,7 @@ interface Props {
 }
 
 const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
-  const title = "Sifariş məlumatlarını daxil et";
+  const title = "Satış məlumatlarını daxil et";
 
   const dispatch = useDispatch<AppDispatch>();
 

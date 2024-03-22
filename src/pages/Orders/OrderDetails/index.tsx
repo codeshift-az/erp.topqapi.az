@@ -44,7 +44,7 @@ const OrderDetails = () => {
     if (update) fetchEntry();
   }, [update]);
 
-  const title = `Sifariş #${order?.id || ""}`;
+  const title = `Satış #${order?.id || ""}`;
 
   document.title = getPageTitle(title);
 
@@ -61,7 +61,7 @@ const OrderDetails = () => {
             title={title}
             breadcrumbItems={[
               { title: "Ana Səhifə", url: "/" },
-              { title: "Sifarişlər", url: "/orders" },
+              { title: "Satışlar", url: "/orders" },
               { title: title },
             ]}
           />

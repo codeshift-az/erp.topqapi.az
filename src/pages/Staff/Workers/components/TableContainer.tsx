@@ -75,7 +75,7 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
       },
     }),
     columnHelper.accessor("total_orders", {
-      header: "Ümumi Sifarişlər",
+      header: "Ümumi Satış sayı",
       cell: (cell) => {
         return <Fields.NumberField value={cell.getValue()} />;
       },

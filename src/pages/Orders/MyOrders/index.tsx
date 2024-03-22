@@ -21,7 +21,7 @@ import { getPageTitle } from "@/helpers";
 import TableContainer from "./components/TableContainer";
 
 const MyOrders = () => {
-  const title = "Mənim Sifarişlərim";
+  const title = "Mənim Satışlarım";
 
   document.title = getPageTitle(title);
 
@@ -40,7 +40,7 @@ const MyOrders = () => {
             title={title}
             breadcrumbItems={[
               { title: "Ana Səhifə", url: "/" },
-              { title: "Sifarişlər", url: "/orders" },
+              { title: "Satışlar", url: "/orders" },
               { title: title },
             ]}
           />

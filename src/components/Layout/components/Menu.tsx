@@ -24,26 +24,33 @@ const menuItems: IMenuItem[] = [
   },
   {
     id: "orders",
-    label: "Sifarişlər",
+    label: "Satışlar",
     icon: "bx bx-cart",
     link: "/orders",
     types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
     subItems: [
       {
         id: "orders",
-        label: "Bütün Sifarişlər",
+        label: "Bütün Satışlar",
         link: "/orders/all",
         parentId: "orders",
         types: [USER_TYPES.WAREHOUSE],
       },
       {
         id: "orders-items",
-        label: "Sifariş məhsulları",
+        label: "Satılan məhsullar",
         link: "/orders/items",
         parentId: "orders",
         types: [USER_TYPES.WAREHOUSE],
       },
     ],
+  },
+  {
+    id: "catalog",
+    label: "Məhsul Kataloqu",
+    icon: "bx bx-list-ul",
+    link: "/catalog",
+    types: [USER_TYPES.WAREHOUSE],
   },
   {
     id: "warehouse",
@@ -74,13 +81,6 @@ const menuItems: IMenuItem[] = [
         types: [USER_TYPES.WAREHOUSE],
       },
     ],
-  },
-  {
-    id: "catalog",
-    label: "Məhsul Kataloqu",
-    icon: "bx bx-list-ul",
-    link: "/catalog",
-    types: [USER_TYPES.WAREHOUSE],
   },
   {
     id: "staff",

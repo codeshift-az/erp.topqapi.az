@@ -21,7 +21,7 @@ import ProductContainer from "./components/ProductContainer";
 import OrderContainer from "./components/OrderContainer";
 
 const NewOrder = () => {
-  const title = "Yeni Sifariş";
+  const title = "Yeni Satış";
 
   document.title = getPageTitle(title);
 
@@ -48,7 +48,7 @@ const NewOrder = () => {
             title={title}
             breadcrumbItems={[
               { title: "Ana Səhifə", url: "/" },
-              { title: "Sifarişlər", url: "/orders" },
+              { title: "Satışlar", url: "/orders" },
               { title: title },
             ]}
           />

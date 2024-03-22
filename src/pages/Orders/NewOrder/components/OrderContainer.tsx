@@ -56,7 +56,7 @@ const OrderContainer = () => {
               <Table className="table mb-0">
                 <tbody>
                   <tr>
-                    <td>Sifariş Qaimə kodu: </td>
+                    <td>Satış kodu: </td>
                     <td>#</td>
                   </tr>
 

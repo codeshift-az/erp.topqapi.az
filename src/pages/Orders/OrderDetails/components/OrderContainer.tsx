@@ -81,10 +81,10 @@ const OrderContainer = () => {
             <CardTitle className="mb-3">Giriş məlumatları</CardTitle>
 
             <div className="table-responsive">
-              <Table className="table mb-0">
+              <Table striped className="table mb-0">
                 <tbody>
                   <tr>
-                    <td>Sifariş Qaimə kodu: </td>
+                    <td>Satış kodu: </td>
                     <td>#{order.id}</td>
                   </tr>
 
@@ -220,7 +220,7 @@ const OrderContainer = () => {
                           className="mb-2 col-12"
                           onClick={() => handleStatusUpdate(ORDER_STATUS.REGISTERED)}>
                           <i className={`mdi mdi-check me-1`} />
-                          Sifariş tamamlandı
+                          Satış tamamlandı
                         </Button>
                       </th>
                     </tr>
@@ -235,7 +235,7 @@ const OrderContainer = () => {
                             className="mb-2 col-12"
                             onClick={() => handleStatusUpdate(ORDER_STATUS.ACCEPTED)}>
                             <i className={`mdi mdi-check me-1`} />
-                            Sifariş qəbul olundu
+                            Satış qəbul olundu
                           </Button>
                         </th>
                       </tr>
@@ -250,7 +250,7 @@ const OrderContainer = () => {
                             className="mb-2 col-12"
                             onClick={() => handleStatusUpdate(ORDER_STATUS.PENDING)}>
                             <i className={`mdi mdi-check me-1`} />
-                            Sifariş hazırlanır
+                            Məhsullar hazırlanır
                           </Button>
                         </th>
                       </tr>

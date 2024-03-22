@@ -64,7 +64,7 @@ const TableContainer = () => {
       },
     }),
     columnHelper.accessor("id", {
-      header: "Qaimə Kodu",
+      header: "Satış Kodu",
       cell: (cell) => {
         return <Fields.TextField text={`#${cell.getValue()}`} />;
       },
@@ -114,8 +114,8 @@ const TableContainer = () => {
         ),
       },
     }),
-    columnHelper.accessor("date", {
-      header: "Tarix",
+    columnHelper.accessor("sale_date", {
+      header: "Satış tarixi",
       cell: (cell) => {
         return <Fields.DateField value={cell.getValue()} />;
       },

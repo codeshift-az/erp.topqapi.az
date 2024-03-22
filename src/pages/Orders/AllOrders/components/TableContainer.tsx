@@ -64,7 +64,7 @@ const TableContainer = () => {
       },
     }),
     columnHelper.accessor("id", {
-      header: "Qaimə Kodu",
+      header: "Satış Kodu",
       cell: (cell) => {
         return <Fields.TextField text={`#${cell.getValue()}`} />;
       },
@@ -199,7 +199,7 @@ const TableContainer = () => {
               controls={
                 <Link to="/orders/new" className="btn btn-primary mb-2 me-2">
                   <i className={`mdi mdi-plus-circle-outline me-1`} />
-                  Əlavə et
+                  Yeni Satış
                 </Link>
               }
               loading={status.loading && status.lastAction === getOrders.typePrefix}
