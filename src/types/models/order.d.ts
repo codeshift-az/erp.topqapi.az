@@ -1,7 +1,7 @@
 import { DefaultModel } from "./default";
 
 import { Branch } from "./branch";
-import { Seller } from "./staff";
+import { Seller, Worker } from "./staff";
 import { Product } from "./product";
 import { Supplier } from "./supplier";
 
@@ -27,6 +27,9 @@ export type Order = DefaultModel & {
   discount: number;
   seller_share: number;
   sale_date: string;
+
+  worker: Worker;
+  install_date: string;
 
   status: number;
 };

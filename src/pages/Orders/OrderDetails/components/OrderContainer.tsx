@@ -89,16 +89,6 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <td>Filial: </td>
-                    <td>{order.branch.name}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Satıcı: </td>
-                    <td>{order.seller.name}</td>
-                  </tr>
-
-                  <tr>
                     <td>Müştəri adı: </td>
                     <td>{order.customer}</td>
                   </tr>
@@ -114,19 +104,33 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <th>Status :</th>
-                    <th>
-                      <a
-                        role="button"
-                        className={`badge badge-soft-${orderStatus.color} font-size-11 m-1`}>
-                        {orderStatus.label}
-                      </a>
-                    </th>
+                    <td>Filial: </td>
+                    <td>{order.branch.name}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Satıcı: </td>
+                    <td>{order.seller.name}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Satıcı Payı: </td>
+                    <td>{order.seller_share} AZN</td>
                   </tr>
 
                   <tr>
                     <td>Satış Tarixi: </td>
                     <td>{order.sale_date}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Usta: </td>
+                    <td>{order.worker?.name}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Quraşdırılma Tarixi: </td>
+                    <td>{order.install_date}</td>
                   </tr>
 
                   <tr>
@@ -145,13 +149,19 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <td>Satıcı Payı: </td>
-                    <td>{order.seller_share} AZN</td>
+                    <td>Qeyd: </td>
+                    <td>{order.note}</td>
                   </tr>
 
                   <tr>
-                    <td>Qeyd: </td>
-                    <td>{order.note}</td>
+                    <th>Status :</th>
+                    <th>
+                      <a
+                        role="button"
+                        className={`badge badge-soft-${orderStatus.color} font-size-11 m-1`}>
+                        {orderStatus.label}
+                      </a>
+                    </th>
                   </tr>
 
                   {hasPermissionByStatus(user, order.status) && (

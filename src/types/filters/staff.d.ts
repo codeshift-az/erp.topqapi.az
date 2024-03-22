@@ -12,4 +12,5 @@ export type SellerFilter = DefaultFilter & {
 
 export type WorkerFilter = DefaultFilter & {
   name?: string;
+  date?: string;
 };

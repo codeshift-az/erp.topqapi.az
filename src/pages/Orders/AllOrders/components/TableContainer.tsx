@@ -68,6 +68,26 @@ const TableContainer = () => {
       cell: (cell) => {
         return <Fields.TextField text={`#${cell.getValue()}`} />;
       },
+      meta: {
+        filterComponent: (column) => <Filters.TextFilter column={column} />,
+      },
+    }),
+    columnHelper.display({
+      header: "Yekun Məbləğ",
+      enableSorting: false,
+      cell: (cell) => {
+        const order = cell.row.original;
+        return (
+          <Fields.PriceField
+            amount={
+              order.items.reduce(
+                (a, b) => Number(a) + Number(b["price"] || 0) * Number(b["quantity"] || 0),
+                0
+              ) - order.discount
+            }
+          />
+        );
+      },
     }),
     columnHelper.accessor("customer", {
       header: "Müştəri",
@@ -105,6 +125,33 @@ const TableContainer = () => {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
       },
     }),
+    columnHelper.accessor("sale_date", {
+      header: "Satış Tarixi",
+      cell: (cell) => {
+        return <Fields.DateField value={cell.getValue()} />;
+      },
+      meta: {
+        filterComponent: (column) => <Filters.DateRangeFilter column={column} />,
+      },
+    }),
+    columnHelper.accessor("worker", {
+      header: "Usta",
+      cell: (cell) => {
+        return <Fields.TextField text={cell.getValue()?.name} />;
+      },
+      meta: {
+        filterComponent: (column) => <Filters.TextFilter column={column} />,
+      },
+    }),
+    columnHelper.accessor("install_date", {
+      header: "Quraşdırılma Tarixi",
+      cell: (cell) => {
+        return <Fields.DateField value={cell.getValue()} />;
+      },
+      meta: {
+        filterComponent: (column) => <Filters.DateRangeFilter column={column} />,
+      },
+    }),
     columnHelper.accessor("status", {
       header: "status",
       cell: (cell) => {
@@ -121,15 +168,6 @@ const TableContainer = () => {
             }))}
           />
         ),
-      },
-    }),
-    columnHelper.accessor("date", {
-      header: "Tarix",
-      cell: (cell) => {
-        return <Fields.DateField value={cell.getValue()} />;
-      },
-      meta: {
-        filterComponent: (column) => <Filters.DateRangeFilter column={column} />,
       },
     }),
     columnHelper.display({

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -27,15 +27,17 @@ import Select from "react-select";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
+// Constants
+import { ORDER_STATUS, USER_TYPES } from "@/constants";
+
 // Helpers
-import { getOptions, getSelectStyle } from "@/helpers";
+import { getOptions, getSelectStyle, hasPermission } from "@/helpers";
 
 // Types
 import { Option } from "@/types/option";
 
 // Actions
-import { getBranches, getSellers, updateOrder } from "@/store/actions";
-import { USER_TYPES } from "@/constants";
+import { getBranches, getSellers, getWorkers, updateOrder } from "@/store/actions";
 
 interface Props {
   data: any;
@@ -68,6 +70,8 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       seller_share: (data && data.seller_share) || 0,
       note: (data && data.note) || "",
       sale_date: (data && data.sale_date) || new Date().toISOString().split("T")[0],
+      worker: (data && data.worker && data.worker.id) || "",
+      install_date: (data && data.install_date) || "",
     },
 
     validationSchema: Yup.object({
@@ -80,6 +84,8 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       seller_share: Yup.number(),
       note: Yup.string(),
       sale_date: Yup.string().required("Zəhmət olmasa satış tarixi daxil edin!"),
+      worker: Yup.number(),
+      install_date: Yup.string(),
     }),
 
     onSubmit: (values) => {
@@ -113,9 +119,16 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       // Note
       if (!data || values["note"] !== data["note"]) formData.append("note", values["note"]);
 
-      // Date
+      // Sale Date
       if (!data || values["sale_date"] !== data["sale_date"])
         formData.append("sale_date", values["sale_date"]);
+
+      // Worker
+      if (!data || values["worker"] !== data["worker"]) formData.append("worker", values["worker"]);
+
+      // Install Date
+      if (!data || values["install_date"] !== data["install_date"])
+        formData.append("install_date", values["install_date"]);
 
       handleSubmit(formData);
     },
@@ -154,12 +167,34 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
   }, [sellers]);
 
   useEffect(() => {
-    if (data && data.seller) setBranchName(data.seller.name);
+    if (data && data.seller) setSellerName(data.seller.name);
   }, [data]);
 
   useEffect(() => {
     validation.values.seller = "";
   }, [validation.values.branch]);
+
+  // Worker Options
+  const { items: workers } = useSelector((state: RootState) => state.worker);
+
+  const [workerName, setWorkerName] = useState<string>("");
+  const [workerOptions, setWorkerOptions] = useState<Option[]>([]);
+
+  useEffect(() => {
+    dispatch(getWorkers({ name: workerName, date: validation.values.install_date }));
+  }, [workerName, validation.values.install_date]);
+
+  useEffect(() => {
+    setWorkerOptions(getOptions(workers));
+  }, [workers]);
+
+  useEffect(() => {
+    if (data && data.worker) setWorkerName(data.worker.name);
+  }, [data]);
+
+  useEffect(() => {
+    validation.values.worker = "";
+  }, [validation.values.install_date]);
 
   // Success
   useEffect(() => {
@@ -398,14 +433,14 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
           </Row>
 
           <Row>
-            {/* Date */}
+            {/* Sale Date */}
             <Col className="col-12 mb-3">
               <Label>Satış Tarixi</Label>
 
               <Input
                 name="sale_date"
                 type="date"
-                placeholder="Tarix daxil edin"
+                placeholder="Satış tarixi daxil edin"
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.sale_date}
@@ -417,6 +452,70 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
               ) : null}
             </Col>
           </Row>
+
+          {data.status >= ORDER_STATUS.ACCEPTED && hasPermission(user, [USER_TYPES.WAREHOUSE]) && (
+            <React.Fragment>
+              <Row>
+                {/* Worker */}
+                <Col className="col-12 mb-3">
+                  <Label>Usta</Label>
+
+                  <Select
+                    name="worker"
+                    options={workerOptions || []}
+                    isDisabled={!validation.values.install_date}
+                    onInputChange={(e) => setWorkerName(e)}
+                    styles={getSelectStyle(validation, "worker")}
+                    onChange={(e) => {
+                      if (e && typeof e === "object" && e.value)
+                        validation.setFieldValue("worker", e.value);
+                    }}
+                    onBlur={() => {
+                      validation.setFieldTouched("worker", true);
+                    }}
+                    value={
+                      validation.values.worker &&
+                      workerOptions &&
+                      workerOptions.find((option) => option.value === validation.values.worker)
+                    }
+                  />
+
+                  {validation.touched.worker && validation.errors.worker ? (
+                    <FormFeedback type="invalid" className="d-block">
+                      {validation.errors.worker.toString()}
+                    </FormFeedback>
+                  ) : null}
+                </Col>
+              </Row>
+
+              <Row>
+                {/* Install Date */}
+                <Col className="col-12 mb-3">
+                  <Label>Quraşdırılma Tarixi</Label>
+
+                  <Input
+                    name="install_date"
+                    type="date"
+                    placeholder="Quraşdırılma tarixi daxil edin"
+                    onBlur={validation.handleBlur}
+                    onChange={validation.handleChange}
+                    value={validation.values.install_date}
+                    invalid={
+                      validation.touched.install_date && validation.errors.install_date
+                        ? true
+                        : false
+                    }
+                  />
+
+                  {validation.touched.install_date && validation.errors.install_date ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.install_date.toString()}
+                    </FormFeedback>
+                  ) : null}
+                </Col>
+              </Row>
+            </React.Fragment>
+          )}
 
           <Row>
             {/* Submit */}
