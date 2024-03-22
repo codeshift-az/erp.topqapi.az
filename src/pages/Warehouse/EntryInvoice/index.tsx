@@ -117,9 +117,11 @@ const WarehouseEntryInvoice = () => {
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{item.product.name}</td>
-                            <td className="text-end">{item.price} AZN</td>
+                            <td className="text-end">{Number(item.price).toFixed(2)} AZN</td>
                             <td className="text-end">{item.quantity}</td>
-                            <td className="text-end">{item.price * item.quantity} AZN</td>
+                            <td className="text-end">
+                              {(Number(item.price) * item.quantity).toFixed(2)} AZN
+                            </td>
                           </tr>
                         ))}
 
@@ -130,10 +132,9 @@ const WarehouseEntryInvoice = () => {
 
                           <td className="border-0 text-end">
                             <h5 className="m-0">
-                              {entry.items.reduce(
-                                (acc, item) => acc + item.price * item.quantity,
-                                0
-                              )}{" "}
+                              {entry.items
+                                .reduce((acc, item) => acc + Number(item.price) * item.quantity, 0)
+                                .toFixed(2)}{" "}
                               AZN
                             </h5>
                           </td>

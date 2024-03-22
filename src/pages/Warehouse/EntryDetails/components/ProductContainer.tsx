@@ -82,7 +82,8 @@ const ProductContainer = () => {
                 <thead className="table-light">
                   <tr>
                     <th>Məhsul</th>
-                    <th>Qiymət</th>
+                    <th>Kataloq Qiyməti</th>
+                    <th>Alış Qiyməti</th>
                     <th>Miqdar</th>
                     <th colSpan={2}>Cəm</th>
                   </tr>
@@ -97,30 +98,33 @@ const ProductContainer = () => {
                         </h5>
                         <p className="mb-0">{`Kateqoriya: ${item.product.category.name}`}</p>
                       </td>
-                      <td>{item.price} AZN</td>
+                      <td>{item.catalog_price.toFixed(2)} AZN</td>
+                      <td>{Number(item.price).toFixed(2)} AZN</td>
                       <td>{item.quantity}</td>
-                      <td>{Number(item.price) * Number(item.quantity)} AZN</td>
-                      <td>
-                        <div className="d-flex gap-3">
-                          {onUpdate && (
-                            <a
-                              role="button"
-                              className="action-icon text-success"
-                              onClick={() => onUpdate(item)}>
-                              <i className="mdi mdi-pencil font-size-18" />
-                            </a>
-                          )}
+                      <td>{(Number(item.price) * Number(item.quantity)).toFixed(2)} AZN</td>
+                      {!item.is_sold && (
+                        <td>
+                          <div className="d-flex gap-3">
+                            {onUpdate && (
+                              <a
+                                role="button"
+                                className="action-icon text-success"
+                                onClick={() => onUpdate(item)}>
+                                <i className="mdi mdi-pencil font-size-18" />
+                              </a>
+                            )}
 
-                          {onDelete && (
-                            <a
-                              role="button"
-                              className="action-icon text-danger"
-                              onClick={() => onDelete(item)}>
-                              <i className="mdi mdi-trash-can font-size-18" />
-                            </a>
-                          )}
-                        </div>
-                      </td>
+                            {onDelete && (
+                              <a
+                                role="button"
+                                className="action-icon text-danger"
+                                onClick={() => onDelete(item)}>
+                                <i className="mdi mdi-trash-can font-size-18" />
+                              </a>
+                            )}
+                          </div>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>

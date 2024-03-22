@@ -6,8 +6,10 @@ import { Supplier } from "./supplier";
 export type WarehouseItem = DefaultModel & {
   product: Product;
   quantity: number;
-  price: number;
+  price: string;
   sale_count: number;
+  catalog_price: number;
+  is_sold: boolean;
 };
 
 export type WarehouseItemStats = {
