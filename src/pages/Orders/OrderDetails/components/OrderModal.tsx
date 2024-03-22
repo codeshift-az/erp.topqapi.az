@@ -67,6 +67,7 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       phone: (data && data.phone) || "",
       address: (data && data.address) || "",
       discount: (data && data.discount) || 0,
+      payed: (data && data.payed) || 0,
       seller_share: (data && data.seller_share) || 0,
       note: (data && data.note) || "",
       sale_date: (data && data.sale_date) || new Date().toISOString().split("T")[0],
@@ -81,6 +82,7 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       phone: Yup.string().required("Zəhmət olmasa telefon nömrəsi daxil edin!"),
       address: Yup.string().required("Zəhmət olmasa ünvan daxil edin!"),
       discount: Yup.number(),
+      payed: Yup.number().required("Zəhmət olmasa ödənilən məbləğ daxil edin!"),
       seller_share: Yup.number(),
       note: Yup.string(),
       sale_date: Yup.string().required("Zəhmət olmasa satış tarixi daxil edin!"),
@@ -111,6 +113,9 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       // Discount
       if (!data || values["discount"] !== data["discount"])
         formData.append("discount", values["discount"]);
+
+      // Payed
+      if (!data || values["payed"] !== data["payed"]) formData.append("payed", values["payed"]);
 
       // Seller Share
       if (!data || values["seller_share"] !== data["seller_share"])
@@ -382,6 +387,27 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
 
               {validation.touched.discount && validation.errors.discount ? (
                 <FormFeedback type="invalid">{validation.errors.discount.toString()}</FormFeedback>
+              ) : null}
+            </Col>
+          </Row>
+
+          <Row>
+            {/* Payed */}
+            <Col className="col-12 mb-3">
+              <Label>Ödənilən məbləğ</Label>
+
+              <Input
+                type="number"
+                name="payed"
+                placeholder="Ödənilən məbləğ daxil edin"
+                onBlur={validation.handleBlur}
+                onChange={validation.handleChange}
+                value={validation.values.payed}
+                invalid={validation.touched.payed && validation.errors.payed ? true : false}
+              />
+
+              {validation.touched.payed && validation.errors.payed ? (
+                <FormFeedback type="invalid">{validation.errors.payed.toString()}</FormFeedback>
               ) : null}
             </Col>
           </Row>

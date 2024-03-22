@@ -135,7 +135,7 @@ const OrderContainer = () => {
 
                   <tr>
                     <td>Ümumi Cəm :</td>
-                    <td>{priceSum} AZN</td>
+                    <td>{priceSum.toFixed(2)} AZN</td>
                   </tr>
 
                   <tr>
@@ -145,7 +145,17 @@ const OrderContainer = () => {
 
                   <tr>
                     <th>Toplam :</th>
-                    <th>{priceSum - order.discount} AZN</th>
+                    <th>{(priceSum - order.discount).toFixed(2)} AZN</th>
+                  </tr>
+
+                  <tr>
+                    <td>Ödənilən məbləğ :</td>
+                    <td>{order.payed} AZN</td>
+                  </tr>
+
+                  <tr>
+                    <td>Qalıq məbləğ (Borc) :</td>
+                    <td>{(priceSum - order.discount - order.payed).toFixed(2)} AZN</td>
                   </tr>
 
                   <tr>

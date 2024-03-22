@@ -65,6 +65,7 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
       customer: "",
       phone: "",
       address: "",
+      payed: 0,
       discount: 0,
       seller_share: 0,
       note: "",
@@ -77,9 +78,10 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
       customer: Yup.string().required("Zəhmət olmasa müştəri adı daxil edin!"),
       phone: Yup.string().required("Zəhmət olmasa telefon nömrəsi daxil edin!"),
       address: Yup.string().required("Zəhmət olmasa ünvan daxil edin!"),
+      note: Yup.string(),
+      payed: Yup.number().required("Zəhmət olmasa ödənilən məbləğ daxil edin!"),
       discount: Yup.number(),
       seller_share: Yup.number(),
-      note: Yup.string(),
       sale_date: Yup.string().required("Zəhmət olmasa tarix daxil edin!"),
     }),
 
@@ -103,6 +105,9 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
 
       // Note
       formData.append("note", values["note"]);
+
+      // Payed
+      formData.append("payed", values["payed"].toString());
 
       // Discount
       formData.append("discount", values["discount"].toString());
@@ -346,6 +351,27 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
           </Row>
 
           <Row>
+            {/* Payed */}
+            <Col className="col-12 mb-3">
+              <Label>Ödənilən məbləğ</Label>
+
+              <Input
+                type="number"
+                name="payed"
+                placeholder="Ödənilən məbləğ daxil edin"
+                onBlur={validation.handleBlur}
+                onChange={validation.handleChange}
+                value={validation.values.payed}
+                invalid={validation.touched.payed && validation.errors.payed ? true : false}
+              />
+
+              {validation.touched.payed && validation.errors.payed ? (
+                <FormFeedback type="invalid">{validation.errors.payed.toString()}</FormFeedback>
+              ) : null}
+            </Col>
+          </Row>
+
+          <Row>
             {/* Seller Share */}
             <Col className="col-12 mb-3">
               <Label>Satıcı payı</Label>
@@ -394,7 +420,7 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
           <Row>
             {/* Sale Date */}
             <Col className="col-12 mb-3">
-              <Label>Tarix</Label>
+              <Label>Satış tarixi</Label>
 
               <Input
                 name="sale_date"

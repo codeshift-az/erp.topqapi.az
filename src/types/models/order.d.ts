@@ -25,6 +25,7 @@ export type Order = DefaultModel & {
   note: string;
 
   discount: number;
+  payed: number;
   seller_share: number;
   sale_date: string;
 
