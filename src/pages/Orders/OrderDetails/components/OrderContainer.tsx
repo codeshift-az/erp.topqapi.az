@@ -124,6 +124,16 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
+                    <td>Taksi: </td>
+                    <td>{order.driver?.name}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Çatdırılma Tarixi: </td>
+                    <td>{order.delivery_date}</td>
+                  </tr>
+
+                  <tr>
                     <td>Usta: </td>
                     <td>{order.worker?.name}</td>
                   </tr>

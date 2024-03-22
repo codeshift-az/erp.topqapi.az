@@ -37,7 +37,7 @@ import { getOptions, getSelectStyle, hasPermission } from "@/helpers";
 import { Option } from "@/types/option";
 
 // Actions
-import { getBranches, getSellers, getWorkers, updateOrder } from "@/store/actions";
+import { getBranches, getSellers, getWorkers, getDrivers, updateOrder } from "@/store/actions";
 
 interface Props {
   data: any;
@@ -71,6 +71,8 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       seller_share: (data && data.seller_share) || 0,
       note: (data && data.note) || "",
       sale_date: (data && data.sale_date) || new Date().toISOString().split("T")[0],
+      driver: (data && data.driver && data.driver.id) || "",
+      delivery_date: (data && data.delivery_date) || "",
       worker: (data && data.worker && data.worker.id) || "",
       install_date: (data && data.install_date) || "",
     },
@@ -86,6 +88,8 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       seller_share: Yup.number(),
       note: Yup.string(),
       sale_date: Yup.string().required("Zəhmət olmasa satış tarixi daxil edin!"),
+      driver: Yup.number(),
+      delivery_date: Yup.string(),
       worker: Yup.number(),
       install_date: Yup.string(),
     }),
@@ -127,6 +131,13 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       // Sale Date
       if (!data || values["sale_date"] !== data["sale_date"])
         formData.append("sale_date", values["sale_date"]);
+
+      // Driver
+      if (!data || values["driver"] !== data["driver"]) formData.append("driver", values["driver"]);
+
+      // Delivery Date
+      if (!data || values["delivery_date"] !== data["delivery_date"])
+        formData.append("delivery_date", values["delivery_date"]);
 
       // Worker
       if (!data || values["worker"] !== data["worker"]) formData.append("worker", values["worker"]);
@@ -178,6 +189,24 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
   useEffect(() => {
     validation.values.seller = "";
   }, [validation.values.branch]);
+
+  // Driver Options
+  const { items: drivers } = useSelector((state: RootState) => state.driver);
+
+  const [driverName, setDriverName] = useState<string>("");
+  const [driverOptions, setDriverOptions] = useState<Option[]>([]);
+
+  useEffect(() => {
+    dispatch(getDrivers({ name: driverName }));
+  }, [driverName]);
+
+  useEffect(() => {
+    setDriverOptions(getOptions(drivers));
+  }, [drivers]);
+
+  useEffect(() => {
+    if (data && data.driver) setDriverName(data.driver.name);
+  }, [data]);
 
   // Worker Options
   const { items: workers } = useSelector((state: RootState) => state.worker);
@@ -481,6 +510,65 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
 
           {data.status >= ORDER_STATUS.ACCEPTED && hasPermission(user, [USER_TYPES.WAREHOUSE]) && (
             <React.Fragment>
+              <Row>
+                {/* Driver */}
+                <Col className="col-12 mb-3">
+                  <Label>Taksi</Label>
+
+                  <Select
+                    name="driver"
+                    options={driverOptions || []}
+                    onInputChange={(e) => setDriverName(e)}
+                    styles={getSelectStyle(validation, "driver")}
+                    onChange={(e) => {
+                      if (e && typeof e === "object" && e.value)
+                        validation.setFieldValue("driver", e.value);
+                    }}
+                    onBlur={() => {
+                      validation.setFieldTouched("driver", true);
+                    }}
+                    value={
+                      validation.values.driver &&
+                      driverOptions &&
+                      driverOptions.find((option) => option.value === validation.values.driver)
+                    }
+                  />
+
+                  {validation.touched.driver && validation.errors.driver ? (
+                    <FormFeedback type="invalid" className="d-block">
+                      {validation.errors.driver.toString()}
+                    </FormFeedback>
+                  ) : null}
+                </Col>
+              </Row>
+
+              <Row>
+                {/* Delivery Date */}
+                <Col className="col-12 mb-3">
+                  <Label>Çatdırılma Tarixi</Label>
+
+                  <Input
+                    name="delivery_date"
+                    type="date"
+                    placeholder="Çatdırılma tarixi daxil edin"
+                    onBlur={validation.handleBlur}
+                    onChange={validation.handleChange}
+                    value={validation.values.delivery_date}
+                    invalid={
+                      validation.touched.delivery_date && validation.errors.delivery_date
+                        ? true
+                        : false
+                    }
+                  />
+
+                  {validation.touched.delivery_date && validation.errors.delivery_date ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.delivery_date.toString()}
+                    </FormFeedback>
+                  ) : null}
+                </Col>
+              </Row>
+
               <Row>
                 {/* Worker */}
                 <Col className="col-12 mb-3">
