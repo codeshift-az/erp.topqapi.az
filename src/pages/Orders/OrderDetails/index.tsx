@@ -18,7 +18,7 @@ import { getPageTitle } from "@/helpers";
 import { getOrderDetails } from "@/store/actions";
 
 // Related Components
-import EntryContainer from "./components/OrderContainer";
+import OrderContainer from "./components/OrderContainer";
 import ProductContainer from "./components/ProductContainer";
 
 const OrderDetails = () => {
@@ -77,7 +77,7 @@ const OrderDetails = () => {
           {order && (
             <Row>
               <ProductContainer />
-              <EntryContainer />
+              <OrderContainer />
             </Row>
           )}
         </Container>

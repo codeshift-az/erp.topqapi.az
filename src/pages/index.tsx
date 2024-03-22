@@ -25,7 +25,7 @@ import AllOrders from "./Orders/AllOrders";
 import NewOrder from "./Orders/NewOrder";
 import OrderDetails from "./Orders/OrderDetails";
 import OrderInvoice from "./Orders/OrderInvoice";
-// import OrderItems from "./Orders/OrderItems";
+import OrderItems from "./Orders/Items";
 
 // Factory
 import FactoryProducts from "./Factory/Products";
@@ -55,7 +55,7 @@ export {
   NewOrder,
   OrderDetails,
   OrderInvoice,
-  // OrderItems,
+  OrderItems,
   FactoryProducts,
   FactoryStorage,
 };

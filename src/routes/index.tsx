@@ -146,12 +146,12 @@ const protectedRoutes = [
     types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
   },
 
-  // // Order Items
-  // {
-  //   path: "/orders/items",
-  //   component: <Pages.OrderItems />,
-  //   types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
-  // },
+  // Order Items
+  {
+    path: "/orders/items",
+    component: <Pages.OrderItems />,
+    types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
+  },
 
   // ------------------------------ //
 
