@@ -129,60 +129,68 @@ const ProductContainer = () => {
                       <td>{item.quantity}</td>
                       <td>{Number(item.price) * Number(item.quantity)} AZN</td>
 
-                      {hasPermissionByStatus(user, order.status) && !item.is_sold && (
-                        <td>
-                          <div className="d-flex gap-3">
-                            {onUpdate && (
-                              <a
-                                role="button"
-                                className="action-icon text-success"
-                                onClick={() => onUpdate(item)}>
-                                <i className="mdi mdi-pencil font-size-18" />
-                              </a>
-                            )}
+                      {hasPermissionByStatus(user, order.status) &&
+                        !item.is_sold &&
+                        (order.status < ORDER_STATUS.READY ||
+                          order.status === ORDER_STATUS.RETURN) && (
+                          <td>
+                            <div className="d-flex gap-3">
+                              {onUpdate && (
+                                <a
+                                  role="button"
+                                  className="action-icon text-success"
+                                  onClick={() => onUpdate(item)}>
+                                  <i className="mdi mdi-pencil font-size-18" />
+                                </a>
+                              )}
 
-                            {onDelete && (
-                              <a
-                                role="button"
-                                className="action-icon text-danger"
-                                onClick={() => onDelete(item)}>
-                                <i className="mdi mdi-trash-can font-size-18" />
-                              </a>
-                            )}
+                              {onDelete && (
+                                <a
+                                  role="button"
+                                  className="action-icon text-danger"
+                                  onClick={() => onDelete(item)}>
+                                  <i className="mdi mdi-trash-can font-size-18" />
+                                </a>
+                              )}
 
-                            {order.status === ORDER_STATUS.PENDING && handleSale && (
-                              <a
-                                role="button"
-                                className="action-icon text-success"
-                                onClick={() => handleSale(item.id)}>
-                                <i className="mdi mdi-check font-size-18" />
-                              </a>
-                            )}
-                          </div>
-                        </td>
-                      )}
+                              {(order.status === ORDER_STATUS.PENDING ||
+                                order.status === ORDER_STATUS.RETURN) &&
+                                handleSale && (
+                                  <a
+                                    role="button"
+                                    className="action-icon text-success"
+                                    onClick={() => handleSale(item.id)}>
+                                    <i className="mdi mdi-check font-size-18" />
+                                  </a>
+                                )}
+                            </div>
+                          </td>
+                        )}
 
-                      {item.is_sold && hasPermission(user, [USER_TYPES.WAREHOUSE]) && (
-                        <td>
-                          <div className="d-flex gap-3">
-                            {handleReturn && (
-                              <a
-                                role="button"
-                                className="action-icon text-danger"
-                                onClick={() => handleReturn(item.id)}>
-                                <i className="mdi mdi-refresh font-size-18" />
-                              </a>
-                            )}
-                          </div>
-                        </td>
-                      )}
+                      {item.is_sold &&
+                        hasPermission(user, [USER_TYPES.WAREHOUSE]) &&
+                        (order.status < ORDER_STATUS.READY ||
+                          order.status === ORDER_STATUS.RETURN) && (
+                          <td>
+                            <div className="d-flex gap-3">
+                              {handleReturn && (
+                                <a
+                                  role="button"
+                                  className="action-icon text-danger"
+                                  onClick={() => handleReturn(item.id)}>
+                                  <i className="mdi mdi-refresh font-size-18" />
+                                </a>
+                              )}
+                            </div>
+                          </td>
+                        )}
                     </tr>
                   ))}
                 </tbody>
               </Table>
             </div>
 
-            {hasPermissionByStatus(user, order.status) && (
+            {hasPermissionByStatus(user, order.status) && order.status < ORDER_STATUS.READY && (
               <Row className="mt-4">
                 <Col sm="6">
                   <div className="text-sm-end mt-2 mt-sm-0">

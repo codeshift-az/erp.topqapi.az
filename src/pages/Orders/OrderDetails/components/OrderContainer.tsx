@@ -226,54 +226,6 @@ const OrderContainer = () => {
                     </tr>
                   )}
 
-                  {hasPermission(user, [USER_TYPES.WAREHOUSE]) &&
-                    order.status === ORDER_STATUS.REGISTERED && (
-                      <tr>
-                        <th colSpan={2}>
-                          <Button
-                            color="success"
-                            className="mb-2 col-12"
-                            onClick={() => handleStatusUpdate(ORDER_STATUS.ACCEPTED)}>
-                            <i className={`mdi mdi-check me-1`} />
-                            Satış qəbul olundu
-                          </Button>
-                        </th>
-                      </tr>
-                    )}
-
-                  {hasPermission(user, [USER_TYPES.WAREHOUSE]) &&
-                    order.status === ORDER_STATUS.ACCEPTED && (
-                      <tr>
-                        <th colSpan={2}>
-                          <Button
-                            color="success"
-                            className="mb-2 col-12"
-                            onClick={() => handleStatusUpdate(ORDER_STATUS.PENDING)}>
-                            <i className={`mdi mdi-check me-1`} />
-                            Məhsullar hazırlanır
-                          </Button>
-                        </th>
-                      </tr>
-                    )}
-
-                  {hasPermission(user, [USER_TYPES.WAREHOUSE]) &&
-                    order.status === ORDER_STATUS.PENDING &&
-                    order.items.every((item) => item.is_sold) &&
-                    order.worker &&
-                    order.driver && (
-                      <tr>
-                        <th colSpan={2}>
-                          <Button
-                            color="success"
-                            className="mb-2 col-12"
-                            onClick={() => handleStatusUpdate(ORDER_STATUS.READY)}>
-                            <i className={`mdi mdi-check me-1`} />
-                            Məhsullar hazırdır
-                          </Button>
-                        </th>
-                      </tr>
-                    )}
-
                   {order.status !== ORDER_STATUS.DRAFT && (
                     <tr>
                       <th colSpan={2}>
@@ -285,6 +237,113 @@ const OrderContainer = () => {
                         </Link>
                       </th>
                     </tr>
+                  )}
+
+                  {hasPermission(user, [USER_TYPES.WAREHOUSE]) && (
+                    <React.Fragment>
+                      {order.status === ORDER_STATUS.REGISTERED && (
+                        <tr>
+                          <th colSpan={2}>
+                            <Button
+                              color="success"
+                              className="mb-2 col-12"
+                              onClick={() => handleStatusUpdate(ORDER_STATUS.ACCEPTED)}>
+                              <i className={`mdi mdi-check me-1`} />
+                              Satış qəbul olundu
+                            </Button>
+                          </th>
+                        </tr>
+                      )}
+
+                      {order.status === ORDER_STATUS.ACCEPTED && (
+                        <tr>
+                          <th colSpan={2}>
+                            <Button
+                              color="success"
+                              className="mb-2 col-12"
+                              onClick={() => handleStatusUpdate(ORDER_STATUS.PENDING)}>
+                              <i className={`mdi mdi-check me-1`} />
+                              Məhsullar hazırlanır
+                            </Button>
+                          </th>
+                        </tr>
+                      )}
+
+                      {order.status === ORDER_STATUS.PENDING &&
+                        order.items.every((item) => item.is_sold) &&
+                        order.worker &&
+                        order.driver && (
+                          <tr>
+                            <th colSpan={2}>
+                              <Button
+                                color="success"
+                                className="mb-2 col-12"
+                                onClick={() => handleStatusUpdate(ORDER_STATUS.READY)}>
+                                <i className={`mdi mdi-check me-1`} />
+                                Məhsullar hazırdır
+                              </Button>
+                            </th>
+                          </tr>
+                        )}
+
+                      {(order.status === ORDER_STATUS.READY ||
+                        order.status === ORDER_STATUS.RETURN) && (
+                        <tr>
+                          <th colSpan={2}>
+                            <Button
+                              color="primary"
+                              className="mb-2 col-12"
+                              onClick={() => handleStatusUpdate(ORDER_STATUS.ON_DELIVERY)}>
+                              <i className={`mdi mdi-truck-delivery me-1`} />
+                              Məhsullar yoldadır
+                            </Button>
+                          </th>
+                        </tr>
+                      )}
+
+                      {order.status === ORDER_STATUS.ON_DELIVERY && (
+                        <tr>
+                          <th colSpan={2}>
+                            <Button
+                              color="primary"
+                              className="mb-2 col-12"
+                              onClick={() => handleStatusUpdate(ORDER_STATUS.DELIVERED)}>
+                              <i className={`mdi mdi-truck-check me-1`} />
+                              Məhsullar çatdırıldı
+                            </Button>
+                          </th>
+                        </tr>
+                      )}
+
+                      {order.status === ORDER_STATUS.DELIVERED && (
+                        <tr>
+                          <th colSpan={2}>
+                            <Button
+                              color="success"
+                              className="mb-2 col-12"
+                              onClick={() => handleStatusUpdate(ORDER_STATUS.INSTALLED)}>
+                              <i className={`mdi mdi-check me-1`} />
+                              Məhsullar quraşdırıldı və satış tamamlandı
+                            </Button>
+                          </th>
+                        </tr>
+                      )}
+
+                      {order.status >= ORDER_STATUS.READY &&
+                        order.status !== ORDER_STATUS.RETURN && (
+                          <tr>
+                            <th colSpan={2}>
+                              <Button
+                                color="danger"
+                                className="mb-2 col-12"
+                                onClick={() => handleStatusUpdate(ORDER_STATUS.RETURN)}>
+                                <i className={`mdi mdi-refresh me-1`} />
+                                Geri Qayıdış
+                              </Button>
+                            </th>
+                          </tr>
+                        )}
+                    </React.Fragment>
                   )}
                 </tbody>
               </Table>
