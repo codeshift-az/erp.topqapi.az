@@ -18,7 +18,7 @@ import { USER_TYPES, ORDER_STATUS, ORDER_STATUS_LABELS } from "@/constants";
 import { getFormData, hasPermission, hasPermissionByStatus } from "@/helpers";
 
 // Actions
-import { deleteOrder, updateOrder } from "@/store/actions";
+import { deleteOrder, getOrderDetails, updateOrder } from "@/store/actions";
 
 // Related Components
 import OrderModal from "./OrderModal";
@@ -69,7 +69,7 @@ const OrderContainer = () => {
     if (order) dispatch(updateOrder({ id: order.id, data: getFormData({ status }) }));
   };
 
-  if (!order || status.loading) return null;
+  if (!order || (status.lastAction == getOrderDetails.typePrefix && status.loading)) return null;
 
   const orderStatus = ORDER_STATUS_LABELS[order.status];
 

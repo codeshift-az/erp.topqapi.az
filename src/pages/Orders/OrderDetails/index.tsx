@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 
 // Reactstrap
-import { Container, Row } from "reactstrap";
+import { Alert, Container, Row } from "reactstrap";
 
 // Components
 import Breadcrumbs from "@/components/Breadcrumb";
@@ -26,7 +26,7 @@ const OrderDetails = () => {
   const [orderID, setEntryID] = useState<number | null>(null);
 
   const dispatch = useDispatch<AppDispatch>();
-  const { item: order, status, update } = useSelector((state: RootState) => state.order);
+  const { item: order, status, update, errors } = useSelector((state: RootState) => state.order);
 
   const fetchEntry = () => {
     if (orderID) dispatch(getOrderDetails(orderID));
@@ -68,7 +68,13 @@ const OrderDetails = () => {
 
           {status.loading && <h1 className="text-center mt-5">Yüklənir...</h1>}
 
-          {order && status.success && (
+          {status.failure && errors && errors.data && (
+            <Alert color="danger" className="text-center m-3">
+              {errors.data.non_field_errors}
+            </Alert>
+          )}
+
+          {order && (
             <Row>
               <ProductContainer />
               <EntryContainer />

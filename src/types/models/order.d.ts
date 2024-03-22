@@ -10,6 +10,7 @@ export type OrderItem = DefaultModel & {
   supplier: Supplier;
   quantity: number;
   price: number;
+  is_sold: boolean;
 };
 
 export type Order = DefaultModel & {
