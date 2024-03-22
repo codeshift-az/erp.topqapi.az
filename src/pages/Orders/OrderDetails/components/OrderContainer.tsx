@@ -256,6 +256,24 @@ const OrderContainer = () => {
                       </tr>
                     )}
 
+                  {hasPermission(user, [USER_TYPES.WAREHOUSE]) &&
+                    order.status === ORDER_STATUS.PENDING &&
+                    order.items.every((item) => item.is_sold) &&
+                    order.worker &&
+                    order.driver && (
+                      <tr>
+                        <th colSpan={2}>
+                          <Button
+                            color="success"
+                            className="mb-2 col-12"
+                            onClick={() => handleStatusUpdate(ORDER_STATUS.READY)}>
+                            <i className={`mdi mdi-check me-1`} />
+                            Məhsullar hazırdır
+                          </Button>
+                        </th>
+                      </tr>
+                    )}
+
                   {order.status !== ORDER_STATUS.DRAFT && (
                     <tr>
                       <th colSpan={2}>
