@@ -45,6 +45,9 @@ import factoryStorageReducer from "./factory/storage/slice";
 import factorySaleReducer from "./factory/sale/slice";
 import factoryUsageReducer from "./factory/usage/slice";
 
+// Payment
+import paymentReducer from "./payment/slice";
+
 const rootReducer = combineReducers({
   account: accountReducer,
 
@@ -78,6 +81,8 @@ const rootReducer = combineReducers({
   factoryStorage: factoryStorageReducer,
   factorySale: factorySaleReducer,
   factoryUsage: factoryUsageReducer,
+
+  payment: paymentReducer,
 });
 
 export default rootReducer;

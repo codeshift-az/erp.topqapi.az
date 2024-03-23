@@ -38,3 +38,6 @@ export type { Order, OrderItem, OrderCartItem } from "./order";
 
 // Factory Models
 export type { FactoryProduct, FactoryStorageItem, FactorySale, FactoryUsage } from "./factory";
+
+// Payment Models
+export type { Payment } from "./payment";

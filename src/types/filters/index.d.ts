@@ -38,3 +38,6 @@ export type {
   FactorySaleFilter,
   FactoryUsageFilter,
 } from "./factory";
+
+// Payment Filter Type
+export type { PaymentFilter } from "./payment";
