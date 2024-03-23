@@ -68,6 +68,15 @@ const TableContainer = () => {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
       },
     }),
+    columnHelper.accessor("supplier", {
+      header: "Firma",
+      cell: (cell) => {
+        return <Fields.TextField text={cell.getValue().name} length={255} />;
+      },
+      meta: {
+        filterComponent: (column) => <Filters.TextFilter column={column} />,
+      },
+    }),
     columnHelper.accessor("price", {
       header: "Qiymət",
       cell: (cell) => {
@@ -90,7 +99,11 @@ const TableContainer = () => {
       header: "Cəm",
       enableSorting: false,
       cell: (cell) => {
-        return <Fields.PriceField amount={cell.row.original.price * cell.row.original.quantity} />;
+        return (
+          <Fields.PriceField
+            amount={Number(cell.row.original.price) * cell.row.original.quantity}
+          />
+        );
       },
     }),
   ];
