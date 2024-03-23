@@ -80,6 +80,12 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
         return <Fields.NumberField value={cell.getValue()} />;
       },
     }),
+    columnHelper.accessor("last_month", {
+      header: "Son ay",
+      cell: (cell) => {
+        return <Fields.NumberField value={cell.getValue()} />;
+      },
+    }),
     columnHelper.display({
       header: "Əməliyyatlar",
       enableSorting: false,
