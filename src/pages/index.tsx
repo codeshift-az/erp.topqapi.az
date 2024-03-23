@@ -31,6 +31,7 @@ import OrderItems from "./Orders/Items";
 import FactoryProducts from "./Factory/Products";
 import FactoryStorage from "./Factory/Storage";
 import FactorySales from "./Factory/Sales";
+import FactoryUsages from "./Factory/Usages";
 
 export {
   Login,
@@ -60,4 +61,5 @@ export {
   FactoryProducts,
   FactoryStorage,
   FactorySales,
+  FactoryUsages,
 };

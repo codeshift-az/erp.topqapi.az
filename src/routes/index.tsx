@@ -176,6 +176,13 @@ const protectedRoutes = [
     types: [USER_TYPES.WAREHOUSE],
   },
 
+  // Factory Usages
+  {
+    path: "/factory/usages",
+    component: <Pages.FactoryUsages />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
+
   // ------------------------------ //
 
   // Default Redirect
