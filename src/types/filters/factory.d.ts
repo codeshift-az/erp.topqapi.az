@@ -16,3 +16,9 @@ export type FactorySaleFilter = DefaultFilter & {
   date_start?: string;
   date_end?: string;
 };
+
+export type FactoryUsageFilter = DefaultFilter & {
+  product?: string;
+  date_start?: string;
+  date_end?: string;
+};

@@ -23,3 +23,9 @@ export type FactorySale = DefaultModel & {
   price: number;
   date: string;
 };
+
+export type FactoryUsage = DefaultModel & {
+  product: FactoryProduct;
+  quantity: number;
+  date: string;
+};
