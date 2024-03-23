@@ -10,3 +10,9 @@ export type FactoryStorageItemFilter = DefaultFilter & {
   date_start?: string;
   date_end?: string;
 };
+
+export type FactorySaleFilter = DefaultFilter & {
+  product?: string;
+  date_start?: string;
+  date_end?: string;
+};

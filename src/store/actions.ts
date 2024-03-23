@@ -40,3 +40,4 @@ export * from "./order/cart/actions";
 // Factory actions
 export * from "./factory/product/actions";
 export * from "./factory/storage/actions";
+export * from "./factory/sale/actions";
