@@ -74,6 +74,30 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
       },
     }),
+    columnHelper.accessor("total_price", {
+      header: "Toplam alınan",
+      cell: (cell) => {
+        return <Fields.PriceField amount={cell.getValue()} currency="AZN" />;
+      },
+    }),
+    columnHelper.accessor("total_payed", {
+      header: "Toplam ödənilən",
+      cell: (cell) => {
+        return <Fields.PriceField amount={cell.getValue()} currency="AZN" />;
+      },
+    }),
+    columnHelper.display({
+      header: "Ümumi borc",
+      enableSorting: false,
+      cell: (cell) => {
+        return (
+          <Fields.PriceField
+            amount={Number(cell.row.original.total_price) - Number(cell.row.original.total_payed)}
+            currency="AZN"
+          />
+        );
+      },
+    }),
     columnHelper.display({
       header: "Əməliyyatlar",
       enableSorting: false,

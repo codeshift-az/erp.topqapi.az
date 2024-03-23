@@ -196,7 +196,7 @@ const OrderInvoice = () => {
                           </td>
                         </tr>
 
-                        {/* <tr>
+                        <tr>
                           <td colSpan={4} className="border-0 text-end">
                             <strong>Ödənilən</strong>
                           </td>
@@ -224,7 +224,7 @@ const OrderInvoice = () => {
                               AZN
                             </h6>
                           </td>
-                        </tr> */}
+                        </tr>
                       </tbody>
                     </Table>
                   </div>

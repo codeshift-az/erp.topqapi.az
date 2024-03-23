@@ -190,18 +190,19 @@ const ProductContainer = () => {
               </Table>
             </div>
 
-            {hasPermissionByStatus(user, order.status) && order.status < ORDER_STATUS.READY && (
-              <Row className="mt-4">
-                <Col sm="6">
-                  <div className="text-sm-end mt-2 mt-sm-0">
-                    <Button color="primary" className="mb-2 me-2" onClick={onCreate}>
-                      <i className={`mdi mdi-plus-circle-outline me-1`} />
-                      Əlavə et
-                    </Button>
-                  </div>
-                </Col>
-              </Row>
-            )}
+            {hasPermissionByStatus(user, order.status) &&
+              (order.status < ORDER_STATUS.READY || order.status === ORDER_STATUS.RETURN) && (
+                <Row className="mt-4">
+                  <Col sm="6">
+                    <div className="text-sm-end mt-2 mt-sm-0">
+                      <Button color="primary" className="mb-2 me-2" onClick={onCreate}>
+                        <i className={`mdi mdi-plus-circle-outline me-1`} />
+                        Əlavə et
+                      </Button>
+                    </div>
+                  </Col>
+                </Row>
+              )}
           </CardBody>
         </Card>
       </Col>

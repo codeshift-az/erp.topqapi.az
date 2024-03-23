@@ -96,6 +96,17 @@ const TableContainer = () => {
       },
     }),
     columnHelper.display({
+      header: "Qalıq",
+      enableSorting: false,
+      cell: (cell) => {
+        return (
+          <Fields.NumberField
+            value={Number(cell.row.original.quantity) - cell.row.original.sale_count}
+          />
+        );
+      },
+    }),
+    columnHelper.display({
       header: "Cəm",
       enableSorting: false,
       cell: (cell) => {
