@@ -164,6 +164,13 @@ const menuItems: IMenuItem[] = [
     types: [USER_TYPES.WAREHOUSE],
   },
   {
+    id: "payments",
+    label: "Ödəmələr",
+    icon: "bx bx-money",
+    link: "/payments",
+    types: [USER_TYPES.WAREHOUSE],
+  },
+  {
     id: "expenses",
     label: "Xərclər",
     icon: "bx bx-money",

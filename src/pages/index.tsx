@@ -33,6 +33,9 @@ import FactoryStorage from "./Factory/Storage";
 import FactorySales from "./Factory/Sales";
 import FactoryUsages from "./Factory/Usages";
 
+// Payments
+import Payments from "./Payments";
+
 export {
   Login,
   Logout,
@@ -62,4 +65,5 @@ export {
   FactoryStorage,
   FactorySales,
   FactoryUsages,
+  Payments,
 };

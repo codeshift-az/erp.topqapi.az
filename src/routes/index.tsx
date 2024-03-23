@@ -185,6 +185,15 @@ const protectedRoutes = [
 
   // ------------------------------ //
 
+  // Payments
+  {
+    path: "/payments",
+    component: <Pages.Payments />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
+
+  // ------------------------------ //
+
   // Default Redirect
   {
     path: "/",

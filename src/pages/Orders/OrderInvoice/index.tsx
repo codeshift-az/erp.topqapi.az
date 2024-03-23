@@ -195,6 +195,36 @@ const OrderInvoice = () => {
                             </h6>
                           </td>
                         </tr>
+
+                        {/* <tr>
+                          <td colSpan={4} className="border-0 text-end">
+                            <strong>Ödənilən</strong>
+                          </td>
+
+                          <td className="border-0 text-end">
+                            <h6 className="m-0">{Number(order.payed).toFixed(2)} AZN</h6>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td colSpan={4} className="border-0 text-end">
+                            <strong>Qalıq</strong>
+                          </td>
+
+                          <td className="border-0 text-end">
+                            <h6 className="m-0">
+                              {(
+                                order.items.reduce(
+                                  (acc, item) => acc + Number(item.price) * item.quantity,
+                                  0
+                                ) -
+                                order.discount -
+                                order.payed
+                              ).toFixed(2)}{" "}
+                              AZN
+                            </h6>
+                          </td>
+                        </tr> */}
                       </tbody>
                     </Table>
                   </div>
