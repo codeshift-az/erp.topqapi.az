@@ -17,15 +17,15 @@ import * as Filters from "@/components/DataTable/Filters";
 import { usePagination, useSorting, useColumnFiltering } from "@/components/DataTable/Hooks";
 
 // Types
-import { FactoryStorageItem } from "@/types/models";
+import { FactorySale } from "@/types/models";
 
 // Actions
-import { getFactoryStorageItems } from "@/store/actions";
+import { getFactorySales } from "@/store/actions";
 
 interface Props {
   onCreate?: () => void;
-  onUpdate?: (data: FactoryStorageItem) => void;
-  onDelete?: (data: FactoryStorageItem) => void;
+  onUpdate?: (data: FactorySale) => void;
+  onDelete?: (data: FactorySale) => void;
 }
 
 const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
@@ -40,10 +40,10 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, items, status, count } = useSelector((state: RootState) => state.factoryStorage);
+  const { update, items, status, count } = useSelector((state: RootState) => state.factorySale);
 
   const fetchItems = () => {
-    dispatch(getFactoryStorageItems({ ...filters, page, limit, ordering }));
+    dispatch(getFactorySales({ ...filters, page, limit, ordering }));
   };
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
   }, [update]);
 
   // Columns
-  const columnHelper = createColumnHelper<FactoryStorageItem>();
+  const columnHelper = createColumnHelper<FactorySale>();
 
   const columns = [
     columnHelper.display({
@@ -75,42 +75,22 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
       },
     }),
     columnHelper.accessor("quantity", {
-      header: "Giriş Miqdarı",
-      cell: (cell) => {
-        return <Fields.NumberField value={cell.getValue()} />;
-      },
-    }),
-    columnHelper.accessor("sale_count", {
       header: "Satış Miqdarı",
       cell: (cell) => {
         return <Fields.NumberField value={cell.getValue()} />;
-      },
-    }),
-    columnHelper.accessor("usage_count", {
-      header: "İstifadə Miqdarı",
-      cell: (cell) => {
-        return <Fields.NumberField value={cell.getValue()} />;
-      },
-    }),
-    columnHelper.display({
-      header: "Qalıq Miqdar",
-      enableSorting: false,
-      cell: (cell) => {
-        return (
-          <Fields.NumberField
-            value={
-              cell.row.original.quantity -
-              cell.row.original.usage_count -
-              cell.row.original.sale_count
-            }
-          />
-        );
       },
     }),
     columnHelper.accessor("price", {
       header: "Qiymət",
       cell: (cell) => {
         return <Fields.PriceField amount={cell.getValue()} />;
+      },
+    }),
+    columnHelper.display({
+      header: "Cəm",
+      enableSorting: false,
+      cell: (cell) => {
+        return <Fields.NumberField value={cell.row.original.quantity * cell.row.original.price} />;
       },
     }),
     columnHelper.accessor("date", {
@@ -129,14 +109,10 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
         return (
           <div className="d-flex gap-3">
             {onUpdate && (
-              <Fields.EditButton
-                onClick={() => onUpdate(cell.row.original as FactoryStorageItem)}
-              />
+              <Fields.EditButton onClick={() => onUpdate(cell.row.original as FactorySale)} />
             )}
             {onDelete && (
-              <Fields.DeleteButton
-                onClick={() => onDelete(cell.row.original as FactoryStorageItem)}
-              />
+              <Fields.DeleteButton onClick={() => onDelete(cell.row.original as FactorySale)} />
             )}
           </div>
         );
@@ -158,7 +134,7 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
                   Əlavə et
                 </Button>
               }
-              loading={status.loading && status.lastAction === getFactoryStorageItems.typePrefix}
+              loading={status.loading && status.lastAction === getFactorySales.typePrefix}
               // Pagination
               pagination={pagination}
               onPaginationChange={onPaginationChange}

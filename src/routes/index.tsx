@@ -169,6 +169,13 @@ const protectedRoutes = [
     types: [USER_TYPES.WAREHOUSE],
   },
 
+  // Factory Sales
+  {
+    path: "/factory/sales",
+    component: <Pages.FactorySales />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
+
   // ------------------------------ //
 
   // Default Redirect

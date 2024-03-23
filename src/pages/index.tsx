@@ -30,6 +30,7 @@ import OrderItems from "./Orders/Items";
 // Factory
 import FactoryProducts from "./Factory/Products";
 import FactoryStorage from "./Factory/Storage";
+import FactorySales from "./Factory/Sales";
 
 export {
   Login,
@@ -58,4 +59,5 @@ export {
   OrderItems,
   FactoryProducts,
   FactoryStorage,
+  FactorySales,
 };
