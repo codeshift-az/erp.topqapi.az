@@ -129,6 +129,20 @@ const ProductContainer = () => {
                       <td>{item.quantity}</td>
                       <td>{Number(item.price) * Number(item.quantity)} AZN</td>
 
+                      {user?.type === USER_TYPES.STORE && order.status === ORDER_STATUS.PENDING && (
+                        <td>
+                          {item.is_sold ? (
+                            <a role="alert" className={`badge badge-soft-success font-size-11 m-1`}>
+                              Hazırdır
+                            </a>
+                          ) : (
+                            <a role="alert" className={`badge badge-soft-warning font-size-11 m-1`}>
+                              Hazırlanır
+                            </a>
+                          )}
+                        </td>
+                      )}
+
                       {hasPermissionByStatus(user, order.status) &&
                         !item.is_sold &&
                         (order.status < ORDER_STATUS.READY ||
