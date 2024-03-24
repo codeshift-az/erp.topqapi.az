@@ -2,24 +2,26 @@ import { DefaultModel } from "./default";
 
 import { Branch } from "./branch";
 
-export type Driver = DefaultModel & {
-  name: string;
-  total_orders: number;
-  last_month: number;
+export type StaffStats = {
+  current_month_orders: number;
+  past_month_orders: number;
 };
 
-export type Seller = DefaultModel & {
-  name: string;
-  branch: Branch;
-  salary: number;
-  total_orders: number;
-  last_month: number;
-  total_share: number;
-  last_month_share: number;
-};
+export type Driver = DefaultModel &
+  StaffStats & {
+    name: string;
+  };
 
-export type Worker = DefaultModel & {
-  name: string;
-  total_orders: number;
-  last_month: number;
-};
+export type Seller = DefaultModel &
+  StaffStats & {
+    name: string;
+    branch: Branch;
+    salary: number;
+    current_month_share: number;
+    past_month_share: number;
+  };
+
+export type Worker = DefaultModel &
+  StaffStats & {
+    name: string;
+  };

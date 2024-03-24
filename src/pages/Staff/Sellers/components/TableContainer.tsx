@@ -89,26 +89,26 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
         return <Fields.PriceField amount={cell.getValue()} currency="AZN" />;
       },
     }),
-    columnHelper.accessor("total_orders", {
-      header: "Ümumi Satış sayı",
+    columnHelper.accessor("current_month_orders", {
+      header: "Cari ay satış sayı",
       cell: (cell) => {
         return <Fields.NumberField value={cell.getValue()} />;
       },
     }),
-    columnHelper.accessor("last_month", {
-      header: "Son ay",
-      cell: (cell) => {
-        return <Fields.NumberField value={cell.getValue()} />;
-      },
-    }),
-    columnHelper.accessor("total_share", {
-      header: "Ümumi Satış payı",
+    columnHelper.accessor("current_month_share", {
+      header: "Cari ay satış payı",
       cell: (cell) => {
         return <Fields.PriceField amount={cell.getValue()} currency="AZN" />;
       },
     }),
-    columnHelper.accessor("last_month_share", {
-      header: "Son ay",
+    columnHelper.accessor("past_month_orders", {
+      header: "Keçmiş ay satış sayı",
+      cell: (cell) => {
+        return <Fields.NumberField value={cell.getValue()} />;
+      },
+    }),
+    columnHelper.accessor("past_month_share", {
+      header: "Keçmiş ay satış payı",
       cell: (cell) => {
         return <Fields.PriceField amount={cell.getValue()} currency="AZN" />;
       },

@@ -74,14 +74,14 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
       },
     }),
-    columnHelper.accessor("total_orders", {
-      header: "Ümumi Satış sayı",
+    columnHelper.accessor("current_month_orders", {
+      header: "Cari ay satış sayı",
       cell: (cell) => {
         return <Fields.NumberField value={cell.getValue()} />;
       },
     }),
-    columnHelper.accessor("last_month", {
-      header: "Son ay",
+    columnHelper.accessor("past_month_orders", {
+      header: "Keçmiş ay satış sayı",
       cell: (cell) => {
         return <Fields.NumberField value={cell.getValue()} />;
       },
