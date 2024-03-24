@@ -68,6 +68,16 @@ const TableContainer = () => {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
       },
     }),
+    columnHelper.display({
+      id: "category",
+      header: "Kateqoriya",
+      cell: (cell) => {
+        return <Fields.TextField text={cell.row.original.product.category.name} length={255} />;
+      },
+      meta: {
+        filterComponent: (column) => <Filters.TextFilter column={column} />,
+      },
+    }),
     columnHelper.accessor("price", {
       header: "Qiymət",
       cell: (cell) => {
@@ -85,6 +95,15 @@ const TableContainer = () => {
       enableSorting: false,
       cell: (cell) => {
         return <Fields.PriceField amount={cell.row.original.price * cell.row.original.quantity} />;
+      },
+    }),
+    columnHelper.accessor("date", {
+      header: "Satış Tarixi",
+      cell: (cell) => {
+        return <Fields.DateField value={cell.getValue()} />;
+      },
+      meta: {
+        filterComponent: (column) => <Filters.DateRangeFilter column={column} />,
       },
     }),
   ];

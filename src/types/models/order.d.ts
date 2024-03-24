@@ -4,13 +4,16 @@ import { Branch } from "./branch";
 import { Driver, Seller, Worker } from "./staff";
 import { Product } from "./product";
 import { Supplier } from "./supplier";
+import { Category } from "./category";
 
 export type OrderItem = DefaultModel & {
   product: Product;
   supplier: Supplier;
+  category: Category;
   quantity: number;
   price: number;
   is_sold: boolean;
+  date: string;
 };
 
 export type Order = DefaultModel & {
