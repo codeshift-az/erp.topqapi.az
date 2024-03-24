@@ -97,6 +97,20 @@ const TableContainer = () => {
         return <Fields.PriceField amount={cell.row.original.price * cell.row.original.quantity} />;
       },
     }),
+    columnHelper.accessor("is_sold", {
+      header: "Gəlir",
+      cell: (cell) => {
+        return (
+          <Fields.BooleanField value={cell.getValue()} trueText="Satıldı" falseText="Hazırlanır" />
+        );
+      },
+    }),
+    columnHelper.accessor("profit", {
+      header: "Gəlir",
+      cell: (cell) => {
+        return <Fields.PriceField amount={cell.getValue()} />;
+      },
+    }),
     columnHelper.accessor("date", {
       header: "Satış Tarixi",
       cell: (cell) => {

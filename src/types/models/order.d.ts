@@ -13,6 +13,7 @@ export type OrderItem = DefaultModel & {
   quantity: number;
   price: number;
   is_sold: boolean;
+  profit: number;
   date: string;
 };
 
