@@ -9,6 +9,7 @@ import { Category } from "./category";
 export type OrderItem = DefaultModel & {
   product: Product;
   supplier: Supplier;
+  size: string;
   category: Category;
   quantity: number;
   price: number;
@@ -46,6 +47,7 @@ export type Order = DefaultModel & {
 export type OrderCartItem = DefaultModel & {
   product: Product;
   supplier: Supplier;
+  size: string;
   quantity: number;
   price: number;
 };

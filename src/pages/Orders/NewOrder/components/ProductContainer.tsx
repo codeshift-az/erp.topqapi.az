@@ -75,6 +75,7 @@ const ProductContainer = () => {
                 <thead className="table-light">
                   <tr>
                     <th>Məhsul</th>
+                    <th>Ölçü</th>
                     <th>Firma</th>
                     <th>Qiymət</th>
                     <th>Miqdar</th>
@@ -91,6 +92,7 @@ const ProductContainer = () => {
                         </h5>
                         <p className="mb-0">{`Kateqoriya: ${item.product.category.name}`}</p>
                       </td>
+                      <td>{item.size}</td>
                       <td>{item.supplier.name}</td>
                       <td>{item.price} AZN</td>
                       <td>{item.quantity}</td>

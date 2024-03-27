@@ -65,6 +65,7 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
     initialValues: {
       product: (data && data.product && data.product.id) || "",
       supplier: (data && data.supplier && data.supplier.id) || "",
+      size: (data && data.size) || "",
       price: (data && data.price) || 0,
       quantity: (data && data.quantity) || 0,
     },
@@ -72,6 +73,9 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
     validationSchema: Yup.object({
       product: Yup.number().required("Zəhmət olmasa məhsul seçin!"),
       supplier: Yup.number().required("Zəhmət olmasa firma seçin!"),
+      size: Yup.string()
+        .required("Zəhmət olmasa ölçü daxil edin!")
+        .max(20, "Ölçü 20 simvoldan çox ola bilməz!"),
       price: Yup.number()
         .required("Zəhmət olmasa qiymət daxil edin!")
         .min(1, "Qiymət 0-dan böyük olmalıdır!"),
@@ -90,6 +94,9 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
       // Supplier
       if (!data || values["supplier"] !== data["supplier"])
         formData.append("supplier", values["supplier"]);
+
+      // Size
+      if (!data || values["size"] !== data["size"]) formData.append("size", values["size"]);
 
       // Price
       if (!data || values["price"] !== data["price"]) formData.append("price", values["price"]);
@@ -247,6 +254,27 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 <FormFeedback type="invalid" className="d-block">
                   {validation.errors.supplier.toString()}
                 </FormFeedback>
+              ) : null}
+            </Col>
+          </Row>
+
+          <Row>
+            {/* Size */}
+            <Col className="col-12 mb-3">
+              <Label>Ölçü</Label>
+
+              <Input
+                type="text"
+                name="size"
+                placeholder="Ölçü daxil edin"
+                onBlur={validation.handleBlur}
+                onChange={validation.handleChange}
+                value={validation.values.size}
+                invalid={validation.touched.size && validation.errors.size ? true : false}
+              />
+
+              {validation.touched.size && validation.errors.size ? (
+                <FormFeedback type="invalid">{validation.errors.size.toString()}</FormFeedback>
               ) : null}
             </Col>
           </Row>

@@ -75,7 +75,7 @@ const OrderContainer = () => {
 
   return (
     <React.Fragment>
-      <Col xl="4">
+      <Col xl="12">
         <Card>
           <CardBody>
             <CardTitle className="mb-3">Giriş məlumatları</CardTitle>
