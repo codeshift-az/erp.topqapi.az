@@ -35,7 +35,7 @@ const EntryContainer = () => {
 
   return (
     <React.Fragment>
-      <Col xl="4">
+      <Col xl="12">
         <Card>
           <CardBody>
             <CardTitle className="mb-3">Giriş məlumatları</CardTitle>
@@ -48,7 +48,7 @@ const EntryContainer = () => {
                     <td></td>
                   </tr>
                   <tr>
-                    <td>Qaimə kodu: </td>
+                    <td>Firma Qaimə kodu: </td>
                     <td></td>
                   </tr>
                   <tr>
@@ -69,8 +69,8 @@ const EntryContainer = () => {
                   <tr>
                     <th colSpan={2}>
                       <div className="d-flex justify-content-between">
-                        <Button color="success" className="mb-2 col-12" onClick={onEdit}>
-                          <i className={`mdi mdi-check-bold me-1`} />
+                        <Button color="primary" className="mb-2 col-12" onClick={onEdit}>
+                          <i className={`mdi mdi-pencil me-1`} />
                           Məlumatları daxil et
                         </Button>
                       </div>

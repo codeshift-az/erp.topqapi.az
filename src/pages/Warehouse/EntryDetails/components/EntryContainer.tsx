@@ -50,7 +50,7 @@ const EntryContainer = () => {
 
   return (
     <React.Fragment>
-      <Col xl="4">
+      <Col xl="12">
         <Card>
           <CardBody>
             <CardTitle className="mb-3">Giriş məlumatları</CardTitle>
@@ -92,20 +92,25 @@ const EntryContainer = () => {
                       <div className="d-flex justify-content-between">
                         <Link
                           to={`/warehouse/entries/${entry.id}/invoice`}
-                          className="btn btn-primary mb-2 col-3">
+                          className="btn btn-primary mb-2 col-2">
                           <i className={`mdi mdi-printer me-1`} />
                           Qaimə
                         </Link>
 
+                        <Link to={`/warehouse/entries/`} className="btn btn-success mb-2 col-2">
+                          <i className={`mdi mdi-check me-1`} />
+                          Yadda Saxla
+                        </Link>
+
                         {onUpdate && (
-                          <Button color="success" className="mb-2 col-3" onClick={() => onUpdate()}>
+                          <Button color="success" className="mb-2 col-2" onClick={() => onUpdate()}>
                             <i className={`mdi mdi-pencil me-1`} />
                             Redaktə et
                           </Button>
                         )}
 
                         {onDelete && (
-                          <Button color="danger" className="mb-2 col-3" onClick={() => onDelete()}>
+                          <Button color="danger" className="mb-2 col-2" onClick={() => onDelete()}>
                             <i className={`mdi mdi-trash-can me-1`} />
                             Sil
                           </Button>

@@ -61,7 +61,7 @@ const TableContainer = () => {
       },
     }),
     columnHelper.accessor("id", {
-      header: "Qaimə Kodu",
+      header: "Giriş Kodu",
       cell: (cell) => {
         return <Fields.TextField text={`#${cell.getValue()}`} />;
       },

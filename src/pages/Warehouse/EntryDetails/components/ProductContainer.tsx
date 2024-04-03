@@ -74,7 +74,7 @@ const ProductContainer = () => {
 
   return (
     <React.Fragment>
-      <Col lx="8">
+      <Col xl="12">
         <Card>
           <CardBody>
             <div className="table-responsive">
