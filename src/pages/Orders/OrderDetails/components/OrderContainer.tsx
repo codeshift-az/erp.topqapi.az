@@ -55,6 +55,7 @@ const OrderContainer = () => {
 
   const [priceSum, setPriceSum] = useState<number>(0);
   const [profitSum, setProfitSum] = useState<number>(0);
+  const [expenseSum, setExpenseSum] = useState<number>(0);
 
   useEffect(() => {
     if (order && order.items.length > 0) {
@@ -67,6 +68,10 @@ const OrderContainer = () => {
       const profit = order.items.reduce((a, b) => Number(a) + Number(b["profit"] || 0), 0);
 
       setProfitSum(profit);
+
+      const expense = order.expenses.reduce((a, b) => Number(a) + Number(b["price"] || 0), 0);
+
+      setExpenseSum(expense);
     }
   }, [order]);
 
@@ -197,7 +202,8 @@ const OrderContainer = () => {
                             profitSum -
                               order.seller_share -
                               Number(order.delivery_price) -
-                              Number(order.install_price)
+                              Number(order.install_price) -
+                              expenseSum
                           )}
                         </td>
                       </tr>
