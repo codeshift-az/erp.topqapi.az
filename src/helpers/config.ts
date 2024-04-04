@@ -7,3 +7,7 @@ export const getPageTitle = (title: string) => {
 export const getOptions = (data: any[] | null, label = "name", value = "id") => {
   return data?.map((item) => ({ label: item[label], value: item[value] })) || [];
 };
+
+export const formatPrice = (price: string | number, currency: string = "AZN") => {
+  return `${Number(price).toFixed(2)} ${currency}`;
+};

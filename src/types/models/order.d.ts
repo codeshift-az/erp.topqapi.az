@@ -37,9 +37,11 @@ export type Order = DefaultModel & {
 
   driver: Driver;
   delivery_date: string;
+  delivery_price: string;
 
   worker: Worker;
   install_date: string;
+  install_price: string;
 
   status: number;
 };

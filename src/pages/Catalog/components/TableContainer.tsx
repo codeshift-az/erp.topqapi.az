@@ -86,7 +86,7 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
     columnHelper.accessor("price", {
       header: "Qiymət",
       cell: (cell) => {
-        return <Fields.PriceField amount={cell.getValue()} currency="AZN" />;
+        return <Fields.PriceField amount={cell.getValue()} />;
       },
     }),
     columnHelper.display({

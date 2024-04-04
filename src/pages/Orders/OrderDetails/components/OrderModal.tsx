@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -28,16 +28,17 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 
 // Constants
-import { ORDER_STATUS, USER_TYPES } from "@/constants";
+import { USER_TYPES } from "@/constants";
 
 // Helpers
-import { getOptions, getSelectStyle, hasPermission } from "@/helpers";
+import { formatPrice, getOptions, getSelectStyle } from "@/helpers";
 
 // Types
 import { Option } from "@/types/option";
 
 // Actions
 import { getBranches, getSellers, getWorkers, getDrivers, updateOrder } from "@/store/actions";
+import { OrderItem } from "@/types/models";
 
 interface Props {
   data: any;
@@ -69,12 +70,14 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       discount: (data && data.discount) || 0,
       payed: (data && data.payed) || 0,
       seller_share: (data && data.seller_share) || 0,
-      note: (data && data.note) || "",
       sale_date: (data && data.sale_date) || new Date().toISOString().split("T")[0],
       driver: (data && data.driver && data.driver.id) || "",
       delivery_date: (data && data.delivery_date) || "",
+      delivery_price: (data && data.delivery_price) || 0,
       worker: (data && data.worker && data.worker.id) || "",
       install_date: (data && data.install_date) || "",
+      install_price: (data && data.install_price) || 0,
+      note: (data && data.note) || "",
     },
 
     validationSchema: Yup.object({
@@ -85,13 +88,15 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       address: Yup.string().required("Zəhmət olmasa ünvan daxil edin!"),
       discount: Yup.number(),
       payed: Yup.number().required("Zəhmət olmasa ödənilən məbləğ daxil edin!"),
-      seller_share: Yup.number(),
-      note: Yup.string(),
       sale_date: Yup.string().required("Zəhmət olmasa satış tarixi daxil edin!"),
+      seller_share: Yup.number(),
       driver: Yup.number(),
       delivery_date: Yup.string(),
+      delivery_price: Yup.string(),
       worker: Yup.number(),
       install_date: Yup.string(),
+      install_price: Yup.number(),
+      note: Yup.string(),
     }),
 
     onSubmit: (values) => {
@@ -125,15 +130,16 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       if (!data || values["seller_share"] !== data["seller_share"])
         formData.append("seller_share", values["seller_share"]);
 
-      // Note
-      if (!data || values["note"] !== data["note"]) formData.append("note", values["note"]);
-
       // Sale Date
       if (!data || values["sale_date"] !== data["sale_date"])
         formData.append("sale_date", values["sale_date"]);
 
       // Driver
       if (!data || values["driver"] !== data["driver"]) formData.append("driver", values["driver"]);
+
+      // Delivery Price
+      if (!data || values["delivery_price"] !== data["delivery_price"])
+        formData.append("delivery_price", values["delivery_price"]);
 
       // Delivery Date
       if (!data || values["delivery_date"] !== data["delivery_date"])
@@ -142,9 +148,16 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       // Worker
       if (!data || values["worker"] !== data["worker"]) formData.append("worker", values["worker"]);
 
+      // Install Price
+      if (!data || values["install_price"] !== data["install_price"])
+        formData.append("install_price", values["install_price"]);
+
       // Install Date
       if (!data || values["install_date"] !== data["install_date"])
         formData.append("install_date", values["install_date"]);
+
+      // Note
+      if (!data || values["note"] !== data["note"]) formData.append("note", values["note"]);
 
       handleSubmit(formData);
     },
@@ -230,6 +243,19 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
     validation.values.worker = "";
   }, [validation.values.install_date]);
 
+  const [priceSum, setPriceSum] = useState<number>(0);
+
+  useEffect(() => {
+    if (data && data.items.length > 0) {
+      const sum = data.items.reduce(
+        (a: OrderItem, b: OrderItem) =>
+          Number(a) + Number(b["price"] || 0) * Number(b["quantity"] || 0),
+        0
+      );
+      setPriceSum(sum);
+    }
+  }, [data]);
+
   // Success
   useEffect(() => {
     if (show && status) {
@@ -272,7 +298,7 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
           }}>
           <Row>
             {/* Branch */}
-            <Col className="col-12 mb-3">
+            <Col className="col-12 col-lg-6 mb-3">
               <Label>Filial</Label>
 
               <Select
@@ -301,11 +327,9 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
                 </FormFeedback>
               ) : null}
             </Col>
-          </Row>
 
-          <Row>
             {/* Seller */}
-            <Col className="col-12 mb-3">
+            <Col className="col-12 col-lg-6 mb-3">
               <Label>Satıcı</Label>
 
               <Select
@@ -338,7 +362,7 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
 
           <Row>
             {/* Customer */}
-            <Col className="col-12 mb-3">
+            <Col className="col-12 col-lg-6 mb-3">
               <Label>Müştəri adı</Label>
 
               <Input
@@ -355,11 +379,9 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
                 <FormFeedback type="invalid">{validation.errors.customer.toString()}</FormFeedback>
               ) : null}
             </Col>
-          </Row>
 
-          <Row>
             {/* Phone */}
-            <Col className="col-12 mb-3">
+            <Col className="col-12 col-lg-6 mb-3">
               <Label>Müştəri telefon nömrəsi</Label>
 
               <Input
@@ -401,7 +423,7 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
 
           <Row>
             {/* Discount */}
-            <Col className="col-12 mb-3">
+            <Col className="col-12 col-lg-6 mb-3">
               <Label>Endirim</Label>
 
               <Input
@@ -418,11 +440,24 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
                 <FormFeedback type="invalid">{validation.errors.discount.toString()}</FormFeedback>
               ) : null}
             </Col>
+
+            {/* Total */}
+            <Col className="col-12 col-lg-6 mb-3">
+              <Label>Cəm</Label>
+
+              <Input
+                type="text"
+                name="total"
+                placeholder="Ümumi Cəm"
+                value={formatPrice(priceSum - validation.values.discount)}
+                disabled={true}
+              />
+            </Col>
           </Row>
 
           <Row>
             {/* Payed */}
-            <Col className="col-12 mb-3">
+            <Col className="col-12 col-lg-6 mb-3">
               <Label>Ödənilən məbləğ</Label>
 
               <Input
@@ -439,11 +474,24 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
                 <FormFeedback type="invalid">{validation.errors.payed.toString()}</FormFeedback>
               ) : null}
             </Col>
+
+            {/* Debt */}
+            <Col className="col-12 col-lg-6 mb-3">
+              <Label>Qalıq məbləğ</Label>
+
+              <Input
+                type="text"
+                name="debt"
+                placeholder="Qalıq"
+                value={formatPrice(priceSum - validation.values.discount - validation.values.payed)}
+                disabled={true}
+              />
+            </Col>
           </Row>
 
           <Row>
             {/* Seller Share */}
-            <Col className="col-12 mb-3">
+            <Col className="col-12 col-lg-6 mb-3">
               <Label>Satıcı Payı</Label>
 
               <Input
@@ -461,6 +509,186 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
               {validation.touched.seller_share && validation.errors.seller_share ? (
                 <FormFeedback type="invalid">
                   {validation.errors.seller_share.toString()}
+                </FormFeedback>
+              ) : null}
+            </Col>
+
+            {/* Sale Date */}
+            <Col className="col-12 col-lg-6 mb-3">
+              <Label>Satış Tarixi</Label>
+
+              <Input
+                name="sale_date"
+                type="date"
+                placeholder="Satış tarixi daxil edin"
+                onBlur={validation.handleBlur}
+                onChange={validation.handleChange}
+                value={validation.values.sale_date}
+                invalid={validation.touched.sale_date && validation.errors.sale_date ? true : false}
+              />
+
+              {validation.touched.sale_date && validation.errors.sale_date ? (
+                <FormFeedback type="invalid">{validation.errors.sale_date.toString()}</FormFeedback>
+              ) : null}
+            </Col>
+          </Row>
+
+          <Row>
+            {/* Driver */}
+            <Col className="col-12 col-lg-6 mb-3">
+              <Label>Taksi</Label>
+
+              <Select
+                name="driver"
+                options={driverOptions || []}
+                onInputChange={(e) => setDriverName(e)}
+                styles={getSelectStyle(validation, "driver")}
+                onChange={(e) => {
+                  if (e && typeof e === "object" && e.value)
+                    validation.setFieldValue("driver", e.value);
+                }}
+                onBlur={() => {
+                  validation.setFieldTouched("driver", true);
+                }}
+                value={
+                  validation.values.driver &&
+                  driverOptions &&
+                  driverOptions.find((option) => option.value === validation.values.driver)
+                }
+              />
+
+              {validation.touched.driver && validation.errors.driver ? (
+                <FormFeedback type="invalid" className="d-block">
+                  {validation.errors.driver.toString()}
+                </FormFeedback>
+              ) : null}
+            </Col>
+
+            {/* Worker */}
+            <Col className="col-12 col-lg-6 mb-3">
+              <Label>Usta</Label>
+
+              <Select
+                name="worker"
+                options={workerOptions || []}
+                isDisabled={!validation.values.install_date}
+                onInputChange={(e) => setWorkerName(e)}
+                styles={getSelectStyle(validation, "worker")}
+                onChange={(e) => {
+                  if (e && typeof e === "object" && e.value)
+                    validation.setFieldValue("worker", e.value);
+                }}
+                onBlur={() => {
+                  validation.setFieldTouched("worker", true);
+                }}
+                value={
+                  validation.values.worker &&
+                  workerOptions &&
+                  workerOptions.find((option) => option.value === validation.values.worker)
+                }
+              />
+
+              {validation.touched.worker && validation.errors.worker ? (
+                <FormFeedback type="invalid" className="d-block">
+                  {validation.errors.worker.toString()}
+                </FormFeedback>
+              ) : null}
+            </Col>
+          </Row>
+
+          <Row>
+            {/* Delivery Date */}
+            <Col className="col-12 col-lg-6 mb-3">
+              <Label>Çatdırılma Tarixi</Label>
+
+              <Input
+                name="delivery_date"
+                type="date"
+                placeholder="Çatdırılma tarixi daxil edin"
+                onBlur={validation.handleBlur}
+                onChange={validation.handleChange}
+                value={validation.values.delivery_date}
+                invalid={
+                  validation.touched.delivery_date && validation.errors.delivery_date ? true : false
+                }
+              />
+
+              {validation.touched.delivery_date && validation.errors.delivery_date ? (
+                <FormFeedback type="invalid">
+                  {validation.errors.delivery_date.toString()}
+                </FormFeedback>
+              ) : null}
+            </Col>
+
+            {/* Install Date */}
+            <Col className="col-12 col-lg-6 mb-3">
+              <Label>Quraşdırılma Tarixi</Label>
+
+              <Input
+                name="install_date"
+                type="date"
+                placeholder="Quraşdırılma tarixi daxil edin"
+                onBlur={validation.handleBlur}
+                onChange={validation.handleChange}
+                value={validation.values.install_date}
+                invalid={
+                  validation.touched.install_date && validation.errors.install_date ? true : false
+                }
+              />
+
+              {validation.touched.install_date && validation.errors.install_date ? (
+                <FormFeedback type="invalid">
+                  {validation.errors.install_date.toString()}
+                </FormFeedback>
+              ) : null}
+            </Col>
+          </Row>
+
+          <Row>
+            {/* Delivery Price */}
+            <Col className="col-12 col-lg-6 mb-3">
+              <Label>Çatdırılma məbləği</Label>
+
+              <Input
+                type="number"
+                name="delivery_price"
+                placeholder="Çatdırılma məbləği daxil edin"
+                onBlur={validation.handleBlur}
+                onChange={validation.handleChange}
+                value={validation.values.delivery_price}
+                invalid={
+                  validation.touched.delivery_price && validation.errors.delivery_price
+                    ? true
+                    : false
+                }
+              />
+
+              {validation.touched.delivery_price && validation.errors.delivery_price ? (
+                <FormFeedback type="invalid">
+                  {validation.errors.delivery_price.toString()}
+                </FormFeedback>
+              ) : null}
+            </Col>
+
+            {/* Install Price */}
+            <Col className="col-12 col-lg-6 mb-3">
+              <Label>Quraşdırılma məbləği</Label>
+
+              <Input
+                type="number"
+                name="install_price"
+                placeholder="Quraşdırılma məbləği daxil edin"
+                onBlur={validation.handleBlur}
+                onChange={validation.handleChange}
+                value={validation.values.install_price}
+                invalid={
+                  validation.touched.install_price && validation.errors.install_price ? true : false
+                }
+              />
+
+              {validation.touched.install_price && validation.errors.install_price ? (
+                <FormFeedback type="invalid">
+                  {validation.errors.install_price.toString()}
                 </FormFeedback>
               ) : null}
             </Col>
@@ -486,150 +714,6 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
               ) : null}
             </Col>
           </Row>
-
-          <Row>
-            {/* Sale Date */}
-            <Col className="col-12 mb-3">
-              <Label>Satış Tarixi</Label>
-
-              <Input
-                name="sale_date"
-                type="date"
-                placeholder="Satış tarixi daxil edin"
-                onBlur={validation.handleBlur}
-                onChange={validation.handleChange}
-                value={validation.values.sale_date}
-                invalid={validation.touched.sale_date && validation.errors.sale_date ? true : false}
-              />
-
-              {validation.touched.sale_date && validation.errors.sale_date ? (
-                <FormFeedback type="invalid">{validation.errors.sale_date.toString()}</FormFeedback>
-              ) : null}
-            </Col>
-          </Row>
-
-          {data.status >= ORDER_STATUS.ACCEPTED && hasPermission(user, [USER_TYPES.WAREHOUSE]) && (
-            <React.Fragment>
-              <Row>
-                {/* Driver */}
-                <Col className="col-12 mb-3">
-                  <Label>Taksi</Label>
-
-                  <Select
-                    name="driver"
-                    options={driverOptions || []}
-                    onInputChange={(e) => setDriverName(e)}
-                    styles={getSelectStyle(validation, "driver")}
-                    onChange={(e) => {
-                      if (e && typeof e === "object" && e.value)
-                        validation.setFieldValue("driver", e.value);
-                    }}
-                    onBlur={() => {
-                      validation.setFieldTouched("driver", true);
-                    }}
-                    value={
-                      validation.values.driver &&
-                      driverOptions &&
-                      driverOptions.find((option) => option.value === validation.values.driver)
-                    }
-                  />
-
-                  {validation.touched.driver && validation.errors.driver ? (
-                    <FormFeedback type="invalid" className="d-block">
-                      {validation.errors.driver.toString()}
-                    </FormFeedback>
-                  ) : null}
-                </Col>
-              </Row>
-
-              <Row>
-                {/* Delivery Date */}
-                <Col className="col-12 mb-3">
-                  <Label>Çatdırılma Tarixi</Label>
-
-                  <Input
-                    name="delivery_date"
-                    type="date"
-                    placeholder="Çatdırılma tarixi daxil edin"
-                    onBlur={validation.handleBlur}
-                    onChange={validation.handleChange}
-                    value={validation.values.delivery_date}
-                    invalid={
-                      validation.touched.delivery_date && validation.errors.delivery_date
-                        ? true
-                        : false
-                    }
-                  />
-
-                  {validation.touched.delivery_date && validation.errors.delivery_date ? (
-                    <FormFeedback type="invalid">
-                      {validation.errors.delivery_date.toString()}
-                    </FormFeedback>
-                  ) : null}
-                </Col>
-              </Row>
-
-              <Row>
-                {/* Worker */}
-                <Col className="col-12 mb-3">
-                  <Label>Usta</Label>
-
-                  <Select
-                    name="worker"
-                    options={workerOptions || []}
-                    isDisabled={!validation.values.install_date}
-                    onInputChange={(e) => setWorkerName(e)}
-                    styles={getSelectStyle(validation, "worker")}
-                    onChange={(e) => {
-                      if (e && typeof e === "object" && e.value)
-                        validation.setFieldValue("worker", e.value);
-                    }}
-                    onBlur={() => {
-                      validation.setFieldTouched("worker", true);
-                    }}
-                    value={
-                      validation.values.worker &&
-                      workerOptions &&
-                      workerOptions.find((option) => option.value === validation.values.worker)
-                    }
-                  />
-
-                  {validation.touched.worker && validation.errors.worker ? (
-                    <FormFeedback type="invalid" className="d-block">
-                      {validation.errors.worker.toString()}
-                    </FormFeedback>
-                  ) : null}
-                </Col>
-              </Row>
-
-              <Row>
-                {/* Install Date */}
-                <Col className="col-12 mb-3">
-                  <Label>Quraşdırılma Tarixi</Label>
-
-                  <Input
-                    name="install_date"
-                    type="date"
-                    placeholder="Quraşdırılma tarixi daxil edin"
-                    onBlur={validation.handleBlur}
-                    onChange={validation.handleChange}
-                    value={validation.values.install_date}
-                    invalid={
-                      validation.touched.install_date && validation.errors.install_date
-                        ? true
-                        : false
-                    }
-                  />
-
-                  {validation.touched.install_date && validation.errors.install_date ? (
-                    <FormFeedback type="invalid">
-                      {validation.errors.install_date.toString()}
-                    </FormFeedback>
-                  ) : null}
-                </Col>
-              </Row>
-            </React.Fragment>
-          )}
 
           <Row>
             {/* Submit */}

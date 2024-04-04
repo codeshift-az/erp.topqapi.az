@@ -15,7 +15,7 @@ import VerifyModal from "@/components/VerifyModal";
 import { USER_TYPES, ORDER_STATUS, ORDER_STATUS_LABELS } from "@/constants";
 
 // Helpers
-import { getFormData, hasPermission, hasPermissionByStatus } from "@/helpers";
+import { formatPrice, getFormData, hasPermission, hasPermissionByStatus } from "@/helpers";
 
 // Actions
 import { deleteOrder, getOrderDetails, updateOrder } from "@/store/actions";
@@ -89,6 +89,16 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
+                    <td>Filial: </td>
+                    <td>{order.branch.name}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Satıcı: </td>
+                    <td>{order.seller.name}</td>
+                  </tr>
+
+                  <tr>
                     <td>Müştəri adı: </td>
                     <td>{order.customer}</td>
                   </tr>
@@ -104,18 +114,33 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <td>Filial: </td>
-                    <td>{order.branch.name}</td>
+                    <td>Ümumi Cəm :</td>
+                    <td>{formatPrice(priceSum)}</td>
                   </tr>
 
                   <tr>
-                    <td>Satıcı: </td>
-                    <td>{order.seller.name}</td>
+                    <td>Endirim: </td>
+                    <td>{formatPrice(order.discount)}</td>
+                  </tr>
+
+                  <tr>
+                    <th>Toplam :</th>
+                    <th>{formatPrice(priceSum - order.discount)}</th>
+                  </tr>
+
+                  <tr>
+                    <td>Ödənilən məbləğ :</td>
+                    <td>{formatPrice(order.payed)}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Qalıq məbləğ (Borc) :</td>
+                    <td>{formatPrice(priceSum - order.discount - order.payed)}</td>
                   </tr>
 
                   <tr>
                     <td>Satıcı Payı: </td>
-                    <td>{order.seller_share} AZN</td>
+                    <td>{formatPrice(order.seller_share)}</td>
                   </tr>
 
                   <tr>
@@ -134,6 +159,11 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
+                    <td>Çatdırılma məbləği: </td>
+                    <td>{formatPrice(order.delivery_price)}</td>
+                  </tr>
+
+                  <tr>
                     <td>Usta: </td>
                     <td>{order.worker?.name}</td>
                   </tr>
@@ -144,28 +174,8 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <td>Ümumi Cəm :</td>
-                    <td>{priceSum.toFixed(2)} AZN</td>
-                  </tr>
-
-                  <tr>
-                    <td>Endirim: </td>
-                    <td>{order.discount} AZN</td>
-                  </tr>
-
-                  <tr>
-                    <th>Toplam :</th>
-                    <th>{(priceSum - order.discount).toFixed(2)} AZN</th>
-                  </tr>
-
-                  <tr>
-                    <td>Ödənilən məbləğ :</td>
-                    <td>{order.payed} AZN</td>
-                  </tr>
-
-                  <tr>
-                    <td>Qalıq məbləğ (Borc) :</td>
-                    <td>{(priceSum - order.discount - order.payed).toFixed(2)} AZN</td>
+                    <td>Quraşdırılma məbləği: </td>
+                    <td>{formatPrice(order.install_price)}</td>
                   </tr>
 
                   <tr>
@@ -321,6 +331,7 @@ const OrderContainer = () => {
                             <Button
                               color="success"
                               className="mb-2 col-12"
+                              disabled={order.payed !== priceSum - order.discount}
                               onClick={() => handleStatusUpdate(ORDER_STATUS.INSTALLED)}>
                               <i className={`mdi mdi-check me-1`} />
                               Məhsullar quraşdırıldı və satış tamamlandı

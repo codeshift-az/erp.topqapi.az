@@ -13,6 +13,7 @@ import { createOrder } from "@/store/actions";
 
 // Related Components
 import OrderModal from "./OrderModal";
+import { formatPrice } from "@/helpers";
 
 const OrderContainer = () => {
   const navigate = useNavigate();
@@ -86,8 +87,33 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <th>Status :</th>
-                    <th></th>
+                    <td>Ümumi Cəm :</td>
+                    <td>{formatPrice(priceSum)}</td>
+                  </tr>
+
+                  <tr>
+                    <td>Endirim: </td>
+                    <td>{formatPrice(0)}</td>
+                  </tr>
+
+                  <tr>
+                    <th>Toplam :</th>
+                    <th>{formatPrice(priceSum)}</th>
+                  </tr>
+
+                  <tr>
+                    <td>Ödənilən məbləğ :</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Qalıq məbləğ (Borc) :</td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Satıcı Payı: </td>
+                    <td></td>
                   </tr>
 
                   <tr>
@@ -96,22 +122,32 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <th>Ümumi Cəm :</th>
-                    <th>{priceSum} AZN</th>
-                  </tr>
-
-                  <tr>
-                    <td>Endirim: </td>
+                    <td>Taksi: </td>
                     <td></td>
                   </tr>
 
                   <tr>
-                    <th>Toplam :</th>
-                    <th>{priceSum} AZN</th>
+                    <td>Çatdırılma Tarixi: </td>
+                    <td></td>
                   </tr>
 
                   <tr>
-                    <td>Satıcı Payı: </td>
+                    <td>Çatdırılma məbləği: </td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Usta: </td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Quraşdırılma Tarixi: </td>
+                    <td></td>
+                  </tr>
+
+                  <tr>
+                    <td>Quraşdırılma məbləği: </td>
                     <td></td>
                   </tr>
 

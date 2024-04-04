@@ -90,7 +90,7 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
       header: "Cəm",
       enableSorting: false,
       cell: (cell) => {
-        return <Fields.NumberField value={cell.row.original.quantity * cell.row.original.price} />;
+        return <Fields.PriceField amount={cell.row.original.quantity * cell.row.original.price} />;
       },
     }),
     columnHelper.accessor("date", {
