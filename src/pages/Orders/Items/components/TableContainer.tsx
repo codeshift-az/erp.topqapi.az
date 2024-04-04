@@ -104,6 +104,17 @@ const TableContainer = () => {
           <Fields.BooleanField value={cell.getValue()} trueText="Satıldı" falseText="Hazırlanır" />
         );
       },
+      meta: {
+        filterComponent: (column) => (
+          <Filters.SelectFilter
+            column={column}
+            options={[
+              { label: "Satıldı", value: "true" },
+              { label: "Hazırlanır", value: "false" },
+            ]}
+          />
+        ),
+      },
     }),
     columnHelper.accessor("profit", {
       header: "Gəlir",
