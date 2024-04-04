@@ -20,7 +20,7 @@ import { usePagination, useSorting, useColumnFiltering } from "@/components/Data
 import { OrderItem } from "@/types/models";
 
 // Actions
-import { getOrderItems } from "@/store/actions";
+import { getOrderItems, getOrderItemStats } from "@/store/actions";
 
 const TableContainer = () => {
   // Pagination
@@ -34,9 +34,12 @@ const TableContainer = () => {
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, items, status, count } = useSelector((state: RootState) => state.orderItem);
+  const { update, items, status, count, stats } = useSelector(
+    (state: RootState) => state.orderItem
+  );
 
   const fetchItems = () => {
+    dispatch(getOrderItemStats(filters));
     dispatch(getOrderItems({ ...filters, page, limit, ordering }));
   };
 
@@ -89,12 +92,18 @@ const TableContainer = () => {
       cell: (cell) => {
         return <Fields.NumberField value={cell.getValue()} />;
       },
+      footer: () => {
+        return <Fields.NumberField value={stats?.total_quantity || 0} />;
+      },
     }),
     columnHelper.display({
       header: "Cəm",
       enableSorting: false,
       cell: (cell) => {
         return <Fields.PriceField amount={cell.row.original.price * cell.row.original.quantity} />;
+      },
+      footer: () => {
+        return <Fields.PriceField amount={stats?.total_price || 0} />;
       },
     }),
     columnHelper.accessor("is_sold", {
@@ -120,6 +129,9 @@ const TableContainer = () => {
       header: "Gəlir",
       cell: (cell) => {
         return <Fields.PriceField amount={cell.getValue()} />;
+      },
+      footer: () => {
+        return <Fields.PriceField amount={stats?.total_profit || 0} />;
       },
     }),
     columnHelper.accessor("date", {

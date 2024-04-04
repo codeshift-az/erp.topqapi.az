@@ -5,10 +5,10 @@ import { LOADING, SUCCESS, FAILURE } from "@/constants";
 
 // Types
 import { Status } from "@/types/store";
-import { OrderItem } from "@/types/models";
+import { OrderItem, OrderItemStats } from "@/types/models";
 
 // Actions
-import { getOrderItems } from "./actions";
+import { getOrderItems, getOrderItemStats } from "./actions";
 
 interface StateProps {
   status: Status;
@@ -16,6 +16,7 @@ interface StateProps {
   update: boolean;
   items: OrderItem[] | null;
   count: number;
+  stats: OrderItemStats | null;
 }
 
 const initialState: StateProps = {
@@ -29,6 +30,7 @@ const initialState: StateProps = {
   update: false,
   items: null,
   count: 0,
+  stats: null,
 };
 
 export const orderItemSlice = createSlice({
@@ -57,6 +59,19 @@ export const orderItemSlice = createSlice({
       })
       .addCase(getOrderItems.rejected, (state, { payload }) => {
         state.status = { ...FAILURE, lastAction: getOrderItems.typePrefix };
+        state.errors = payload;
+      });
+    builder
+      .addCase(getOrderItemStats.pending, (state) => {
+        state.status = { ...LOADING, lastAction: getOrderItemStats.typePrefix };
+        state.errors = null;
+      })
+      .addCase(getOrderItemStats.fulfilled, (state, { payload }) => {
+        state.status = { ...SUCCESS, lastAction: getOrderItemStats.typePrefix };
+        state.stats = payload;
+      })
+      .addCase(getOrderItemStats.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: getOrderItemStats.typePrefix };
         state.errors = payload;
       });
   },

@@ -19,6 +19,12 @@ export type OrderItem = DefaultModel & {
   date: string;
 };
 
+export type OrderItemStats = {
+  total_quantity: number;
+  total_price: number;
+  total_profit: number;
+};
+
 export type OrderExpense = DefaultModel & {
   name: string;
   price: number;
