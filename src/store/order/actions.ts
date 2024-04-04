@@ -7,6 +7,7 @@ import { OrderFilter } from "@/types/filters";
 // API
 import * as API from "@/api/order";
 import * as OrderItemAPI from "@/api/order/item";
+import * as OrderExpenseAPI from "@/api/order/expense";
 
 export const getOrders = createAsyncThunk("order/get", async (filter: OrderFilter, thunkAPI) => {
   try {
@@ -58,6 +59,42 @@ export const deleteOrderItem = createAsyncThunk(
   async (id: number, thunkAPI) => {
     try {
       await OrderItemAPI.deleteOrderItem(id);
+      return id;
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
+    }
+  }
+);
+
+export const createOrderExpense = createAsyncThunk(
+  "order/expense/create",
+  async (data: FormData, thunkAPI) => {
+    try {
+      const response = await OrderExpenseAPI.createOrderExpense(data);
+      return response;
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
+    }
+  }
+);
+
+export const updateOrderExpense = createAsyncThunk(
+  "order/expense/update",
+  async ({ id, data }: UpdateArgs, thunkAPI) => {
+    try {
+      const response = await OrderExpenseAPI.updateOrderExpense(id, data);
+      return { response, id };
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
+    }
+  }
+);
+
+export const deleteOrderExpense = createAsyncThunk(
+  "order/expense/delete",
+  async (id: number, thunkAPI) => {
+    try {
+      await OrderExpenseAPI.deleteOrderExpense(id);
       return id;
     } catch (error: any) {
       throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });

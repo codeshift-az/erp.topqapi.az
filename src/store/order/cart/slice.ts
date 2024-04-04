@@ -34,8 +34,8 @@ const initialState: StateProps = {
   items: null,
 };
 
-export const warehouseCartSlice = createSlice({
-  name: "warehouseCart",
+export const orderCartSlice = createSlice({
+  name: "orderCart",
   initialState,
   reducers: {
     resetState: (state) => {
@@ -102,6 +102,6 @@ export const warehouseCartSlice = createSlice({
   },
 });
 
-export const { resetState } = warehouseCartSlice.actions;
+export const { resetState } = orderCartSlice.actions;
 
-export default warehouseCartSlice.reducer;
+export default orderCartSlice.reducer;

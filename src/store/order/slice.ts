@@ -17,6 +17,9 @@ import {
   createOrderItem,
   updateOrderItem,
   deleteOrderItem,
+  createOrderExpense,
+  updateOrderExpense,
+  deleteOrderExpense,
 } from "./actions";
 
 interface StateProps {
@@ -42,8 +45,8 @@ const initialState: StateProps = {
   item: null,
 };
 
-export const warehouseEntrySlice = createSlice({
-  name: "warehouseEntry",
+export const orderSlice = createSlice({
+  name: "order",
   initialState,
   reducers: {
     resetState: (state) => {
@@ -124,6 +127,45 @@ export const warehouseEntrySlice = createSlice({
         state.errors = payload;
       });
     builder
+      .addCase(createOrderExpense.pending, (state) => {
+        state.status = { ...LOADING, lastAction: createOrderExpense.typePrefix };
+        state.errors = null;
+      })
+      .addCase(createOrderExpense.fulfilled, (state) => {
+        state.status = { ...SUCCESS, lastAction: createOrderExpense.typePrefix };
+        state.update = true;
+      })
+      .addCase(createOrderExpense.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: createOrderExpense.typePrefix };
+        state.errors = payload;
+      });
+    builder
+      .addCase(updateOrderExpense.pending, (state) => {
+        state.status = { ...LOADING, lastAction: updateOrderExpense.typePrefix };
+        state.errors = null;
+      })
+      .addCase(updateOrderExpense.fulfilled, (state) => {
+        state.status = { ...SUCCESS, lastAction: updateOrderExpense.typePrefix };
+        state.update = true;
+      })
+      .addCase(updateOrderExpense.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: updateOrderExpense.typePrefix };
+        state.errors = payload;
+      });
+    builder
+      .addCase(deleteOrderExpense.pending, (state) => {
+        state.status = { ...LOADING, lastAction: deleteOrderExpense.typePrefix };
+        state.errors = null;
+      })
+      .addCase(deleteOrderExpense.fulfilled, (state) => {
+        state.status = { ...SUCCESS, lastAction: deleteOrderExpense.typePrefix };
+        state.update = true;
+      })
+      .addCase(deleteOrderExpense.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: deleteOrderExpense.typePrefix };
+        state.errors = payload;
+      });
+    builder
       .addCase(createOrder.pending, (state) => {
         state.status = { ...LOADING, lastAction: createOrder.typePrefix };
         state.errors = null;
@@ -165,6 +207,6 @@ export const warehouseEntrySlice = createSlice({
   },
 });
 
-export const { resetState } = warehouseEntrySlice.actions;
+export const { resetState } = orderSlice.actions;
 
-export default warehouseEntrySlice.reducer;
+export default orderSlice.reducer;

@@ -18,8 +18,14 @@ export type OrderItem = DefaultModel & {
   date: string;
 };
 
+export type OrderExpense = DefaultModel & {
+  name: string;
+  price: number;
+};
+
 export type Order = DefaultModel & {
   items: OrderItem[];
+  expenses: OrderExpense[];
 
   branch: Branch;
   seller: Seller;

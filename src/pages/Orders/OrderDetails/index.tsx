@@ -20,6 +20,8 @@ import { getOrderDetails } from "@/store/actions";
 // Related Components
 import OrderContainer from "./components/OrderContainer";
 import ProductContainer from "./components/ProductContainer";
+import { ORDER_STATUS } from "@/constants";
+import ExpenseContainer from "./components/ExpenseContainer";
 
 const OrderDetails = () => {
   const location = useLocation();
@@ -77,6 +79,7 @@ const OrderDetails = () => {
           {order && (
             <Row>
               <ProductContainer />
+              {order.status >= ORDER_STATUS.ACCEPTED && <ExpenseContainer />}
               <OrderContainer />
             </Row>
           )}

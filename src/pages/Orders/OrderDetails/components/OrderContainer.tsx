@@ -351,7 +351,7 @@ const OrderContainer = () => {
                             <Button
                               color="success"
                               className="mb-2 col-12"
-                              disabled={order.payed !== priceSum - order.discount}
+                              disabled={Number(order.payed) !== priceSum - order.discount}
                               onClick={() => handleStatusUpdate(ORDER_STATUS.INSTALLED)}>
                               <i className={`mdi mdi-check me-1`} />
                               Məhsullar quraşdırıldı və satış tamamlandı
