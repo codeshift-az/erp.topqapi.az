@@ -77,13 +77,13 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
     columnHelper.accessor("total_price", {
       header: "Toplam alınan",
       cell: (cell) => {
-        return <Fields.PriceField amount={cell.getValue()} currency="AZN" />;
+        return <Fields.PriceField amount={cell.getValue()} />;
       },
     }),
     columnHelper.accessor("total_payed", {
       header: "Toplam ödənilən",
       cell: (cell) => {
-        return <Fields.PriceField amount={cell.getValue()} currency="AZN" />;
+        return <Fields.PriceField amount={cell.getValue()} />;
       },
     }),
     columnHelper.display({
@@ -93,7 +93,6 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
         return (
           <Fields.PriceField
             amount={Number(cell.row.original.total_price) - Number(cell.row.original.total_payed)}
-            currency="AZN"
           />
         );
       },

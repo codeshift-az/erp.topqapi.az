@@ -5,6 +5,8 @@ import { Branch } from "./branch";
 export type StaffStats = {
   current_month_orders: number;
   past_month_orders: number;
+  current_month_share: number;
+  past_month_share: number;
 };
 
 export type Driver = DefaultModel &
@@ -17,8 +19,6 @@ export type Seller = DefaultModel &
     name: string;
     branch: Branch;
     salary: number;
-    current_month_share: number;
-    past_month_share: number;
   };
 
 export type Worker = DefaultModel &

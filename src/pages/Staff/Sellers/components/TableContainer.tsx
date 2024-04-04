@@ -86,7 +86,7 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
     columnHelper.accessor("salary", {
       header: "Maaş",
       cell: (cell) => {
-        return <Fields.PriceField amount={cell.getValue()} currency="AZN" />;
+        return <Fields.PriceField amount={cell.getValue()} />;
       },
     }),
     columnHelper.accessor("current_month_orders", {
@@ -98,7 +98,7 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
     columnHelper.accessor("current_month_share", {
       header: "Cari ay satış payı",
       cell: (cell) => {
-        return <Fields.PriceField amount={cell.getValue()} currency="AZN" />;
+        return <Fields.PriceField amount={cell.getValue()} />;
       },
     }),
     columnHelper.accessor("past_month_orders", {
@@ -110,7 +110,7 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
     columnHelper.accessor("past_month_share", {
       header: "Keçmiş ay satış payı",
       cell: (cell) => {
-        return <Fields.PriceField amount={cell.getValue()} currency="AZN" />;
+        return <Fields.PriceField amount={cell.getValue()} />;
       },
     }),
     columnHelper.display({
