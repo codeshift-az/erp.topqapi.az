@@ -18,7 +18,7 @@ import { Status } from "@/types/store";
 import { OrderItem } from "@/types/models";
 
 // Helpers
-import { getFormData, hasPermission, hasPermissionByStatus } from "@/helpers";
+import { formatPrice, getFormData, hasPermission, hasPermissionByStatus } from "@/helpers";
 
 // Actions
 import { createOrderItem, updateOrderItem, deleteOrderItem } from "@/store/actions";
@@ -96,6 +96,16 @@ const ProductContainer = () => {
     dispatch(updateOrderItem({ id: id, data: getFormData({ is_return: true }) }));
   };
 
+  // Factory Ready Action
+  const handleFactoryReady = (id: number) => {
+    dispatch(updateOrderItem({ id: id, data: getFormData({ is_factory_ready: true }) }));
+  };
+
+  // Factory Return Action
+  const handleFactoryReturn = (id: number) => {
+    dispatch(updateOrderItem({ id: id, data: getFormData({ is_factory_ready: false }) }));
+  };
+
   if (!order || status.loading) return null;
 
   return (
@@ -112,7 +122,11 @@ const ProductContainer = () => {
                     <th>Firma</th>
                     <th>Qiymət</th>
                     <th>Miqdar</th>
-                    <th colSpan={2}>Cəm</th>
+                    <th>Cəm</th>
+                    {(order.status === ORDER_STATUS.PENDING ||
+                      order.status === ORDER_STATUS.RETURN) && <th>Istehsalat</th>}
+                    {(order.status < ORDER_STATUS.READY ||
+                      order.status === ORDER_STATUS.RETURN) && <th>Anbar</th>}
                   </tr>
                 </thead>
 
@@ -127,9 +141,45 @@ const ProductContainer = () => {
                       </td>
                       <td>{item.size}</td>
                       <td>{item.supplier.name}</td>
-                      <td>{item.price} AZN</td>
+                      <td>{formatPrice(item.price)}</td>
                       <td>{item.quantity}</td>
-                      <td>{Number(item.price) * Number(item.quantity)} AZN</td>
+                      <td>{formatPrice(Number(item.price) * Number(item.quantity))}</td>
+
+                      {user?.type === USER_TYPES.STORE && order.status === ORDER_STATUS.PENDING && (
+                        <td>
+                          {item.is_factory_ready ? (
+                            <a role="alert" className={`badge badge-soft-success font-size-11 m-1`}>
+                              Hazırdır
+                            </a>
+                          ) : (
+                            <a role="alert" className={`badge badge-soft-warning font-size-11 m-1`}>
+                              Hazırlanır
+                            </a>
+                          )}
+                        </td>
+                      )}
+
+                      {hasPermission(user, [USER_TYPES.WAREHOUSE]) &&
+                        (order.status === ORDER_STATUS.PENDING ||
+                          order.status === ORDER_STATUS.RETURN) && (
+                          <td>
+                            {!item.is_factory_ready ? (
+                              <a
+                                role="button"
+                                className="action-icon text-success"
+                                onClick={() => handleFactoryReady(item.id)}>
+                                <i className="mdi mdi-check font-size-18" />
+                              </a>
+                            ) : (
+                              <a
+                                role="button"
+                                className="action-icon text-danger"
+                                onClick={() => handleFactoryReturn(item.id)}>
+                                <i className="mdi mdi-refresh font-size-18" />
+                              </a>
+                            )}
+                          </td>
+                        )}
 
                       {user?.type === USER_TYPES.STORE && order.status === ORDER_STATUS.PENDING && (
                         <td>
@@ -170,15 +220,14 @@ const ProductContainer = () => {
                               )}
 
                               {(order.status === ORDER_STATUS.PENDING ||
-                                order.status === ORDER_STATUS.RETURN) &&
-                                handleSale && (
-                                  <a
-                                    role="button"
-                                    className="action-icon text-success"
-                                    onClick={() => handleSale(item.id)}>
-                                    <i className="mdi mdi-check font-size-18" />
-                                  </a>
-                                )}
+                                order.status === ORDER_STATUS.RETURN) && (
+                                <a
+                                  role="button"
+                                  className="action-icon text-success"
+                                  onClick={() => handleSale(item.id)}>
+                                  <i className="mdi mdi-check font-size-18" />
+                                </a>
+                              )}
                             </div>
                           </td>
                         )}
@@ -189,14 +238,12 @@ const ProductContainer = () => {
                           order.status === ORDER_STATUS.RETURN) && (
                           <td>
                             <div className="d-flex gap-3">
-                              {handleReturn && (
-                                <a
-                                  role="button"
-                                  className="action-icon text-danger"
-                                  onClick={() => handleReturn(item.id)}>
-                                  <i className="mdi mdi-refresh font-size-18" />
-                                </a>
-                              )}
+                              <a
+                                role="button"
+                                className="action-icon text-danger"
+                                onClick={() => handleReturn(item.id)}>
+                                <i className="mdi mdi-refresh font-size-18" />
+                              </a>
                             </div>
                           </td>
                         )}
