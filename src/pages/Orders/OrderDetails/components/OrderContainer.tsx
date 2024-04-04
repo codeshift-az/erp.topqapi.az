@@ -54,6 +54,7 @@ const OrderContainer = () => {
   };
 
   const [priceSum, setPriceSum] = useState<number>(0);
+  const [profitSum, setProfitSum] = useState<number>(0);
 
   useEffect(() => {
     if (order && order.items.length > 0) {
@@ -62,6 +63,10 @@ const OrderContainer = () => {
         0
       );
       setPriceSum(sum);
+
+      const profit = order.items.reduce((a, b) => Number(a) + Number(b["profit"] || 0), 0);
+
+      setProfitSum(profit);
     }
   }, [order]);
 
@@ -182,6 +187,21 @@ const OrderContainer = () => {
                     <td>Qeyd: </td>
                     <td>{order.note}</td>
                   </tr>
+
+                  {order.status >= ORDER_STATUS.READY &&
+                    hasPermission(user, [USER_TYPES.WAREHOUSE]) && (
+                      <tr>
+                        <td>Ümumi gəlir: </td>
+                        <td>
+                          {formatPrice(
+                            profitSum -
+                              order.seller_share -
+                              Number(order.delivery_price) -
+                              Number(order.install_price)
+                          )}
+                        </td>
+                      </tr>
+                    )}
 
                   <tr>
                     <th>Status :</th>

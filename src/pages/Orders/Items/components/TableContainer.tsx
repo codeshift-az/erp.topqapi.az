@@ -98,7 +98,7 @@ const TableContainer = () => {
       },
     }),
     columnHelper.accessor("is_sold", {
-      header: "Gəlir",
+      header: "Status",
       cell: (cell) => {
         return (
           <Fields.BooleanField value={cell.getValue()} trueText="Satıldı" falseText="Hazırlanır" />
