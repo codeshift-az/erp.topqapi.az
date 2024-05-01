@@ -221,31 +221,34 @@ const OrderContainer = () => {
                   </tr>
 
                   {hasPermissionByStatus(user, order.status) && (
-                    <tr>
-                      <th colSpan={2}>
-                        <div className="d-flex justify-content-between">
+                    <React.Fragment>
+                      <tr>
+                        <th colSpan={2}>
                           {onUpdate && (
                             <Button
                               color="success"
-                              className="mb-2 col-5"
+                              className="mb-2 col-12"
                               onClick={() => onUpdate()}>
                               <i className={`mdi mdi-pencil me-1`} />
                               Redaktə et
                             </Button>
                           )}
-
-                          {onDelete && (
+                        </th>
+                      </tr>
+                      {onDelete && (order.status == 0 || hasPermission(user, [], true)) && (
+                        <tr>
+                          <th colSpan={2}>
                             <Button
                               color="danger"
-                              className="mb-2 col-5"
+                              className="mb-2 col-12"
                               onClick={() => onDelete()}>
                               <i className={`mdi mdi-trash-can me-1`} />
                               Sil
                             </Button>
-                          )}
-                        </div>
-                      </th>
-                    </tr>
+                          </th>
+                        </tr>
+                      )}
+                    </React.Fragment>
                   )}
 
                   {order.status === ORDER_STATUS.DRAFT && (

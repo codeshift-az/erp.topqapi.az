@@ -40,12 +40,16 @@ export const getRefreshToken = () => {
   return token ? token : "";
 };
 
-export const hasPermission = (user: User | null, types?: number[]) => {
+export const hasPermission = (user: User | null, types?: number[], is_delete: boolean = false) => {
   if (!user) return false;
+
+  if (is_delete) return user.type === USER_TYPES.SUPERADMIN;
 
   if (!types) return true;
 
   if (user.type === USER_TYPES.ADMIN) return true;
+
+  if (user.type === USER_TYPES.SUPERADMIN) return true;
 
   return types.includes(user.type);
 };

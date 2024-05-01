@@ -11,6 +11,9 @@ import { Button, Card, CardBody, CardTitle, Col, Table } from "reactstrap";
 // Components
 import VerifyModal from "@/components/VerifyModal";
 
+// Helpers
+import { hasPermission } from "@/helpers";
+
 // Actions
 import { deleteWarehouseEntry, updateWarehouseEntry } from "@/store/actions";
 
@@ -21,6 +24,7 @@ const EntryContainer = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.account);
   const { item: entry, status } = useSelector((state: RootState) => state.warehouseEntry);
 
   // Entry Modal
@@ -109,7 +113,7 @@ const EntryContainer = () => {
                           </Button>
                         )}
 
-                        {onDelete && (
+                        {onDelete && hasPermission(user, [], true) && (
                           <Button color="danger" className="mb-2 col-2" onClick={() => onDelete()}>
                             <i className={`mdi mdi-trash-can me-1`} />
                             Sil
