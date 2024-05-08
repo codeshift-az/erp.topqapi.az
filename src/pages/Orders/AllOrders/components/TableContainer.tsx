@@ -18,7 +18,7 @@ import * as Filters from "@/components/DataTable/Filters";
 import { usePagination, useSorting, useColumnFiltering } from "@/components/DataTable/Hooks";
 
 // Constants
-import { ORDER_STATUS_LABELS } from "@/constants";
+import { ORDER_STATUS, ORDER_STATUS_LABELS } from "@/constants";
 
 // Types
 import { Order } from "@/types/models";
@@ -70,23 +70,6 @@ const TableContainer = () => {
       },
       meta: {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
-      },
-    }),
-    columnHelper.display({
-      header: "Yekun Məbləğ",
-      enableSorting: false,
-      cell: (cell) => {
-        const order = cell.row.original;
-        return (
-          <Fields.PriceField
-            amount={
-              order.items.reduce(
-                (a, b) => Number(a) + Number(b["price"] || 0) * Number(b["quantity"] || 0),
-                0
-              ) - order.discount
-            }
-          />
-        );
       },
     }),
     columnHelper.accessor("customer", {
@@ -150,6 +133,20 @@ const TableContainer = () => {
       },
       meta: {
         filterComponent: (column) => <Filters.DateRangeFilter column={column} />,
+      },
+    }),
+    columnHelper.accessor("total_price", {
+      header: "Yekun Məbləğ",
+      cell: (cell) => {
+        return <Fields.PriceField amount={cell.getValue()} />;
+      },
+    }),
+    columnHelper.accessor("profit", {
+      header: "Gəlir",
+      cell: (cell) => {
+        const status = cell.row.original.status;
+        if (status < ORDER_STATUS.READY) return null;
+        return <Fields.PriceField amount={cell.getValue()} />;
       },
     }),
     columnHelper.accessor("status", {

@@ -8,12 +8,14 @@ import { AppDispatch, RootState } from "@/store";
 // Reactstrap
 import { Button, Card, CardBody, CardTitle, Col, Table } from "reactstrap";
 
+// Helpers
+import { formatPrice } from "@/helpers";
+
 // Actions
 import { createOrder } from "@/store/actions";
 
 // Related Components
 import OrderModal from "./OrderModal";
-import { formatPrice } from "@/helpers";
 
 const OrderContainer = () => {
   const navigate = useNavigate();

@@ -96,6 +96,21 @@ const TableContainer = () => {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
       },
     }),
+    columnHelper.accessor("total_price", {
+      header: "Yekun Məbləğ",
+      cell: (cell) => {
+        return <Fields.PriceField amount={cell.getValue()} />;
+      },
+    }),
+    columnHelper.accessor("sale_date", {
+      header: "Satış tarixi",
+      cell: (cell) => {
+        return <Fields.DateField value={cell.getValue()} />;
+      },
+      meta: {
+        filterComponent: (column) => <Filters.DateRangeFilter column={column} />,
+      },
+    }),
     columnHelper.accessor("status", {
       header: "status",
       cell: (cell) => {
@@ -112,15 +127,6 @@ const TableContainer = () => {
             }))}
           />
         ),
-      },
-    }),
-    columnHelper.accessor("sale_date", {
-      header: "Satış tarixi",
-      cell: (cell) => {
-        return <Fields.DateField value={cell.getValue()} />;
-      },
-      meta: {
-        filterComponent: (column) => <Filters.DateRangeFilter column={column} />,
       },
     }),
     columnHelper.display({

@@ -56,6 +56,9 @@ export type Order = DefaultModel & {
   install_date: string;
   install_price: string;
 
+  total_price: number;
+  profit: number;
+
   status: number;
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Redux
@@ -53,28 +53,6 @@ const OrderContainer = () => {
     setDeleteModal(false);
   };
 
-  const [priceSum, setPriceSum] = useState<number>(0);
-  const [profitSum, setProfitSum] = useState<number>(0);
-  const [expenseSum, setExpenseSum] = useState<number>(0);
-
-  useEffect(() => {
-    if (order && order.items.length > 0) {
-      const sum = order.items.reduce(
-        (a, b) => Number(a) + Number(b["price"] || 0) * Number(b["quantity"] || 0),
-        0
-      );
-      setPriceSum(sum);
-
-      const profit = order.items.reduce((a, b) => Number(a) + Number(b["profit"] || 0), 0);
-
-      setProfitSum(profit);
-
-      const expense = order.expenses.reduce((a, b) => Number(a) + Number(b["price"] || 0), 0);
-
-      setExpenseSum(expense);
-    }
-  }, [order]);
-
   const handleStatusUpdate = (status: number) => {
     if (order) dispatch(updateOrder({ id: order.id, data: getFormData({ status }) }));
   };
@@ -125,7 +103,7 @@ const OrderContainer = () => {
 
                   <tr>
                     <td>Ümumi Cəm :</td>
-                    <td>{formatPrice(priceSum)}</td>
+                    <td>{formatPrice(order.total_price)}</td>
                   </tr>
 
                   <tr>
@@ -135,7 +113,7 @@ const OrderContainer = () => {
 
                   <tr>
                     <th>Toplam :</th>
-                    <th>{formatPrice(priceSum - order.discount)}</th>
+                    <th>{formatPrice(order.total_price - order.discount)}</th>
                   </tr>
 
                   <tr>
@@ -145,7 +123,7 @@ const OrderContainer = () => {
 
                   <tr>
                     <th>Qalıq məbləğ (Borc) :</th>
-                    <th>{formatPrice(priceSum - order.discount - order.payed)}</th>
+                    <th>{formatPrice(order.total_price - order.discount - order.payed)}</th>
                   </tr>
 
                   <tr>
@@ -197,15 +175,7 @@ const OrderContainer = () => {
                     hasPermission(user, [USER_TYPES.WAREHOUSE]) && (
                       <tr>
                         <td>Ümumi gəlir: </td>
-                        <td>
-                          {formatPrice(
-                            profitSum -
-                              order.seller_share -
-                              Number(order.delivery_price) -
-                              Number(order.install_price) -
-                              expenseSum
-                          )}
-                        </td>
+                        <td>{formatPrice(order.profit)}</td>
                       </tr>
                     )}
 
@@ -360,7 +330,7 @@ const OrderContainer = () => {
                             <Button
                               color="success"
                               className="mb-2 col-12"
-                              disabled={Number(order.payed) !== priceSum - order.discount}
+                              disabled={Number(order.payed) !== order.total_price - order.discount}
                               onClick={() => handleStatusUpdate(ORDER_STATUS.INSTALLED)}>
                               <i className={`mdi mdi-check me-1`} />
                               Məhsullar quraşdırıldı və satış tamamlandı
