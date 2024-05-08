@@ -102,13 +102,13 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <td>Ödənilən məbləğ :</td>
-                    <td></td>
+                    <th>Ödənilən məbləğ :</th>
+                    <th></th>
                   </tr>
 
                   <tr>
-                    <td>Qalıq məbləğ (Borc) :</td>
-                    <td></td>
+                    <th>Qalıq məbləğ (Borc) :</th>
+                    <th></th>
                   </tr>
 
                   <tr>

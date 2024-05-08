@@ -139,13 +139,13 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <td>Ödənilən məbləğ :</td>
-                    <td>{formatPrice(order.payed)}</td>
+                    <th>Ödənilən məbləğ :</th>
+                    <th>{formatPrice(order.payed)}</th>
                   </tr>
 
                   <tr>
-                    <td>Qalıq məbləğ (Borc) :</td>
-                    <td>{formatPrice(priceSum - order.discount - order.payed)}</td>
+                    <th>Qalıq məbləğ (Borc) :</th>
+                    <th>{formatPrice(priceSum - order.discount - order.payed)}</th>
                   </tr>
 
                   <tr>
