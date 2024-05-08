@@ -74,6 +74,36 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
       },
     }),
+    columnHelper.accessor("total_profit", {
+      header: "Ümumi Gəlir",
+      cell: (cell) => {
+        return <Fields.PriceField amount={cell.getValue()} />;
+      },
+    }),
+    columnHelper.accessor("current_month_orders", {
+      header: "Cari ay satış sayı",
+      cell: (cell) => {
+        return <Fields.NumberField value={cell.getValue()} />;
+      },
+    }),
+    columnHelper.accessor("current_month_profit", {
+      header: "Cari ay gəlir",
+      cell: (cell) => {
+        return <Fields.PriceField amount={cell.getValue()} />;
+      },
+    }),
+    columnHelper.accessor("past_month_orders", {
+      header: "Keçmiş ay satış sayı",
+      cell: (cell) => {
+        return <Fields.NumberField value={cell.getValue()} />;
+      },
+    }),
+    columnHelper.accessor("past_month_profit", {
+      header: "Keçmiş ay gəlir",
+      cell: (cell) => {
+        return <Fields.PriceField amount={cell.getValue()} />;
+      },
+    }),
     columnHelper.display({
       header: "Əməliyyatlar",
       enableSorting: false,
