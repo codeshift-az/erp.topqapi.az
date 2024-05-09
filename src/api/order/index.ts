@@ -4,7 +4,7 @@ import axios from "@/api";
 import { getUrlWithFilter } from "@/helpers";
 
 // Types
-import { Order } from "@/types/models";
+import { Order, OrderStats } from "@/types/models";
 import { OrderFilter } from "@/types/filters";
 import { PaginationResult } from "@/types/result";
 
@@ -13,6 +13,11 @@ import * as URL from "./urls";
 
 export const getOrders = async (filter: OrderFilter): Promise<PaginationResult<Order>> => {
   const { data } = await axios.get(getUrlWithFilter(URL.ORDER_LIST_URL, filter));
+  return data;
+};
+
+export const getOrderStats = async (filter: OrderFilter): Promise<OrderStats> => {
+  const { data } = await axios.get(getUrlWithFilter(URL.ORDER_STATS_URL, filter));
   return data;
 };
 

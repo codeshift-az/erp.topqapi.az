@@ -18,6 +18,18 @@ export const getOrders = createAsyncThunk("order/get", async (filter: OrderFilte
   }
 });
 
+export const getOrderStats = createAsyncThunk(
+  "order/getStats",
+  async (filter: OrderFilter, thunkAPI) => {
+    try {
+      const response = await API.getOrderStats(filter);
+      return response;
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
+    }
+  }
+);
+
 export const getOrderDetails = createAsyncThunk(
   "order/getDetails",
   async (id: number, thunkAPI) => {

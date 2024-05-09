@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { LOADING, SUCCESS, FAILURE } from "@/constants";
 
 // Types
-import { Order } from "@/types/models";
+import { Order, OrderStats } from "@/types/models";
 import { Status } from "@/types/store";
 
 // Actions
@@ -20,6 +20,7 @@ import {
   createOrderExpense,
   updateOrderExpense,
   deleteOrderExpense,
+  getOrderStats,
 } from "./actions";
 
 interface StateProps {
@@ -27,6 +28,7 @@ interface StateProps {
   errors: any;
   update: boolean;
   items: Order[] | null;
+  stats: OrderStats | null;
   count: number;
   item: Order | null;
 }
@@ -41,6 +43,7 @@ const initialState: StateProps = {
   errors: null,
   update: false,
   items: null,
+  stats: null,
   count: 0,
   item: null,
 };
@@ -71,6 +74,19 @@ export const orderSlice = createSlice({
       })
       .addCase(getOrders.rejected, (state, { payload }) => {
         state.status = { ...FAILURE, lastAction: getOrders.typePrefix };
+        state.errors = payload;
+      });
+    builder
+      .addCase(getOrderStats.pending, (state) => {
+        state.status = { ...LOADING, lastAction: getOrderStats.typePrefix };
+        state.errors = null;
+      })
+      .addCase(getOrderStats.fulfilled, (state, { payload }) => {
+        state.status = { ...SUCCESS, lastAction: getOrderStats.typePrefix };
+        state.stats = payload;
+      })
+      .addCase(getOrderStats.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: getOrderStats.typePrefix };
         state.errors = payload;
       });
     builder

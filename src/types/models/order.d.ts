@@ -62,6 +62,12 @@ export type Order = DefaultModel & {
   status: number;
 };
 
+export type OrderStats = {
+  total_orders: number;
+  total_amount: number;
+  total_profit: number;
+};
+
 export type OrderCartItem = DefaultModel & {
   product: Product;
   supplier: Supplier;

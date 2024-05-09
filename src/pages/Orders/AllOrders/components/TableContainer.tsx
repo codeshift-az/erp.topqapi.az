@@ -24,7 +24,7 @@ import { ORDER_STATUS, ORDER_STATUS_LABELS } from "@/constants";
 import { Order } from "@/types/models";
 
 // Actions
-import { getOrders } from "@/store/actions";
+import { getOrders, getOrderStats } from "@/store/actions";
 
 const TableContainer = () => {
   // Pagination
@@ -38,9 +38,10 @@ const TableContainer = () => {
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, items, status, count } = useSelector((state: RootState) => state.order);
+  const { update, items, stats, status, count } = useSelector((state: RootState) => state.order);
 
   const fetchItems = () => {
+    dispatch(getOrderStats(filters));
     dispatch(getOrders({ ...filters, page, limit, ordering }));
   };
 
@@ -70,6 +71,9 @@ const TableContainer = () => {
       },
       meta: {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
+      },
+      footer: () => {
+        return <Fields.NumberField value={stats?.total_orders || 0} />;
       },
     }),
     columnHelper.accessor("customer", {
@@ -140,6 +144,9 @@ const TableContainer = () => {
       cell: (cell) => {
         return <Fields.PriceField amount={cell.getValue()} />;
       },
+      footer: () => {
+        return <Fields.PriceField amount={stats?.total_amount || 0} />;
+      },
     }),
     columnHelper.accessor("profit", {
       header: "Gəlir",
@@ -147,6 +154,9 @@ const TableContainer = () => {
         const status = cell.row.original.status;
         if (status < ORDER_STATUS.READY) return null;
         return <Fields.PriceField amount={cell.getValue()} />;
+      },
+      footer: () => {
+        return <Fields.PriceField amount={stats?.total_profit || 0} />;
       },
     }),
     columnHelper.accessor("status", {
