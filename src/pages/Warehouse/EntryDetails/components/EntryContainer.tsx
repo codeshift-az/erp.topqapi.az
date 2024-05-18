@@ -25,7 +25,9 @@ const EntryContainer = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.account);
-  const { item: entry, status } = useSelector((state: RootState) => state.warehouseEntry);
+  const { item: entry, status } = useSelector(
+    (state: RootState) => state.warehouseEntry
+  );
 
   // Entry Modal
   const [entryModal, setEntryModal] = useState<boolean>(false);
@@ -46,7 +48,10 @@ const EntryContainer = () => {
   };
 
   const handleDelete = () => {
-    if (entry) dispatch(deleteWarehouseEntry(entry.id)).then(() => navigate("/warehouse/entries"));
+    if (entry)
+      dispatch(deleteWarehouseEntry(entry.id)).then(() =>
+        navigate("/warehouse/entries")
+      );
     setDeleteModal(false);
   };
 
@@ -64,7 +69,11 @@ const EntryContainer = () => {
                 <tbody>
                   <tr>
                     <td>Firma: </td>
-                    <td>{entry.supplier.name}</td>
+                    <td>
+                      <Link to={`/suppliers/${entry.supplier.id}/transactions`}>
+                        {entry.supplier.name}
+                      </Link>
+                    </td>
                   </tr>
 
                   <tr>
@@ -83,7 +92,9 @@ const EntryContainer = () => {
                       {entry.items
                         .reduce(
                           (a, b) =>
-                            Number(a) + Number(b["price"] || 0) * Number(b["quantity"] || 0),
+                            Number(a) +
+                            Number(b["price"] || 0) *
+                              Number(b["quantity"] || 0),
                           0
                         )
                         .toFixed(2)}{" "}
@@ -101,20 +112,28 @@ const EntryContainer = () => {
                           Qaimə
                         </Link>
 
-                        <Link to={`/warehouse/entries/`} className="btn btn-success mb-2 col-2">
+                        <Link
+                          to={`/warehouse/entries/`}
+                          className="btn btn-success mb-2 col-2">
                           <i className={`mdi mdi-check me-1`} />
                           Yadda Saxla
                         </Link>
 
                         {onUpdate && (
-                          <Button color="success" className="mb-2 col-2" onClick={() => onUpdate()}>
+                          <Button
+                            color="success"
+                            className="mb-2 col-2"
+                            onClick={() => onUpdate()}>
                             <i className={`mdi mdi-pencil me-1`} />
                             Redaktə et
                           </Button>
                         )}
 
                         {onDelete && hasPermission(user, [], true) && (
-                          <Button color="danger" className="mb-2 col-2" onClick={() => onDelete()}>
+                          <Button
+                            color="danger"
+                            className="mb-2 col-2"
+                            onClick={() => onDelete()}>
                             <i className={`mdi mdi-trash-can me-1`} />
                             Sil
                           </Button>

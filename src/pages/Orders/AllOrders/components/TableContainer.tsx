@@ -41,8 +41,8 @@ const TableContainer = () => {
   const { update, items, stats, status, count } = useSelector((state: RootState) => state.order);
 
   const fetchItems = () => {
-    dispatch(getOrderStats(filters));
     dispatch(getOrders({ ...filters, page, limit, ordering }));
+    dispatch(getOrderStats(filters));
   };
 
   useEffect(() => {

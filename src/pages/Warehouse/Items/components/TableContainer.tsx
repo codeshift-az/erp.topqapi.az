@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +15,11 @@ import { createColumnHelper } from "@tanstack/react-table";
 import DataTable from "@/components/DataTable";
 import * as Fields from "@/components/DataTable/Fields";
 import * as Filters from "@/components/DataTable/Filters";
-import { usePagination, useSorting, useColumnFiltering } from "@/components/DataTable/Hooks";
+import {
+  useSorting,
+  usePagination,
+  useColumnFiltering,
+} from "@/components/DataTable/Hooks";
 
 // Types
 import { WarehouseItem } from "@/types/models";
@@ -30,11 +35,14 @@ const TableContainer = () => {
   const { ordering, sorting, onSortingChange } = useSorting();
 
   // Column Filtering
-  const { filters, columnFilters, onColumnFiltersChange } = useColumnFiltering();
+  const { filters, columnFilters, onColumnFiltersChange } =
+    useColumnFiltering();
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, items, status, count } = useSelector((state: RootState) => state.warehouseItem);
+  const { update, items, status, count } = useSelector(
+    (state: RootState) => state.warehouseItem
+  );
 
   const fetchItems = () => {
     dispatch(getWarehouseItems({ ...filters, page, limit, ordering }));
@@ -71,7 +79,11 @@ const TableContainer = () => {
     columnHelper.accessor("supplier", {
       header: "Firma",
       cell: (cell) => {
-        return <Fields.TextField text={cell.getValue().name} length={255} />;
+        return (
+          <Link to={`/suppliers/${cell.getValue().id}/transactions`}>
+            <Fields.TextField text={cell.getValue().name} length={255} />
+          </Link>
+        );
       },
       meta: {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
@@ -101,7 +113,9 @@ const TableContainer = () => {
       cell: (cell) => {
         return (
           <Fields.NumberField
-            value={Number(cell.row.original.quantity) - cell.row.original.sale_count}
+            value={
+              Number(cell.row.original.quantity) - cell.row.original.sale_count
+            }
           />
         );
       },
@@ -112,7 +126,9 @@ const TableContainer = () => {
       cell: (cell) => {
         return (
           <Fields.PriceField
-            amount={Number(cell.row.original.price) * cell.row.original.quantity}
+            amount={
+              Number(cell.row.original.price) * cell.row.original.quantity
+            }
           />
         );
       },
@@ -127,7 +143,10 @@ const TableContainer = () => {
             <DataTable
               data={items || []}
               columns={columns}
-              loading={status.loading && status.lastAction === getWarehouseItems.typePrefix}
+              loading={
+                status.loading &&
+                status.lastAction === getWarehouseItems.typePrefix
+              }
               // Pagination
               pagination={pagination}
               onPaginationChange={onPaginationChange}

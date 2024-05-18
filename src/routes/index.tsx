@@ -8,32 +8,56 @@ import * as Pages from "@/pages";
 
 const protectedRoutes = [
   // Dashboard
-  { path: "/dashboard", component: <Pages.Dashboard />, types: [USER_TYPES.STORE] },
+  {
+    path: "/dashboard",
+    component: <Pages.Dashboard />,
+    types: [USER_TYPES.STORE],
+  },
 
   // ------------------------------ //
 
   // Branches
-  { path: "/branches", component: <Pages.Branches />, types: [USER_TYPES.WAREHOUSE] },
+  {
+    path: "/branches",
+    component: <Pages.Branches />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
 
   // ------------------------------ //
 
   // Catalog
-  { path: "/catalog", component: <Pages.Catalog />, types: [USER_TYPES.WAREHOUSE] },
+  {
+    path: "/catalog",
+    component: <Pages.Catalog />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
 
   // ------------------------------ //
 
   // Categories
-  { path: "/categories", component: <Pages.Categories />, types: [USER_TYPES.WAREHOUSE] },
+  {
+    path: "/categories",
+    component: <Pages.Categories />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
 
   // ------------------------------ //
 
   // Expenses
-  { path: "/expenses", component: <Pages.Expenses />, types: [USER_TYPES.WAREHOUSE] },
+  {
+    path: "/expenses",
+    component: <Pages.Expenses />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
 
   // ------------------------------ //
 
   // Products
-  { path: "/products", component: <Pages.Products />, types: [USER_TYPES.WAREHOUSE] },
+  {
+    path: "/products",
+    component: <Pages.Products />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
 
   // ------------------------------ //
 
@@ -45,18 +69,41 @@ const protectedRoutes = [
   },
 
   // Staff Drivers
-  { path: "/staff/drivers", component: <Pages.Drivers />, types: [USER_TYPES.WAREHOUSE] },
+  {
+    path: "/staff/drivers",
+    component: <Pages.Drivers />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
 
   // Staff Sellers
-  { path: "/staff/sellers", component: <Pages.Sellers />, types: [USER_TYPES.WAREHOUSE] },
+  {
+    path: "/staff/sellers",
+    component: <Pages.Sellers />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
 
   // Staff Workers
-  { path: "/staff/workers", component: <Pages.Workers />, types: [USER_TYPES.WAREHOUSE] },
+  {
+    path: "/staff/workers",
+    component: <Pages.Workers />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
 
   // ------------------------------ //
 
   // Suppliers
-  { path: "/suppliers", component: <Pages.Suppliers />, types: [USER_TYPES.WAREHOUSE] },
+  {
+    path: "/suppliers",
+    component: <Pages.Suppliers />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
+
+  // Transactions
+  {
+    path: "/suppliers/:id/transactions",
+    component: <Pages.Transactions />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
 
   // ------------------------------ //
 

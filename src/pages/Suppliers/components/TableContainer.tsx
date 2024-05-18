@@ -14,13 +14,18 @@ import { createColumnHelper } from "@tanstack/react-table";
 import DataTable from "@/components/DataTable";
 import * as Fields from "@/components/DataTable/Fields";
 import * as Filters from "@/components/DataTable/Filters";
-import { usePagination, useSorting, useColumnFiltering } from "@/components/DataTable/Hooks";
+import {
+  usePagination,
+  useSorting,
+  useColumnFiltering,
+} from "@/components/DataTable/Hooks";
 
 // Types
 import { Supplier } from "@/types/models";
 
 // Actions
 import { getSuppliers } from "@/store/actions";
+import { Link } from "react-router-dom";
 
 interface Props {
   onCreate?: () => void;
@@ -36,11 +41,14 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
   const { ordering, sorting, onSortingChange } = useSorting();
 
   // Column Filtering
-  const { filters, columnFilters, onColumnFiltersChange } = useColumnFiltering();
+  const { filters, columnFilters, onColumnFiltersChange } =
+    useColumnFiltering();
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, items, status, count } = useSelector((state: RootState) => state.supplier);
+  const { update, items, status, count } = useSelector(
+    (state: RootState) => state.supplier
+  );
 
   const fetchItems = () => {
     dispatch(getSuppliers({ ...filters, page, limit, ordering }));
@@ -68,7 +76,11 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
     columnHelper.accessor("name", {
       header: "Ad",
       cell: (cell) => {
-        return <Fields.TextField text={cell.getValue()} />;
+        return (
+          <Link to={`/suppliers/${cell.row.original.id}/transactions`}>
+            <Fields.TextField text={cell.getValue()} />
+          </Link>
+        );
       },
       meta: {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
@@ -92,7 +104,10 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
       cell: (cell) => {
         return (
           <Fields.PriceField
-            amount={Number(cell.row.original.total_price) - Number(cell.row.original.total_payed)}
+            amount={
+              Number(cell.row.original.total_price) -
+              Number(cell.row.original.total_payed)
+            }
           />
         );
       },
@@ -104,10 +119,14 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
         return (
           <div className="d-flex gap-3">
             {onUpdate && (
-              <Fields.EditButton onClick={() => onUpdate(cell.row.original as Supplier)} />
+              <Fields.EditButton
+                onClick={() => onUpdate(cell.row.original as Supplier)}
+              />
             )}
             {onDelete && (
-              <Fields.DeleteButton onClick={() => onDelete(cell.row.original as Supplier)} />
+              <Fields.DeleteButton
+                onClick={() => onDelete(cell.row.original as Supplier)}
+              />
             )}
           </div>
         );
@@ -124,12 +143,17 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
               data={items || []}
               columns={columns}
               controls={
-                <Button color="primary" className="mb-2 me-2" onClick={onCreate}>
+                <Button
+                  color="primary"
+                  className="mb-2 me-2"
+                  onClick={onCreate}>
                   <i className={`mdi mdi-plus-circle-outline me-1`} />
                   Əlavə et
                 </Button>
               }
-              loading={status.loading && status.lastAction === getSuppliers.typePrefix}
+              loading={
+                status.loading && status.lastAction === getSuppliers.typePrefix
+              }
               // Pagination
               pagination={pagination}
               onPaginationChange={onPaginationChange}

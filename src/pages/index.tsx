@@ -10,6 +10,7 @@ import Drivers from "./Staff/Drivers";
 import Sellers from "./Staff/Sellers";
 import Workers from "./Staff/Workers";
 import Suppliers from "./Suppliers";
+import Transactions from "./Transactions";
 
 // Warehouse
 import WarehouseEntries from "./Warehouse/Entries";
@@ -49,6 +50,7 @@ export {
   Sellers,
   Workers,
   Suppliers,
+  Transactions,
   WarehouseEntries,
   WarehouseNewEntry,
   WarehouseEntryDetails,

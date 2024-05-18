@@ -4,11 +4,18 @@ import { createSlice } from "@reduxjs/toolkit";
 import { LOADING, SUCCESS, FAILURE } from "@/constants";
 
 // Types
-import { Supplier } from "@/types/models";
+import { Supplier, Transaction } from "@/types/models";
 import { Status } from "@/types/store";
 
 // Actions
-import { getSuppliers, createSupplier, updateSupplier, deleteSupplier } from "./actions";
+import {
+  getSuppliers,
+  createSupplier,
+  updateSupplier,
+  deleteSupplier,
+  getSupplier,
+  getSupplierTransactions,
+} from "./actions";
 
 interface StateProps {
   status: Status;
@@ -16,6 +23,9 @@ interface StateProps {
   update: boolean;
   items: Supplier[] | null;
   count: number;
+  item: Supplier | null;
+  transactions: Transaction[] | null;
+  transactionCount: number;
 }
 
 const initialState: StateProps = {
@@ -29,6 +39,9 @@ const initialState: StateProps = {
   update: false,
   items: null,
   count: 0,
+  item: null,
+  transactions: null,
+  transactionCount: 0,
 };
 
 export const supplierSlice = createSlice({
@@ -59,6 +72,45 @@ export const supplierSlice = createSlice({
         state.status = { ...FAILURE, lastAction: getSuppliers.typePrefix };
         state.errors = payload;
       });
+    builder
+      .addCase(getSupplier.pending, (state) => {
+        state.status = { ...LOADING, lastAction: getSupplier.typePrefix };
+        state.errors = null;
+      })
+      .addCase(getSupplier.fulfilled, (state, { payload }) => {
+        state.status = { ...SUCCESS, lastAction: getSupplier.typePrefix };
+        state.item = payload;
+        state.update = false;
+      })
+      .addCase(getSupplier.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: getSupplier.typePrefix };
+        state.errors = payload;
+      });
+    builder
+      .addCase(getSupplierTransactions.pending, (state) => {
+        state.status = {
+          ...LOADING,
+          lastAction: getSupplierTransactions.typePrefix,
+        };
+        state.errors = null;
+      })
+      .addCase(getSupplierTransactions.fulfilled, (state, { payload }) => {
+        state.status = {
+          ...SUCCESS,
+          lastAction: getSupplierTransactions.typePrefix,
+        };
+        state.transactions = payload.results;
+        state.transactionCount = payload.count;
+        state.update = false;
+      })
+      .addCase(getSupplierTransactions.rejected, (state, { payload }) => {
+        state.status = {
+          ...FAILURE,
+          lastAction: getSupplierTransactions.typePrefix,
+        };
+        state.errors = payload;
+      });
+
     builder
       .addCase(createSupplier.pending, (state) => {
         state.status = { ...LOADING, lastAction: createSupplier.typePrefix };

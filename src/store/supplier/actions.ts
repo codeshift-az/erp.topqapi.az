@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 // Types
 import { UpdateArgs } from "@/types/store";
-import { SupplierFilter } from "@/types/filters";
+import { SupplierFilter, TransactionFilter } from "@/types/filters";
 
 // API
 import * as API from "@/api/supplier";
@@ -14,7 +14,43 @@ export const getSuppliers = createAsyncThunk(
       const response = await API.getSuppliers(filter);
       return response;
     } catch (error: any) {
-      throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
+      throw thunkAPI.rejectWithValue({
+        data: error.response.data,
+        status: error.response.status,
+      });
+    }
+  }
+);
+
+export const getSupplier = createAsyncThunk(
+  "supplier/detail",
+  async (id: number, thunkAPI) => {
+    try {
+      const response = await API.getSupplier(id);
+      return response;
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue({
+        data: error.response.data,
+        status: error.response.status,
+      });
+    }
+  }
+);
+
+export const getSupplierTransactions = createAsyncThunk(
+  "supplier/transactions",
+  async (
+    { id, filters }: { id: number; filters: TransactionFilter },
+    thunkAPI
+  ) => {
+    try {
+      const response = await API.getSupplierTransactions(id, filters);
+      return response;
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue({
+        data: error.response.data,
+        status: error.response.status,
+      });
     }
   }
 );
@@ -26,7 +62,10 @@ export const createSupplier = createAsyncThunk(
       const response = await API.createSupplier(data);
       return response;
     } catch (error: any) {
-      throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
+      throw thunkAPI.rejectWithValue({
+        data: error.response.data,
+        status: error.response.status,
+      });
     }
   }
 );
@@ -38,16 +77,25 @@ export const updateSupplier = createAsyncThunk(
       const response = await API.updateSupplier(id, data);
       return { response, id };
     } catch (error: any) {
-      throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
+      throw thunkAPI.rejectWithValue({
+        data: error.response.data,
+        status: error.response.status,
+      });
     }
   }
 );
 
-export const deleteSupplier = createAsyncThunk("supplier/delete", async (id: number, thunkAPI) => {
-  try {
-    await API.deleteSupplier(id);
-    return id;
-  } catch (error: any) {
-    throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
+export const deleteSupplier = createAsyncThunk(
+  "supplier/delete",
+  async (id: number, thunkAPI) => {
+    try {
+      await API.deleteSupplier(id);
+      return id;
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue({
+        data: error.response.data,
+        status: error.response.status,
+      });
+    }
   }
-});
+);

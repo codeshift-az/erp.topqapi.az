@@ -5,3 +5,9 @@ export type Supplier = DefaultModel & {
   total_price: string;
   total_payed: string;
 };
+
+export type Transaction = DefaultModel & {
+  amount: string;
+  type: boolean;
+  date: string;
+};
