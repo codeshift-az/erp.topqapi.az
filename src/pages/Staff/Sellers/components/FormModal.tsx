@@ -59,12 +59,14 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
     initialValues: {
       name: (data && data.name) || "",
+      email: (data && data.email) || "",
       branch: (data && data.branch && data.branch.id) || "",
       salary: (data && data.salary) || 0,
     },
 
     validationSchema: Yup.object({
       name: Yup.string().required("Zəhmət olmasa ad daxil edin!"),
+      email: Yup.string().email("Düzgün email daxil edin!"),
       branch: Yup.number().required("Zəhmət olmasa filial seçin!"),
       salary: Yup.number()
         .required("Zəhmət olmasa maaş daxil edin!")
@@ -75,13 +77,20 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
       const formData = new FormData();
 
       // Name
-      if (!data || values["name"] !== data["name"]) formData.append("name", values["name"]);
+      if (!data || values["name"] !== data["name"])
+        formData.append("name", values["name"]);
+
+      // Email
+      if (!data || values["email"] !== data["email"])
+        formData.append("email", values["email"]);
 
       // Branch
-      if (!data || values["branch"] !== data["branch"]) formData.append("branch", values["branch"]);
+      if (!data || values["branch"] !== data["branch"])
+        formData.append("branch", values["branch"]);
 
       // Salary
-      if (!data || values["salary"] !== data["salary"]) formData.append("salary", values["salary"]);
+      if (!data || values["salary"] !== data["salary"])
+        formData.append("salary", values["salary"]);
 
       handleSubmit(formData);
     },
@@ -161,12 +170,43 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.name}
-                invalid={validation.touched.name && validation.errors.name ? true : false}
+                invalid={
+                  validation.touched.name && validation.errors.name
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.name && validation.errors.name ? (
                 <FormFeedback type="invalid" className="d-block">
                   {validation.errors.name.toString()}
+                </FormFeedback>
+              ) : null}
+            </Col>
+          </Row>
+
+          <Row>
+            {/* Email */}
+            <Col className="col-12 mb-3">
+              <Label>Email</Label>
+
+              <Input
+                type="email"
+                name="email"
+                placeholder="Email daxil edin"
+                onBlur={validation.handleBlur}
+                onChange={validation.handleChange}
+                value={validation.values.email}
+                invalid={
+                  validation.touched.email && validation.errors.email
+                    ? true
+                    : false
+                }
+              />
+
+              {validation.touched.email && validation.errors.email ? (
+                <FormFeedback type="invalid" className="d-block">
+                  {validation.errors.email.toString()}
                 </FormFeedback>
               ) : null}
             </Col>
@@ -192,7 +232,9 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 value={
                   validation.values.branch &&
                   branchOptions &&
-                  branchOptions.find((option) => option.value === validation.values.branch)
+                  branchOptions.find(
+                    (option) => option.value === validation.values.branch
+                  )
                 }
               />
 
@@ -216,11 +258,17 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.salary}
-                invalid={validation.touched.salary && validation.errors.salary ? true : false}
+                invalid={
+                  validation.touched.salary && validation.errors.salary
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.salary && validation.errors.salary ? (
-                <FormFeedback type="invalid">{validation.errors.salary.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.salary.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>

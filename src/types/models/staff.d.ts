@@ -17,6 +17,7 @@ export type Driver = DefaultModel &
 export type Seller = DefaultModel &
   StaffStats & {
     name: string;
+    email: string;
     branch: Branch;
     salary: number;
   };
