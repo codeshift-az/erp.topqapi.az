@@ -15,7 +15,12 @@ import VerifyModal from "@/components/VerifyModal";
 import { USER_TYPES, ORDER_STATUS, ORDER_STATUS_LABELS } from "@/constants";
 
 // Helpers
-import { formatPrice, getFormData, hasPermission, hasPermissionByStatus } from "@/helpers";
+import {
+  formatPrice,
+  getFormData,
+  hasPermission,
+  hasPermissionByStatus,
+} from "@/helpers";
 
 // Actions
 import { deleteOrder, getOrderDetails, updateOrder } from "@/store/actions";
@@ -28,7 +33,9 @@ const OrderContainer = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.account);
-  const { item: order, status } = useSelector((state: RootState) => state.order);
+  const { item: order, status } = useSelector(
+    (state: RootState) => state.order
+  );
 
   // Order Modal
   const [orderModal, setOrderModal] = useState<boolean>(false);
@@ -54,10 +61,15 @@ const OrderContainer = () => {
   };
 
   const handleStatusUpdate = (status: number) => {
-    if (order) dispatch(updateOrder({ id: order.id, data: getFormData({ status }) }));
+    if (order)
+      dispatch(updateOrder({ id: order.id, data: getFormData({ status }) }));
   };
 
-  if (!order || (status.lastAction == getOrderDetails.typePrefix && status.loading)) return null;
+  if (
+    !order ||
+    (status.lastAction == getOrderDetails.typePrefix && status.loading)
+  )
+    return null;
 
   const orderStatus = ORDER_STATUS_LABELS[order.status];
 
@@ -123,7 +135,11 @@ const OrderContainer = () => {
 
                   <tr>
                     <th>Qalıq məbləğ (Borc) :</th>
-                    <th>{formatPrice(order.total_price - order.discount - order.payed)}</th>
+                    <th>
+                      {formatPrice(
+                        order.total_price - order.discount - order.payed
+                      )}
+                    </th>
                   </tr>
 
                   <tr>
@@ -205,19 +221,21 @@ const OrderContainer = () => {
                           )}
                         </th>
                       </tr>
-                      {onDelete && (order.status == 0 || hasPermission(user, [], true)) && (
-                        <tr>
-                          <th colSpan={2}>
-                            <Button
-                              color="danger"
-                              className="mb-2 col-12"
-                              onClick={() => onDelete()}>
-                              <i className={`mdi mdi-trash-can me-1`} />
-                              Sil
-                            </Button>
-                          </th>
-                        </tr>
-                      )}
+                      {onDelete &&
+                        (order.status == 0 ||
+                          hasPermission(user, [], true)) && (
+                          <tr>
+                            <th colSpan={2}>
+                              <Button
+                                color="danger"
+                                className="mb-2 col-12"
+                                onClick={() => onDelete()}>
+                                <i className={`mdi mdi-trash-can me-1`} />
+                                Sil
+                              </Button>
+                            </th>
+                          </tr>
+                        )}
                     </React.Fragment>
                   )}
 
@@ -227,7 +245,13 @@ const OrderContainer = () => {
                         <Button
                           color="success"
                           className="mb-2 col-12"
-                          onClick={() => handleStatusUpdate(ORDER_STATUS.REGISTERED)}>
+                          disabled={
+                            status.loading &&
+                            status.lastAction === updateOrder.typePrefix
+                          }
+                          onClick={() =>
+                            handleStatusUpdate(ORDER_STATUS.REGISTERED)
+                          }>
                           <i className={`mdi mdi-check me-1`} />
                           Satış tamamlandı
                         </Button>
@@ -256,7 +280,13 @@ const OrderContainer = () => {
                             <Button
                               color="success"
                               className="mb-2 col-12"
-                              onClick={() => handleStatusUpdate(ORDER_STATUS.ACCEPTED)}>
+                              disabled={
+                                status.loading &&
+                                status.lastAction === updateOrder.typePrefix
+                              }
+                              onClick={() =>
+                                handleStatusUpdate(ORDER_STATUS.ACCEPTED)
+                              }>
                               <i className={`mdi mdi-check me-1`} />
                               Satış qəbul olundu
                             </Button>
@@ -270,7 +300,13 @@ const OrderContainer = () => {
                             <Button
                               color="success"
                               className="mb-2 col-12"
-                              onClick={() => handleStatusUpdate(ORDER_STATUS.PENDING)}>
+                              disabled={
+                                status.loading &&
+                                status.lastAction === updateOrder.typePrefix
+                              }
+                              onClick={() =>
+                                handleStatusUpdate(ORDER_STATUS.PENDING)
+                              }>
                               <i className={`mdi mdi-check me-1`} />
                               Məhsullar hazırlanır
                             </Button>
@@ -287,7 +323,13 @@ const OrderContainer = () => {
                               <Button
                                 color="success"
                                 className="mb-2 col-12"
-                                onClick={() => handleStatusUpdate(ORDER_STATUS.READY)}>
+                                disabled={
+                                  status.loading &&
+                                  status.lastAction === updateOrder.typePrefix
+                                }
+                                onClick={() =>
+                                  handleStatusUpdate(ORDER_STATUS.READY)
+                                }>
                                 <i className={`mdi mdi-check me-1`} />
                                 Məhsullar hazırdır
                               </Button>
@@ -302,7 +344,13 @@ const OrderContainer = () => {
                             <Button
                               color="primary"
                               className="mb-2 col-12"
-                              onClick={() => handleStatusUpdate(ORDER_STATUS.ON_DELIVERY)}>
+                              disabled={
+                                status.loading &&
+                                status.lastAction === updateOrder.typePrefix
+                              }
+                              onClick={() =>
+                                handleStatusUpdate(ORDER_STATUS.ON_DELIVERY)
+                              }>
                               <i className={`mdi mdi-truck-delivery me-1`} />
                               Məhsullar yoldadır
                             </Button>
@@ -316,7 +364,13 @@ const OrderContainer = () => {
                             <Button
                               color="primary"
                               className="mb-2 col-12"
-                              onClick={() => handleStatusUpdate(ORDER_STATUS.DELIVERED)}>
+                              disabled={
+                                status.loading &&
+                                status.lastAction === updateOrder.typePrefix
+                              }
+                              onClick={() =>
+                                handleStatusUpdate(ORDER_STATUS.DELIVERED)
+                              }>
                               <i className={`mdi mdi-truck-check me-1`} />
                               Məhsullar çatdırıldı
                             </Button>
@@ -330,8 +384,15 @@ const OrderContainer = () => {
                             <Button
                               color="success"
                               className="mb-2 col-12"
-                              disabled={Number(order.payed) !== order.total_price - order.discount}
-                              onClick={() => handleStatusUpdate(ORDER_STATUS.INSTALLED)}>
+                              disabled={
+                                Number(order.payed) !==
+                                  order.total_price - order.discount ||
+                                (status.loading &&
+                                  status.lastAction === updateOrder.typePrefix)
+                              }
+                              onClick={() =>
+                                handleStatusUpdate(ORDER_STATUS.INSTALLED)
+                              }>
                               <i className={`mdi mdi-check me-1`} />
                               Məhsullar quraşdırıldı və satış tamamlandı
                             </Button>
@@ -346,7 +407,13 @@ const OrderContainer = () => {
                               <Button
                                 color="danger"
                                 className="mb-2 col-12"
-                                onClick={() => handleStatusUpdate(ORDER_STATUS.RETURN)}>
+                                disabled={
+                                  status.loading &&
+                                  status.lastAction === updateOrder.typePrefix
+                                }
+                                onClick={() =>
+                                  handleStatusUpdate(ORDER_STATUS.RETURN)
+                                }>
                                 <i className={`mdi mdi-refresh me-1`} />
                                 Geri Qayıdış
                               </Button>
