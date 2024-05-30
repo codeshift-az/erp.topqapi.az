@@ -23,6 +23,13 @@ const protectedRoutes = [
     types: [USER_TYPES.WAREHOUSE],
   },
 
+  // Branch Orders
+  {
+    path: "/branch/:id/orders",
+    component: <Pages.BranchOrders />,
+    types: [USER_TYPES.WAREHOUSE],
+  },
+
   // ------------------------------ //
 
   // Catalog

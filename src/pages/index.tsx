@@ -23,6 +23,7 @@ import WarehouseProducts from "./Warehouse/Products";
 // Orders
 import MyOrders from "./Orders/MyOrders";
 import AllOrders from "./Orders/AllOrders";
+import BranchOrders from "./Orders/BranchOrders";
 import NewOrder from "./Orders/NewOrder";
 import OrderDetails from "./Orders/OrderDetails";
 import OrderInvoice from "./Orders/OrderInvoice";
@@ -59,6 +60,7 @@ export {
   WarehouseProducts,
   MyOrders,
   AllOrders,
+  BranchOrders,
   NewOrder,
   OrderDetails,
   OrderInvoice,

@@ -8,7 +8,13 @@ import { Branch } from "@/types/models";
 import { Status } from "@/types/store";
 
 // Actions
-import { getBranches, createBranch, updateBranch, deleteBranch } from "./actions";
+import {
+  getBranch,
+  getBranches,
+  createBranch,
+  updateBranch,
+  deleteBranch,
+} from "./actions";
 
 interface StateProps {
   status: Status;
@@ -16,6 +22,7 @@ interface StateProps {
   update: boolean;
   items: Branch[] | null;
   count: number;
+  item: Branch | null;
 }
 
 const initialState: StateProps = {
@@ -29,6 +36,7 @@ const initialState: StateProps = {
   update: false,
   items: null,
   count: 0,
+  item: null,
 };
 
 export const branchSlice = createSlice({
@@ -41,6 +49,7 @@ export const branchSlice = createSlice({
       state.errors = initialState.errors;
       state.items = initialState.items;
       state.count = initialState.count;
+      state.item = initialState.item;
     },
   },
   extraReducers: (builder) => {
@@ -57,6 +66,19 @@ export const branchSlice = createSlice({
       })
       .addCase(getBranches.rejected, (state, { payload }) => {
         state.status = { ...FAILURE, lastAction: getBranches.typePrefix };
+        state.errors = payload;
+      });
+    builder
+      .addCase(getBranch.pending, (state) => {
+        state.status = { ...LOADING, lastAction: getBranch.typePrefix };
+        state.errors = null;
+      })
+      .addCase(getBranch.fulfilled, (state, { payload }) => {
+        state.status = { ...SUCCESS, lastAction: getBranch.typePrefix };
+        state.item = payload;
+      })
+      .addCase(getBranch.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: getBranch.typePrefix };
         state.errors = payload;
       });
     builder

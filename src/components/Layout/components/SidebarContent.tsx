@@ -12,11 +12,14 @@ import SimpleBarType from "simplebar-core";
 // Metis Menu
 import MetisMenu from "@metismenu/react";
 
-// Helpers
-import { hasPermission } from "@/helpers";
+// Types
+import { Branch } from "@/types/models";
 
 // Menu Items
-import { menuItems } from "./Menu";
+import { getMenuItems, IMenuItem } from "./Menu";
+
+// API
+import { getBranches } from "@/api/branch";
 
 const SidebarContent = () => {
   // User
@@ -144,39 +147,30 @@ const SidebarContent = () => {
     }
   }
 
-  const [userMenuItems, setUserMenuItems] = useState<typeof menuItems>([]);
+  const [branches, setBranches] = useState<Branch[]>([]);
 
   useEffect(() => {
-    const items: typeof menuItems = [];
-
-    menuItems.forEach((menuItem) => {
-      if (menuItem.types && !hasPermission(user, menuItem.types)) return;
-
-      if (menuItem.subItems) {
-        const subItems = menuItem.subItems.filter((subItem) => {
-          return !subItem.types || hasPermission(user, subItem.types);
-        });
-
-        if (subItems.length > 0) {
-          items.push({ ...menuItem, subItems });
-        } else {
-          items.push({ ...menuItem, subItems: undefined });
-        }
-      } else {
-        items.push(menuItem);
-      }
+    getBranches({ limit: "all" }).then((data: any) => {
+      setBranches(data);
     });
+  }, []);
 
-    setUserMenuItems(items);
-  }, [user]);
+  const [menuItems, setMenuItems] = useState<IMenuItem[]>([]);
 
   useEffect(() => {
-    if (userMenuItems.length === 0) return;
+    if (branches === null) return;
+    if (user === null) return;
+
+    setMenuItems(getMenuItems(user, branches));
+  }, [user, branches]);
+
+  useEffect(() => {
+    if (menuItems.length === 0) return;
     window.scrollTo({ top: 0, behavior: "smooth" });
     activeMenu();
-  }, [activeMenu, userMenuItems, path.pathname]);
+  }, [activeMenu, menuItems, path.pathname]);
 
-  if (userMenuItems.length === 0) return null;
+  if (menuItems.length === 0) return null;
 
   return (
     <React.Fragment>
@@ -185,12 +179,15 @@ const SidebarContent = () => {
           <MetisMenu className="list-unstyled">
             <li className="menu-title">Menu</li>
 
-            {userMenuItems.map((menuItem) => (
+            {menuItems.map((menuItem) => (
               <li key={menuItem.id}>
-                <Link to={menuItem.link} className={menuItem.subItems && "has-arrow"}>
+                <Link
+                  to={menuItem.link}
+                  className={menuItem.subItems && "has-arrow"}>
                   <i className={menuItem.icon}></i>
                   {menuItem.badge && (
-                    <span className={`badge rounded-pill ${menuItem.badge.color} float-end`}>
+                    <span
+                      className={`badge rounded-pill ${menuItem.badge.color} float-end`}>
                       {menuItem.badge.value}
                     </span>
                   )}

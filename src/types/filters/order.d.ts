@@ -12,6 +12,7 @@ export type OrderFilter = DefaultFilter & {
   customer?: string;
   phone?: string;
   status?: number;
+  branch_id?: number;
   date_start?: string;
   date_end?: string;
 };
