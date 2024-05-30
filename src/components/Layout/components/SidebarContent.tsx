@@ -17,8 +17,6 @@ import { Branch } from "@/types/models";
 
 // Menu Items
 import { getMenuItems, IMenuItem } from "./Menu";
-
-// API
 import { getBranches } from "@/api/branch";
 
 const SidebarContent = () => {
@@ -147,6 +145,7 @@ const SidebarContent = () => {
     }
   }
 
+  const { update } = useSelector((state: RootState) => state.branch);
   const [branches, setBranches] = useState<Branch[]>([]);
 
   useEffect(() => {
@@ -163,6 +162,13 @@ const SidebarContent = () => {
 
     setMenuItems(getMenuItems(user, branches));
   }, [user, branches]);
+
+  useEffect(() => {
+    if (update)
+      getBranches({ limit: "all" }).then((data: any) => {
+        setBranches(data);
+      });
+  }, [update]);
 
   useEffect(() => {
     if (menuItems.length === 0) return;
