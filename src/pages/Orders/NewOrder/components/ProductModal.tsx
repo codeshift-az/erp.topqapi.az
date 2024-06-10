@@ -78,7 +78,7 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
         .max(20, "Ölçü 20 simvoldan çox ola bilməz!"),
       price: Yup.number()
         .required("Zəhmət olmasa qiymət daxil edin!")
-        .min(1, "Qiymət 0-dan böyük olmalıdır!"),
+        .min(0, "Qiymət 0 vəya 0-dan böyük olmalıdır!"),
       quantity: Yup.number()
         .required("Zəhmət olmasa miqdar daxil edin!")
         .min(1, "Miqdar 0-dan böyük olmalıdır!"),

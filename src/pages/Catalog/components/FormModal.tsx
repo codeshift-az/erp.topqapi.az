@@ -50,7 +50,9 @@ interface Props {
 }
 
 const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
-  const title = isEdit ? "Məhsul qeydiyyat məlumatlarını redaktə et" : "Məhsul əlavə Et";
+  const title = isEdit
+    ? "Məhsul qeydiyyat məlumatlarını redaktə et"
+    : "Məhsul əlavə Et";
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -73,7 +75,7 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
       supplier: Yup.number().required("Zəhmət olmasa firma seçin!"),
       price: Yup.number()
         .required("Zəhmət olmasa qiymət daxil edin!")
-        .min(1, "Qiymət 0-dan böyük olmalıdır!"),
+        .min(0, "Qiymət 0 vəya 0-dan böyük olmalıdır!"),
     }),
 
     onSubmit: (values) => {
@@ -88,7 +90,8 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
         formData.append("supplier", values["supplier"]);
 
       // Price
-      if (!data || values["price"] !== data["price"]) formData.append("price", values["price"]);
+      if (!data || values["price"] !== data["price"])
+        formData.append("price", values["price"]);
 
       handleSubmit(formData);
     },
@@ -194,7 +197,9 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 value={
                   validation.values.product &&
                   productOptions &&
-                  productOptions.find((option) => option.value === validation.values.product)
+                  productOptions.find(
+                    (option) => option.value === validation.values.product
+                  )
                 }
               />
 
@@ -226,7 +231,9 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 value={
                   validation.values.supplier &&
                   supplierOptions &&
-                  supplierOptions.find((option) => option.value === validation.values.supplier)
+                  supplierOptions.find(
+                    (option) => option.value === validation.values.supplier
+                  )
                 }
               />
 
@@ -250,11 +257,17 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.price}
-                invalid={validation.touched.price && validation.errors.price ? true : false}
+                invalid={
+                  validation.touched.price && validation.errors.price
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.price && validation.errors.price ? (
-                <FormFeedback type="invalid">{validation.errors.price.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.price.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>

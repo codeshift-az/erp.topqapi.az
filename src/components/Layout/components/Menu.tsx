@@ -53,13 +53,6 @@ const getMenuItems: (user: User, branches: Branch[]) => IMenuItem[] = (
       ],
     },
     {
-      id: "catalog",
-      label: "Məhsul Kataloqu",
-      icon: "bx bx-list-ul",
-      link: "/catalog",
-      types: [USER_TYPES.WAREHOUSE],
-    },
-    {
       id: "warehouse",
       label: "Anbar",
       icon: "bx bx-store",
@@ -191,6 +184,13 @@ const getMenuItems: (user: User, branches: Branch[]) => IMenuItem[] = (
       link: "/details",
       types: [USER_TYPES.WAREHOUSE],
       subItems: [
+        {
+          id: "catalog",
+          label: "Məhsul Kataloqu",
+          icon: "bx bx-list-ul",
+          link: "/catalog",
+          types: [USER_TYPES.WAREHOUSE],
+        },
         {
           id: "details-products",
           label: "Məhsullar",

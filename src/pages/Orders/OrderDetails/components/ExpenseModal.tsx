@@ -36,7 +36,9 @@ interface Props {
 }
 
 const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
-  const title = isEdit ? "Satış Xərci məlumatlarını redaktə et" : "Satış Xərci əlavə Et";
+  const title = isEdit
+    ? "Satış Xərci məlumatlarını redaktə et"
+    : "Satış Xərci əlavə Et";
 
   const { status, errors } = useSelector((state: RootState) => state.order);
 
@@ -55,17 +57,19 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
       name: Yup.string().required("Zəhmət olmasa ad daxil edin!"),
       price: Yup.number()
         .required("Zəhmət olmasa qiymət daxil edin!")
-        .min(1, "Qiymət 0-dan böyük olmalıdır!"),
+        .min(0, "Qiymət 0 vəya 0-dan böyük olmalıdır!"),
     }),
 
     onSubmit: (values) => {
       const formData = new FormData();
 
       // Name
-      if (!data || values["name"] !== data["name"]) formData.append("name", values["name"]);
+      if (!data || values["name"] !== data["name"])
+        formData.append("name", values["name"]);
 
       // Price
-      if (!data || values["price"] !== data["price"]) formData.append("price", values["price"]);
+      if (!data || values["price"] !== data["price"])
+        formData.append("price", values["price"]);
 
       handleSubmit(formData);
     },
@@ -127,11 +131,17 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.name}
-                invalid={validation.touched.name && validation.errors.name ? true : false}
+                invalid={
+                  validation.touched.name && validation.errors.name
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.name && validation.errors.name ? (
-                <FormFeedback type="invalid">{validation.errors.name.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.name.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
@@ -148,11 +158,17 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.price}
-                invalid={validation.touched.price && validation.errors.price ? true : false}
+                invalid={
+                  validation.touched.price && validation.errors.price
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.price && validation.errors.price ? (
-                <FormFeedback type="invalid">{validation.errors.price.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.price.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>

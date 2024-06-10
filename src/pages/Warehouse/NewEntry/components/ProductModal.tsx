@@ -34,7 +34,11 @@ import { getOptions, getSelectStyle } from "@/helpers";
 import { Option } from "@/types/option";
 
 // Actions
-import { getProducts, createWarehouseCartItem, updateWarehouseCartItem } from "@/store/actions";
+import {
+  getProducts,
+  createWarehouseCartItem,
+  updateWarehouseCartItem,
+} from "@/store/actions";
 
 interface Props {
   data: any;
@@ -49,7 +53,9 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const { status, errors } = useSelector((state: RootState) => state.warehouseCart);
+  const { status, errors } = useSelector(
+    (state: RootState) => state.warehouseCart
+  );
 
   const [alertError, setAlertError] = useState<string>("");
 
@@ -67,7 +73,7 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
       product: Yup.number().required("Zəhmət olmasa məhsul seçin!"),
       price: Yup.number()
         .required("Zəhmət olmasa qiymət daxil edin!")
-        .min(1, "Qiymət 0-dan böyük olmalıdır!"),
+        .min(0, "Qiymət 0 vəya 0-dan böyük olmalıdır!"),
       quantity: Yup.number()
         .required("Zəhmət olmasa miqdar daxil edin!")
         .min(1, "Miqdar 0-dan böyük olmalıdır!"),
@@ -81,7 +87,8 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
         formData.append("product", values["product"]);
 
       // Price
-      if (!data || values["price"] !== data["price"]) formData.append("price", values["price"]);
+      if (!data || values["price"] !== data["price"])
+        formData.append("price", values["price"]);
 
       // Quantity
       if (!data || values["quantity"] !== data["quantity"])
@@ -114,7 +121,8 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
     if (show && status) {
       if (
         ((isEdit && status.lastAction === updateWarehouseCartItem.typePrefix) ||
-          (!isEdit && status.lastAction === createWarehouseCartItem.typePrefix)) &&
+          (!isEdit &&
+            status.lastAction === createWarehouseCartItem.typePrefix)) &&
         status.success
       ) {
         validation.resetForm();
@@ -173,7 +181,9 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 value={
                   validation.values.product &&
                   productOptions &&
-                  productOptions.find((option) => option.value === validation.values.product)
+                  productOptions.find(
+                    (option) => option.value === validation.values.product
+                  )
                 }
               />
 
@@ -197,11 +207,17 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.price}
-                invalid={validation.touched.price && validation.errors.price ? true : false}
+                invalid={
+                  validation.touched.price && validation.errors.price
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.price && validation.errors.price ? (
-                <FormFeedback type="invalid">{validation.errors.price.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.price.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
@@ -218,11 +234,17 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.quantity}
-                invalid={validation.touched.quantity && validation.errors.quantity ? true : false}
+                invalid={
+                  validation.touched.quantity && validation.errors.quantity
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.quantity && validation.errors.quantity ? (
-                <FormFeedback type="invalid">{validation.errors.quantity.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.quantity.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
