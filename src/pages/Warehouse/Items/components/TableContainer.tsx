@@ -133,6 +133,21 @@ const TableContainer = () => {
         );
       },
     }),
+    columnHelper.display({
+      header: "Qalıq Pul",
+      enableSorting: false,
+      cell: (cell) => {
+        return (
+          <Fields.PriceField
+            amount={
+              Number(cell.row.original.price) *
+              (Number(cell.row.original.quantity) -
+                cell.row.original.sale_count)
+            }
+          />
+        );
+      },
+    }),
   ];
 
   return (
