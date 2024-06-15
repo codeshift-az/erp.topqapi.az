@@ -74,7 +74,6 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
       product: Yup.number().required("Zəhmət olmasa məhsul seçin!"),
       supplier: Yup.number().required("Zəhmət olmasa firma seçin!"),
       size: Yup.string()
-        .required("Zəhmət olmasa ölçü daxil edin!")
         .max(20, "Ölçü 20 simvoldan çox ola bilməz!"),
       price: Yup.number()
         .required("Zəhmət olmasa qiymət daxil edin!")
