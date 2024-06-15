@@ -110,6 +110,19 @@ const TableContainer = () => {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
       },
     }),
+    columnHelper.display({
+      header: "Kateqoriyalar",
+      cell: (cell) => {
+        return (
+          <Fields.TextField
+            text={cell.row.original.items
+              .map((item) => item.product.category.name)
+              .join(", ")}
+            length={255}
+          />
+        );
+      },
+    }),
     columnHelper.accessor("phone", {
       header: "Telefon",
       cell: (cell) => {

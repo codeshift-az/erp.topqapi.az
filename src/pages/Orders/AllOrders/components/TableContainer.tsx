@@ -15,7 +15,11 @@ import { createColumnHelper } from "@tanstack/react-table";
 import DataTable from "@/components/DataTable";
 import * as Fields from "@/components/DataTable/Fields";
 import * as Filters from "@/components/DataTable/Filters";
-import { usePagination, useSorting, useColumnFiltering } from "@/components/DataTable/Hooks";
+import {
+  usePagination,
+  useSorting,
+  useColumnFiltering,
+} from "@/components/DataTable/Hooks";
 
 // Constants
 import { ORDER_STATUS, ORDER_STATUS_LABELS } from "@/constants";
@@ -34,11 +38,14 @@ const TableContainer = () => {
   const { ordering, sorting, onSortingChange } = useSorting();
 
   // Column Filtering
-  const { filters, columnFilters, onColumnFiltersChange } = useColumnFiltering();
+  const { filters, columnFilters, onColumnFiltersChange } =
+    useColumnFiltering();
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, items, stats, status, count } = useSelector((state: RootState) => state.order);
+  const { update, items, stats, status, count } = useSelector(
+    (state: RootState) => state.order
+  );
 
   const fetchItems = () => {
     dispatch(getOrders({ ...filters, page, limit, ordering }));
@@ -85,6 +92,19 @@ const TableContainer = () => {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
       },
     }),
+    columnHelper.display({
+      header: "Kateqoriyalar",
+      cell: (cell) => {
+        return (
+          <Fields.TextField
+            text={cell.row.original.items
+              .map((item) => item.product.category.name)
+              .join(", ")}
+            length={255}
+          />
+        );
+      },
+    }),
     columnHelper.accessor("phone", {
       header: "Telefon",
       cell: (cell) => {
@@ -118,7 +138,9 @@ const TableContainer = () => {
         return <Fields.DateField value={cell.getValue()} />;
       },
       meta: {
-        filterComponent: (column) => <Filters.DateRangeFilter column={column} />,
+        filterComponent: (column) => (
+          <Filters.DateRangeFilter column={column} />
+        ),
       },
     }),
     columnHelper.accessor("worker", {
@@ -136,7 +158,9 @@ const TableContainer = () => {
         return <Fields.DateField value={cell.getValue()} />;
       },
       meta: {
-        filterComponent: (column) => <Filters.DateRangeFilter column={column} />,
+        filterComponent: (column) => (
+          <Filters.DateRangeFilter column={column} />
+        ),
       },
     }),
     columnHelper.accessor("total_price", {
@@ -183,7 +207,9 @@ const TableContainer = () => {
       cell: (cell) => {
         return (
           <div className="d-flex gap-3">
-            <Link to={`/orders/${cell.row.original.id}`} className="text-primary">
+            <Link
+              to={`/orders/${cell.row.original.id}`}
+              className="text-primary">
               <i className="mdi mdi-eye font-size-18" id="viewtooltip" />
               <UncontrolledTooltip placement="top" target="viewtooltip">
                 Ətraflı
@@ -209,7 +235,9 @@ const TableContainer = () => {
                   Yeni Satış
                 </Link>
               }
-              loading={status.loading && status.lastAction === getOrders.typePrefix}
+              loading={
+                status.loading && status.lastAction === getOrders.typePrefix
+              }
               // Pagination
               pagination={pagination}
               onPaginationChange={onPaginationChange}
