@@ -14,7 +14,11 @@ import { createColumnHelper } from "@tanstack/react-table";
 import DataTable from "@/components/DataTable";
 import * as Fields from "@/components/DataTable/Fields";
 import * as Filters from "@/components/DataTable/Filters";
-import { usePagination, useSorting, useColumnFiltering } from "@/components/DataTable/Hooks";
+import {
+  useSorting,
+  usePagination,
+  useColumnFiltering,
+} from "@/components/DataTable/Hooks";
 
 // Types
 import { WarehouseItemStats } from "@/types/models";
@@ -30,7 +34,8 @@ const TableContainer = () => {
   const { ordering, sorting, onSortingChange } = useSorting();
 
   // Column Filtering
-  const { filters, columnFilters, onColumnFiltersChange } = useColumnFiltering();
+  const { filters, columnFilters, onColumnFiltersChange } =
+    useColumnFiltering();
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
@@ -87,7 +92,9 @@ const TableContainer = () => {
       enableSorting: false,
       cell: (cell) => {
         return (
-          <Fields.NumberField value={cell.row.original.quantity - cell.row.original.sale_count} />
+          <Fields.NumberField
+            value={cell.row.original.quantity - cell.row.original.sale_count}
+          />
         );
       },
     }),
@@ -101,7 +108,10 @@ const TableContainer = () => {
             <DataTable
               data={stats || []}
               columns={columns}
-              loading={status.loading && status.lastAction === getWarehouseItemStats.typePrefix}
+              loading={
+                status.loading &&
+                status.lastAction === getWarehouseItemStats.typePrefix
+              }
               // Pagination
               pagination={pagination}
               onPaginationChange={onPaginationChange}

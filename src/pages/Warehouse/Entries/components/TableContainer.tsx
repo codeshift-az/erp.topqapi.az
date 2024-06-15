@@ -73,6 +73,19 @@ const TableContainer = () => {
         return <Fields.TextField text={`#${cell.getValue()}`} />;
       },
     }),
+    columnHelper.display({
+      header: "Kateqoriyalar",
+      cell: (cell) => {
+        return (
+          <Fields.TextField
+            text={cell.row.original.items
+              .map((item) => item.product.category.name)
+              .join(", ")}
+            length={255}
+          />
+        );
+      },
+    }),
     columnHelper.accessor("supplier", {
       header: "Firma",
       cell: (cell) => {
