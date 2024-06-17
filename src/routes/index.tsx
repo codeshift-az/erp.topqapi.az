@@ -160,7 +160,7 @@ const protectedRoutes = [
   {
     path: "/warehouse/products",
     component: <Pages.WarehouseProducts />,
-    types: [USER_TYPES.WAREHOUSE],
+    types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
   },
 
   // ------------------------------ //
