@@ -14,7 +14,8 @@ export type WarehouseItem = DefaultModel & {
 };
 
 export type WarehouseItemStats = {
-  product: number;
+  product: string;
+  category: string;
   name: string;
   quantity: number;
   sale_count: number;
