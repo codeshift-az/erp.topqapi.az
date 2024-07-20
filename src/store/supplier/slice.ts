@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { LOADING, SUCCESS, FAILURE } from "@/constants";
 
 // Types
-import { Supplier, Transaction } from "@/types/models";
+import { Supplier, SupplierStats, Transaction } from "@/types/models";
 import { Status } from "@/types/store";
 
 // Actions
@@ -15,6 +15,7 @@ import {
   deleteSupplier,
   getSupplier,
   getSupplierTransactions,
+  getSupplierStats,
 } from "./actions";
 
 interface StateProps {
@@ -26,6 +27,7 @@ interface StateProps {
   item: Supplier | null;
   transactions: Transaction[] | null;
   transactionCount: number;
+  stats: SupplierStats | null;
 }
 
 const initialState: StateProps = {
@@ -42,6 +44,7 @@ const initialState: StateProps = {
   item: null,
   transactions: null,
   transactionCount: 0,
+  stats: null,
 };
 
 export const supplierSlice = createSlice({
@@ -54,6 +57,10 @@ export const supplierSlice = createSlice({
       state.errors = initialState.errors;
       state.items = initialState.items;
       state.count = initialState.count;
+      state.item = initialState.item;
+      state.transactions = initialState.transactions;
+      state.transactionCount = initialState.transactionCount;
+      state.stats = initialState.stats;
     },
   },
   extraReducers: (builder) => {
@@ -70,6 +77,19 @@ export const supplierSlice = createSlice({
       })
       .addCase(getSuppliers.rejected, (state, { payload }) => {
         state.status = { ...FAILURE, lastAction: getSuppliers.typePrefix };
+        state.errors = payload;
+      });
+    builder
+      .addCase(getSupplierStats.pending, (state) => {
+        state.status = { ...LOADING, lastAction: getSupplierStats.typePrefix };
+        state.errors = null;
+      })
+      .addCase(getSupplierStats.fulfilled, (state, { payload }) => {
+        state.status = { ...SUCCESS, lastAction: getSupplierStats.typePrefix };
+        state.stats = payload;
+      })
+      .addCase(getSupplierStats.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: getSupplierStats.typePrefix };
         state.errors = payload;
       });
     builder
@@ -110,7 +130,6 @@ export const supplierSlice = createSlice({
         };
         state.errors = payload;
       });
-
     builder
       .addCase(createSupplier.pending, (state) => {
         state.status = { ...LOADING, lastAction: createSupplier.typePrefix };

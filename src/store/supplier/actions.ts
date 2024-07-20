@@ -22,6 +22,21 @@ export const getSuppliers = createAsyncThunk(
   }
 );
 
+export const getSupplierStats = createAsyncThunk(
+  "supplier/stats",
+  async (filter: SupplierFilter, thunkAPI) => {
+    try {
+      const response = await API.getSupplierStats(filter);
+      return response;
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue({
+        data: error.response.data,
+        status: error.response.status,
+      });
+    }
+  }
+);
+
 export const getSupplier = createAsyncThunk(
   "supplier/detail",
   async (id: number, thunkAPI) => {

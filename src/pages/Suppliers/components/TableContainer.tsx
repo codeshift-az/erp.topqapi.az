@@ -24,7 +24,7 @@ import {
 import { Supplier } from "@/types/models";
 
 // Actions
-import { getSuppliers } from "@/store/actions";
+import { getSuppliers, getSupplierStats } from "@/store/actions";
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -46,12 +46,13 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, items, status, count } = useSelector(
+  const { update, items, status, count, stats } = useSelector(
     (state: RootState) => state.supplier
   );
 
   const fetchItems = () => {
     dispatch(getSuppliers({ ...filters, page, limit, ordering }));
+    dispatch(getSupplierStats(filters));
   };
 
   useEffect(() => {
@@ -91,11 +92,17 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
       cell: (cell) => {
         return <Fields.PriceField amount={cell.getValue()} />;
       },
+      footer: () => {
+        return <Fields.PriceField amount={stats?.total_price || 0} />;
+      },
     }),
     columnHelper.accessor("total_payed", {
       header: "Toplam ödənilən",
       cell: (cell) => {
         return <Fields.PriceField amount={cell.getValue()} />;
+      },
+      footer: () => {
+        return <Fields.PriceField amount={stats?.total_payed || 0} />;
       },
     }),
     columnHelper.display({
@@ -107,6 +114,15 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
             amount={
               Number(cell.row.original.total_price) -
               Number(cell.row.original.total_payed)
+            }
+          />
+        );
+      },
+      footer: () => {
+        return (
+          <Fields.PriceField
+            amount={
+              Number(stats?.total_price || 0) - Number(stats?.total_payed || 0)
             }
           />
         );

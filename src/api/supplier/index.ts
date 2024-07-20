@@ -4,7 +4,7 @@ import axios from "@/api";
 import { getUrlWithFilter } from "@/helpers";
 
 // Types
-import { Supplier, Transaction } from "@/types/models";
+import { Supplier, SupplierStats, Transaction } from "@/types/models";
 import { SupplierFilter, TransactionFilter } from "@/types/filters";
 import { PaginationResult } from "@/types/result";
 
@@ -16,6 +16,14 @@ export const getSuppliers = async (
 ): Promise<PaginationResult<Supplier>> => {
   const { data } = await axios.get(
     getUrlWithFilter(URL.SUPPLIER_LIST_URL, filter)
+  );
+  return data;
+};
+export const getSupplierStats = async (
+  filter: SupplierFilter
+): Promise<SupplierStats> => {
+  const { data } = await axios.get(
+    getUrlWithFilter(URL.SUPPLIER_STAT_URL, filter)
   );
   return data;
 };
