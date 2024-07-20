@@ -5,10 +5,18 @@ import { LOADING, SUCCESS, FAILURE } from "@/constants";
 
 // Types
 import { Status } from "@/types/store";
-import { WarehouseItem, WarehouseItemStats } from "@/types/models";
+import {
+  WarehouseItem,
+  WarehouseItemAllStats,
+  WarehouseItemStats,
+} from "@/types/models";
 
 // Actions
-import { getWarehouseItems, getWarehouseItemStats } from "./actions";
+import {
+  getWarehouseItemAllStats,
+  getWarehouseItems,
+  getWarehouseItemStats,
+} from "./actions";
 
 interface StateProps {
   status: Status;
@@ -18,6 +26,7 @@ interface StateProps {
   count: number;
   stats: WarehouseItemStats[] | null;
   statsCount: number;
+  allStats: WarehouseItemAllStats | null;
 }
 
 const initialState: StateProps = {
@@ -33,6 +42,7 @@ const initialState: StateProps = {
   count: 0,
   stats: null,
   statsCount: 0,
+  allStats: null,
 };
 
 export const warehouseItemSlice = createSlice({
@@ -45,6 +55,7 @@ export const warehouseItemSlice = createSlice({
       state.errors = initialState.errors;
       state.items = initialState.items;
       state.count = initialState.count;
+      state.stats = initialState.stats;
     },
   },
   extraReducers: (builder) => {
@@ -65,16 +76,47 @@ export const warehouseItemSlice = createSlice({
       });
     builder
       .addCase(getWarehouseItemStats.pending, (state) => {
-        state.status = { ...LOADING, lastAction: getWarehouseItemStats.typePrefix };
+        state.status = {
+          ...LOADING,
+          lastAction: getWarehouseItemStats.typePrefix,
+        };
         state.errors = null;
       })
       .addCase(getWarehouseItemStats.fulfilled, (state, { payload }) => {
-        state.status = { ...SUCCESS, lastAction: getWarehouseItemStats.typePrefix };
+        state.status = {
+          ...SUCCESS,
+          lastAction: getWarehouseItemStats.typePrefix,
+        };
         state.stats = payload.results;
         state.statsCount = payload.count;
       })
       .addCase(getWarehouseItemStats.rejected, (state, { payload }) => {
-        state.status = { ...FAILURE, lastAction: getWarehouseItemStats.typePrefix };
+        state.status = {
+          ...FAILURE,
+          lastAction: getWarehouseItemStats.typePrefix,
+        };
+        state.errors = payload;
+      });
+    builder
+      .addCase(getWarehouseItemAllStats.pending, (state) => {
+        state.status = {
+          ...LOADING,
+          lastAction: getWarehouseItemAllStats.typePrefix,
+        };
+        state.errors = null;
+      })
+      .addCase(getWarehouseItemAllStats.fulfilled, (state, { payload }) => {
+        state.status = {
+          ...SUCCESS,
+          lastAction: getWarehouseItemAllStats.typePrefix,
+        };
+        state.allStats = payload;
+      })
+      .addCase(getWarehouseItemAllStats.rejected, (state, { payload }) => {
+        state.status = {
+          ...FAILURE,
+          lastAction: getWarehouseItemAllStats.typePrefix,
+        };
         state.errors = payload;
       });
   },

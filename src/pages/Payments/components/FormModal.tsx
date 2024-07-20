@@ -65,9 +65,7 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
     validationSchema: Yup.object({
       supplier: Yup.number().required("Zəhmət olmasa firma seçin!"),
-      amount: Yup.number()
-        .required("Zəhmət olmasa məbləğ daxil edin!")
-        .min(1, "Qiymət 0-dan böyük olmalıdır!"),
+      amount: Yup.number().required("Zəhmət olmasa məbləğ daxil edin!"),
       date: Yup.string().required("Zəhmət olmasa tarix daxil edin!"),
     }),
 
@@ -79,10 +77,12 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
         formData.append("supplier", values["supplier"]);
 
       // Amount
-      if (!data || values["amount"] !== data["amount"]) formData.append("amount", values["amount"]);
+      if (!data || values["amount"] !== data["amount"])
+        formData.append("amount", values["amount"]);
 
       // Date
-      if (!data || values["date"] !== data["date"]) formData.append("date", values["date"]);
+      if (!data || values["date"] !== data["date"])
+        formData.append("date", values["date"]);
 
       handleSubmit(formData);
     },
@@ -170,7 +170,9 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 value={
                   validation.values.supplier &&
                   supplierOptions &&
-                  supplierOptions.find((option) => option.value === validation.values.supplier)
+                  supplierOptions.find(
+                    (option) => option.value === validation.values.supplier
+                  )
                 }
               />
 
@@ -194,11 +196,17 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.amount}
-                invalid={validation.touched.amount && validation.errors.amount ? true : false}
+                invalid={
+                  validation.touched.amount && validation.errors.amount
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.amount && validation.errors.amount ? (
-                <FormFeedback type="invalid">{validation.errors.amount.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.amount.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
@@ -215,11 +223,17 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.date}
-                invalid={validation.touched.date && validation.errors.date ? true : false}
+                invalid={
+                  validation.touched.date && validation.errors.date
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.date && validation.errors.date ? (
-                <FormFeedback type="invalid">{validation.errors.date.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.date.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>

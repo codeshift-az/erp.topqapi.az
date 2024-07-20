@@ -25,7 +25,7 @@ import {
 import { WarehouseItem } from "@/types/models";
 
 // Actions
-import { getWarehouseItems } from "@/store/actions";
+import { getWarehouseItemAllStats, getWarehouseItems } from "@/store/actions";
 
 const TableContainer = () => {
   // Pagination
@@ -40,12 +40,13 @@ const TableContainer = () => {
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, items, status, count } = useSelector(
+  const { update, items, status, count, allStats } = useSelector(
     (state: RootState) => state.warehouseItem
   );
 
   const fetchItems = () => {
     dispatch(getWarehouseItems({ ...filters, page, limit, ordering }));
+    dispatch(getWarehouseItemAllStats(filters));
   };
 
   useEffect(() => {
@@ -108,11 +109,17 @@ const TableContainer = () => {
       cell: (cell) => {
         return <Fields.NumberField value={cell.getValue()} />;
       },
+      footer: () => {
+        return <Fields.NumberField value={allStats?.total_quantity || 0} />;
+      },
     }),
     columnHelper.accessor("sale_count", {
       header: "Satış Miqdarı",
       cell: (cell) => {
         return <Fields.NumberField value={cell.getValue()} />;
+      },
+      footer: () => {
+        return <Fields.NumberField value={allStats?.total_sale_count || 0} />;
       },
     }),
     columnHelper.display({
@@ -123,6 +130,16 @@ const TableContainer = () => {
           <Fields.NumberField
             value={
               Number(cell.row.original.quantity) - cell.row.original.sale_count
+            }
+          />
+        );
+      },
+      footer: () => {
+        return (
+          <Fields.NumberField
+            value={
+              (allStats?.total_quantity || 0) -
+              (allStats?.total_sale_count || 0)
             }
           />
         );
@@ -153,6 +170,11 @@ const TableContainer = () => {
                 cell.row.original.sale_count)
             }
           />
+        );
+      },
+      footer: () => {
+        return (
+          <Fields.PriceField amount={allStats?.total_investment_left || 0} />
         );
       },
     }),

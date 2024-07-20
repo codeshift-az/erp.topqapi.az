@@ -21,6 +21,12 @@ export type WarehouseItemStats = {
   sale_count: number;
 };
 
+export type WarehouseItemAllStats = {
+  total_quantity: number;
+  total_sale_count: number;
+  total_investment_left: number;
+};
+
 export type WarehouseEntry = DefaultModel & {
   items: WarehouseItem[];
   supplier: Supplier;

@@ -13,7 +13,10 @@ export const getWarehouseItems = createAsyncThunk(
       const response = await API.getWarehouseItems(filter);
       return response;
     } catch (error: any) {
-      throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
+      throw thunkAPI.rejectWithValue({
+        data: error.response.data,
+        status: error.response.status,
+      });
     }
   }
 );
@@ -25,7 +28,25 @@ export const getWarehouseItemStats = createAsyncThunk(
       const response = await API.getWarehouseItemStats(filter);
       return response;
     } catch (error: any) {
-      throw thunkAPI.rejectWithValue({ data: error.response.data, status: error.response.status });
+      throw thunkAPI.rejectWithValue({
+        data: error.response.data,
+        status: error.response.status,
+      });
+    }
+  }
+);
+
+export const getWarehouseItemAllStats = createAsyncThunk(
+  "warehouse/item/stats/all",
+  async (filter: WarehouseItemFilter, thunkAPI) => {
+    try {
+      const response = await API.getWarehouseItemAllStats(filter);
+      return response;
+    } catch (error: any) {
+      throw thunkAPI.rejectWithValue({
+        data: error.response.data,
+        status: error.response.status,
+      });
     }
   }
 );
