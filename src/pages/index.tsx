@@ -3,7 +3,6 @@ import Logout from "./Auth/Logout";
 import Branches from "./Branches";
 import Catalog from "./Catalog";
 import Categories from "./Categories";
-import Dashboard from "./Dashboard";
 import Expenses from "./Expenses";
 import Products from "./Products";
 import Drivers from "./Staff/Drivers";
@@ -44,7 +43,6 @@ export {
   Branches,
   Catalog,
   Categories,
-  Dashboard,
   Expenses,
   Products,
   Drivers,

@@ -7,13 +7,6 @@ import { USER_TYPES } from "@/constants";
 import * as Pages from "@/pages";
 
 const protectedRoutes = [
-  // Dashboard
-  {
-    path: "/dashboard",
-    component: <Pages.Dashboard />,
-    types: [USER_TYPES.STORE],
-  },
-
   // ------------------------------ //
 
   // Branches
@@ -252,7 +245,7 @@ const protectedRoutes = [
   {
     path: "/",
     exact: true,
-    component: <Navigate to="/dashboard" />,
+    component: <Navigate to="/orders" />,
     types: [],
   },
 ];

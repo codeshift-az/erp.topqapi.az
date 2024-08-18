@@ -24,12 +24,6 @@ const getMenuItems: (user: User, branches: Branch[]) => IMenuItem[] = (
 ) => {
   const menuItems: IMenuItem[] = [
     {
-      id: "dashboard",
-      label: "Ana Səhifə",
-      icon: "bx bx-home-circle",
-      link: "/dashboard",
-    },
-    {
       id: "orders",
       label: "Satışlar",
       icon: "bx bx-cart",
