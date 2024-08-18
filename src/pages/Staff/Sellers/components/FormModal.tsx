@@ -61,7 +61,7 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
       name: (data && data.name) || "",
       email: (data && data.email) || "",
       branch: (data && data.branch && data.branch.id) || "",
-      salary: (data && data.salary) || 0,
+      salary: (data && data.salary) || "",
     },
 
     validationSchema: Yup.object({

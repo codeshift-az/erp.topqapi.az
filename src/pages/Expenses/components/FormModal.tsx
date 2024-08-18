@@ -48,7 +48,7 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
     initialValues: {
       name: (data && data.name) || "",
-      amount: (data && data.amount) || 0,
+      amount: (data && data.amount) || "",
       date: (data && data.date) || new Date().toISOString().split("T")[0],
     },
 
@@ -64,13 +64,16 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
       const formData = new FormData();
 
       // Name
-      if (!data || values["name"] !== data["name"]) formData.append("name", values["name"]);
+      if (!data || values["name"] !== data["name"])
+        formData.append("name", values["name"]);
 
       // Amount
-      if (!data || values["amount"] !== data["amount"]) formData.append("amount", values["amount"]);
+      if (!data || values["amount"] !== data["amount"])
+        formData.append("amount", values["amount"]);
 
       // Date
-      if (!data || values["date"] !== data["date"]) formData.append("date", values["date"]);
+      if (!data || values["date"] !== data["date"])
+        formData.append("date", values["date"]);
 
       handleSubmit(formData);
     },
@@ -132,11 +135,17 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.name}
-                invalid={validation.touched.name && validation.errors.name ? true : false}
+                invalid={
+                  validation.touched.name && validation.errors.name
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.name && validation.errors.name ? (
-                <FormFeedback type="invalid">{validation.errors.name.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.name.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
@@ -153,11 +162,17 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.amount}
-                invalid={validation.touched.amount && validation.errors.amount ? true : false}
+                invalid={
+                  validation.touched.amount && validation.errors.amount
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.amount && validation.errors.amount ? (
-                <FormFeedback type="invalid">{validation.errors.amount.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.amount.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
@@ -174,11 +189,17 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.date}
-                invalid={validation.touched.date && validation.errors.date ? true : false}
+                invalid={
+                  validation.touched.date && validation.errors.date
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.date && validation.errors.date ? (
-                <FormFeedback type="invalid">{validation.errors.date.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.date.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>

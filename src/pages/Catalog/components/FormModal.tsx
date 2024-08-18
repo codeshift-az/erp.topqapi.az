@@ -65,9 +65,9 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
     enableReinitialize: true,
 
     initialValues: {
-      product: (data && data.product && data.product.id) || 0,
+      product: (data && data.product && data.product.id) || "",
       supplier: (data && data.supplier && data.supplier.id) || "",
-      price: (data && data.price) || 0,
+      price: (data && data.price) || "",
     },
 
     validationSchema: Yup.object({

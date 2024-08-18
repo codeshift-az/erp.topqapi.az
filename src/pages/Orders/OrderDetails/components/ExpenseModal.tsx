@@ -50,7 +50,7 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
     initialValues: {
       name: (data && data.name) || "",
-      price: (data && data.price) || 0,
+      price: (data && data.price) || "",
     },
 
     validationSchema: Yup.object({

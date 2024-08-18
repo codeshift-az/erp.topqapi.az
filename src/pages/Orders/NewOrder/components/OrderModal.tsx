@@ -37,7 +37,13 @@ import { formatPrice, getOptions, getSelectStyle } from "@/helpers";
 import { Option } from "@/types/option";
 
 // Actions
-import { getBranches, getSellers, createOrder, getDrivers, getWorkers } from "@/store/actions";
+import {
+  getBranches,
+  getSellers,
+  createOrder,
+  getDrivers,
+  getWorkers,
+} from "@/store/actions";
 
 interface Props {
   show: boolean;
@@ -65,16 +71,16 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
       customer: "",
       phone: "",
       address: "",
-      discount: 0,
-      payed: 0,
-      seller_share: 0,
+      discount: "",
+      payed: "",
+      seller_share: "",
       sale_date: new Date().toISOString().split("T")[0],
       driver: "",
       delivery_date: "",
-      delivery_price: 0,
+      delivery_price: "",
       worker: "",
       install_date: "",
-      install_price: 0,
+      install_price: "",
       note: "",
     },
 
@@ -179,7 +185,12 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
   const [sellerOptions, setSellerOptions] = useState<Option[]>([]);
 
   useEffect(() => {
-    dispatch(getSellers({ name: sellerName, branch_id: Number(validation.values.branch) }));
+    dispatch(
+      getSellers({
+        name: sellerName,
+        branch_id: Number(validation.values.branch),
+      })
+    );
   }, [sellerName, validation.values.branch]);
 
   useEffect(() => {
@@ -211,7 +222,9 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
   const [workerOptions, setWorkerOptions] = useState<Option[]>([]);
 
   useEffect(() => {
-    dispatch(getWorkers({ name: workerName, date: validation.values.install_date }));
+    dispatch(
+      getWorkers({ name: workerName, date: validation.values.install_date })
+    );
   }, [workerName, validation.values.install_date]);
 
   useEffect(() => {
@@ -230,7 +243,8 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
   useEffect(() => {
     if (items && items.length > 0) {
       const sum = items.reduce(
-        (a, b) => Number(a) + Number(b["price"] || 0) * Number(b["quantity"] || 0),
+        (a, b) =>
+          Number(a) + Number(b["price"] || 0) * Number(b["quantity"] || 0),
         0
       );
       setPriceSum(sum);
@@ -298,7 +312,9 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 value={
                   validation.values.branch &&
                   branchOptions &&
-                  branchOptions.find((option) => option.value === validation.values.branch)
+                  branchOptions.find(
+                    (option) => option.value === validation.values.branch
+                  )
                 }
               />
 
@@ -329,7 +345,9 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 value={
                   validation.values.seller &&
                   sellerOptions &&
-                  sellerOptions.find((option) => option.value === validation.values.seller)
+                  sellerOptions.find(
+                    (option) => option.value === validation.values.seller
+                  )
                 }
               />
 
@@ -353,11 +371,17 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.customer}
-                invalid={validation.touched.customer && validation.errors.customer ? true : false}
+                invalid={
+                  validation.touched.customer && validation.errors.customer
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.customer && validation.errors.customer ? (
-                <FormFeedback type="invalid">{validation.errors.customer.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.customer.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
 
@@ -372,11 +396,17 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.phone}
-                invalid={validation.touched.phone && validation.errors.phone ? true : false}
+                invalid={
+                  validation.touched.phone && validation.errors.phone
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.phone && validation.errors.phone ? (
-                <FormFeedback type="invalid">{validation.errors.phone.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.phone.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
@@ -393,11 +423,17 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.address}
-                invalid={validation.touched.address && validation.errors.address ? true : false}
+                invalid={
+                  validation.touched.address && validation.errors.address
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.address && validation.errors.address ? (
-                <FormFeedback type="invalid">{validation.errors.address.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.address.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
@@ -414,11 +450,17 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.discount}
-                invalid={validation.touched.discount && validation.errors.discount ? true : false}
+                invalid={
+                  validation.touched.discount && validation.errors.discount
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.discount && validation.errors.discount ? (
-                <FormFeedback type="invalid">{validation.errors.discount.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.discount.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
 
@@ -430,7 +472,9 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 type="text"
                 name="total"
                 placeholder="Ümumi Cəm"
-                value={formatPrice(priceSum - validation.values.discount)}
+                value={formatPrice(
+                  priceSum - Number(validation.values.discount || 0)
+                )}
                 disabled={true}
               />
             </Col>
@@ -448,11 +492,17 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.payed}
-                invalid={validation.touched.payed && validation.errors.payed ? true : false}
+                invalid={
+                  validation.touched.payed && validation.errors.payed
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.payed && validation.errors.payed ? (
-                <FormFeedback type="invalid">{validation.errors.payed.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.payed.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
 
@@ -464,7 +514,11 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 type="text"
                 name="debt"
                 placeholder="Qalıq"
-                value={formatPrice(priceSum - validation.values.discount - validation.values.payed)}
+                value={formatPrice(
+                  priceSum -
+                    Number(validation.values.discount || 0) -
+                    Number(validation.values.payed || 0)
+                )}
                 disabled={true}
               />
             </Col>
@@ -483,11 +537,15 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 onChange={validation.handleChange}
                 value={validation.values.seller_share}
                 invalid={
-                  validation.touched.seller_share && validation.errors.seller_share ? true : false
+                  validation.touched.seller_share &&
+                  validation.errors.seller_share
+                    ? true
+                    : false
                 }
               />
 
-              {validation.touched.seller_share && validation.errors.seller_share ? (
+              {validation.touched.seller_share &&
+              validation.errors.seller_share ? (
                 <FormFeedback type="invalid">
                   {validation.errors.seller_share.toString()}
                 </FormFeedback>
@@ -505,11 +563,17 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.sale_date}
-                invalid={validation.touched.sale_date && validation.errors.sale_date ? true : false}
+                invalid={
+                  validation.touched.sale_date && validation.errors.sale_date
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.sale_date && validation.errors.sale_date ? (
-                <FormFeedback type="invalid">{validation.errors.sale_date.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.sale_date.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
@@ -534,7 +598,9 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 value={
                   validation.values.driver &&
                   driverOptions &&
-                  driverOptions.find((option) => option.value === validation.values.driver)
+                  driverOptions.find(
+                    (option) => option.value === validation.values.driver
+                  )
                 }
               />
 
@@ -565,7 +631,9 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 value={
                   validation.values.worker &&
                   workerOptions &&
-                  workerOptions.find((option) => option.value === validation.values.worker)
+                  workerOptions.find(
+                    (option) => option.value === validation.values.worker
+                  )
                 }
               />
 
@@ -590,11 +658,15 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 onChange={validation.handleChange}
                 value={validation.values.delivery_date}
                 invalid={
-                  validation.touched.delivery_date && validation.errors.delivery_date ? true : false
+                  validation.touched.delivery_date &&
+                  validation.errors.delivery_date
+                    ? true
+                    : false
                 }
               />
 
-              {validation.touched.delivery_date && validation.errors.delivery_date ? (
+              {validation.touched.delivery_date &&
+              validation.errors.delivery_date ? (
                 <FormFeedback type="invalid">
                   {validation.errors.delivery_date.toString()}
                 </FormFeedback>
@@ -613,11 +685,15 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 onChange={validation.handleChange}
                 value={validation.values.install_date}
                 invalid={
-                  validation.touched.install_date && validation.errors.install_date ? true : false
+                  validation.touched.install_date &&
+                  validation.errors.install_date
+                    ? true
+                    : false
                 }
               />
 
-              {validation.touched.install_date && validation.errors.install_date ? (
+              {validation.touched.install_date &&
+              validation.errors.install_date ? (
                 <FormFeedback type="invalid">
                   {validation.errors.install_date.toString()}
                 </FormFeedback>
@@ -638,13 +714,15 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 onChange={validation.handleChange}
                 value={validation.values.delivery_price}
                 invalid={
-                  validation.touched.delivery_price && validation.errors.delivery_price
+                  validation.touched.delivery_price &&
+                  validation.errors.delivery_price
                     ? true
                     : false
                 }
               />
 
-              {validation.touched.delivery_price && validation.errors.delivery_price ? (
+              {validation.touched.delivery_price &&
+              validation.errors.delivery_price ? (
                 <FormFeedback type="invalid">
                   {validation.errors.delivery_price.toString()}
                 </FormFeedback>
@@ -663,11 +741,15 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 onChange={validation.handleChange}
                 value={validation.values.install_price}
                 invalid={
-                  validation.touched.install_price && validation.errors.install_price ? true : false
+                  validation.touched.install_price &&
+                  validation.errors.install_price
+                    ? true
+                    : false
                 }
               />
 
-              {validation.touched.install_price && validation.errors.install_price ? (
+              {validation.touched.install_price &&
+              validation.errors.install_price ? (
                 <FormFeedback type="invalid">
                   {validation.errors.install_price.toString()}
                 </FormFeedback>
@@ -687,11 +769,17 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.note}
-                invalid={validation.touched.note && validation.errors.note ? true : false}
+                invalid={
+                  validation.touched.note && validation.errors.note
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.note && validation.errors.note ? (
-                <FormFeedback type="invalid">{validation.errors.note.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.note.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>

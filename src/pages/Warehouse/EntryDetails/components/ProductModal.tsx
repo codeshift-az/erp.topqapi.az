@@ -34,7 +34,11 @@ import { getOptions, getSelectStyle } from "@/helpers";
 import { Option } from "@/types/option";
 
 // Actions
-import { getProducts, createWarehouseEntryItem, updateWarehouseEntryItem } from "@/store/actions";
+import {
+  getProducts,
+  createWarehouseEntryItem,
+  updateWarehouseEntryItem,
+} from "@/store/actions";
 
 interface Props {
   data: any;
@@ -49,7 +53,9 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const { status, errors } = useSelector((state: RootState) => state.warehouseEntry);
+  const { status, errors } = useSelector(
+    (state: RootState) => state.warehouseEntry
+  );
 
   const [alertError, setAlertError] = useState<string>("");
 
@@ -59,8 +65,8 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
     initialValues: {
       product: (data && data.product && data.product.id) || "",
-      price: (data && data.price) || 0,
-      quantity: (data && data.quantity) || 0,
+      price: (data && data.price) || "",
+      quantity: (data && data.quantity) || "",
     },
 
     validationSchema: Yup.object({
@@ -81,7 +87,8 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
         formData.append("product", values["product"]);
 
       // Price
-      if (!data || values["price"] !== data["price"]) formData.append("price", values["price"]);
+      if (!data || values["price"] !== data["price"])
+        formData.append("price", values["price"]);
 
       // Quantity
       if (!data || values["quantity"] !== data["quantity"])
@@ -113,8 +120,10 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
   useEffect(() => {
     if (show && status) {
       if (
-        ((isEdit && status.lastAction === updateWarehouseEntryItem.typePrefix) ||
-          (!isEdit && status.lastAction === createWarehouseEntryItem.typePrefix)) &&
+        ((isEdit &&
+          status.lastAction === updateWarehouseEntryItem.typePrefix) ||
+          (!isEdit &&
+            status.lastAction === createWarehouseEntryItem.typePrefix)) &&
         status.success
       ) {
         validation.resetForm();
@@ -173,7 +182,9 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 value={
                   validation.values.product &&
                   productOptions &&
-                  productOptions.find((option) => option.value === validation.values.product)
+                  productOptions.find(
+                    (option) => option.value === validation.values.product
+                  )
                 }
               />
 
@@ -197,11 +208,17 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.price}
-                invalid={validation.touched.price && validation.errors.price ? true : false}
+                invalid={
+                  validation.touched.price && validation.errors.price
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.price && validation.errors.price ? (
-                <FormFeedback type="invalid">{validation.errors.price.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.price.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
@@ -218,11 +235,17 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.quantity}
-                invalid={validation.touched.quantity && validation.errors.quantity ? true : false}
+                invalid={
+                  validation.touched.quantity && validation.errors.quantity
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.quantity && validation.errors.quantity ? (
-                <FormFeedback type="invalid">{validation.errors.quantity.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.quantity.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>

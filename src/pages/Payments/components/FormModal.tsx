@@ -59,7 +59,7 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
     initialValues: {
       supplier: (data && data.supplier && data.supplier.id) || "",
-      amount: (data && data.amount) || 0,
+      amount: (data && data.amount) || "",
       date: (data && data.date) || new Date().toISOString().split("T")[0],
     },
 

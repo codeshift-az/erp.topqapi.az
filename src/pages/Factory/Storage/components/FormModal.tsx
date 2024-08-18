@@ -65,8 +65,8 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
     initialValues: {
       product: (data && data.product && data.product.id) || "",
-      price: (data && data.price) || 0,
-      quantity: (data && data.quantity) || 0,
+      price: (data && data.price) || "",
+      quantity: (data && data.quantity) || "",
       date: (data && data.date) || new Date().toISOString().split("T")[0],
     },
 

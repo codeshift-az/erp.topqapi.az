@@ -34,7 +34,11 @@ import { getOptions, getSelectStyle } from "@/helpers";
 import { Option } from "@/types/option";
 
 // Actions
-import { getFactoryProducts, createFactoryUsage, updateFactoryUsage } from "@/store/actions";
+import {
+  getFactoryProducts,
+  createFactoryUsage,
+  updateFactoryUsage,
+} from "@/store/actions";
 
 interface Props {
   data: any;
@@ -45,11 +49,15 @@ interface Props {
 }
 
 const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
-  const title = isEdit ? "İstifadə məlumatlarını redaktə et" : "İstifadə əlavə Et";
+  const title = isEdit
+    ? "İstifadə məlumatlarını redaktə et"
+    : "İstifadə əlavə Et";
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const { status, errors } = useSelector((state: RootState) => state.factoryUsage);
+  const { status, errors } = useSelector(
+    (state: RootState) => state.factoryUsage
+  );
 
   const [alertError, setAlertError] = useState<string>("");
 
@@ -59,7 +67,7 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
     initialValues: {
       product: (data && data.product && data.product.id) || "",
-      quantity: (data && data.quantity) || 0,
+      quantity: (data && data.quantity) || "",
       date: (data && data.date) || new Date().toISOString().split("T")[0],
     },
 
@@ -83,14 +91,17 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
         formData.append("quantity", values["quantity"]);
 
       // Date
-      if (!data || values["date"] !== data["date"]) formData.append("date", values["date"]);
+      if (!data || values["date"] !== data["date"])
+        formData.append("date", values["date"]);
 
       handleSubmit(formData);
     },
   });
 
   // Prodcut Options
-  const { items: products } = useSelector((state: RootState) => state.factoryProduct);
+  const { items: products } = useSelector(
+    (state: RootState) => state.factoryProduct
+  );
 
   const [productName, setProductName] = useState<string>("");
   const [productOptions, setProductOptions] = useState<Option[]>([]);
@@ -171,7 +182,9 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 value={
                   validation.values.product &&
                   productOptions &&
-                  productOptions.find((option) => option.value === validation.values.product)
+                  productOptions.find(
+                    (option) => option.value === validation.values.product
+                  )
                 }
               />
 
@@ -195,11 +208,17 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.quantity}
-                invalid={validation.touched.quantity && validation.errors.quantity ? true : false}
+                invalid={
+                  validation.touched.quantity && validation.errors.quantity
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.quantity && validation.errors.quantity ? (
-                <FormFeedback type="invalid">{validation.errors.quantity.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.quantity.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
@@ -216,11 +235,17 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.date}
-                invalid={validation.touched.date && validation.errors.date ? true : false}
+                invalid={
+                  validation.touched.date && validation.errors.date
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.date && validation.errors.date ? (
-                <FormFeedback type="invalid">{validation.errors.date.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.date.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>

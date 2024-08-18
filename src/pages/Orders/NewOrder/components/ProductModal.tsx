@@ -66,15 +66,14 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
       product: (data && data.product && data.product.id) || "",
       supplier: (data && data.supplier && data.supplier.id) || "",
       size: (data && data.size) || "",
-      price: (data && data.price) || 0,
-      quantity: (data && data.quantity) || 0,
+      price: (data && data.price) || "",
+      quantity: (data && data.quantity) || "",
     },
 
     validationSchema: Yup.object({
       product: Yup.number().required("Zəhmət olmasa məhsul seçin!"),
       supplier: Yup.number().required("Zəhmət olmasa firma seçin!"),
-      size: Yup.string()
-        .max(20, "Ölçü 20 simvoldan çox ola bilməz!"),
+      size: Yup.string().max(20, "Ölçü 20 simvoldan çox ola bilməz!"),
       price: Yup.number()
         .required("Zəhmət olmasa qiymət daxil edin!")
         .min(0, "Qiymət 0 vəya 0-dan böyük olmalıdır!"),
@@ -95,10 +94,12 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
         formData.append("supplier", values["supplier"]);
 
       // Size
-      if (!data || values["size"] !== data["size"]) formData.append("size", values["size"]);
+      if (!data || values["size"] !== data["size"])
+        formData.append("size", values["size"]);
 
       // Price
-      if (!data || values["price"] !== data["price"]) formData.append("price", values["price"]);
+      if (!data || values["price"] !== data["price"])
+        formData.append("price", values["price"]);
 
       // Quantity
       if (!data || values["quantity"] !== data["quantity"])
@@ -127,13 +128,17 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
   }, [data]);
 
   // Supplier Options
-  const { items: suppliers } = useSelector((state: RootState) => state.supplier);
+  const { items: suppliers } = useSelector(
+    (state: RootState) => state.supplier
+  );
 
   const [supplierName, setSupplierName] = useState<string>("");
   const [supplierOptions, setSupplierOptions] = useState<Option[]>([]);
 
   useEffect(() => {
-    dispatch(getSuppliers({ name: supplierName, product: validation.values.product }));
+    dispatch(
+      getSuppliers({ name: supplierName, product: validation.values.product })
+    );
   }, [supplierName, validation.values.product]);
 
   useEffect(() => {
@@ -212,7 +217,9 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 value={
                   validation.values.product &&
                   productOptions &&
-                  productOptions.find((option) => option.value === validation.values.product)
+                  productOptions.find(
+                    (option) => option.value === validation.values.product
+                  )
                 }
               />
 
@@ -245,7 +252,9 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 value={
                   validation.values.supplier &&
                   supplierOptions &&
-                  supplierOptions.find((option) => option.value === validation.values.supplier)
+                  supplierOptions.find(
+                    (option) => option.value === validation.values.supplier
+                  )
                 }
               />
 
@@ -269,11 +278,17 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.size}
-                invalid={validation.touched.size && validation.errors.size ? true : false}
+                invalid={
+                  validation.touched.size && validation.errors.size
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.size && validation.errors.size ? (
-                <FormFeedback type="invalid">{validation.errors.size.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.size.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
@@ -290,11 +305,17 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.price}
-                invalid={validation.touched.price && validation.errors.price ? true : false}
+                invalid={
+                  validation.touched.price && validation.errors.price
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.price && validation.errors.price ? (
-                <FormFeedback type="invalid">{validation.errors.price.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.price.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
@@ -311,11 +332,17 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onBlur={validation.handleBlur}
                 onChange={validation.handleChange}
                 value={validation.values.quantity}
-                invalid={validation.touched.quantity && validation.errors.quantity ? true : false}
+                invalid={
+                  validation.touched.quantity && validation.errors.quantity
+                    ? true
+                    : false
+                }
               />
 
               {validation.touched.quantity && validation.errors.quantity ? (
-                <FormFeedback type="invalid">{validation.errors.quantity.toString()}</FormFeedback>
+                <FormFeedback type="invalid">
+                  {validation.errors.quantity.toString()}
+                </FormFeedback>
               ) : null}
             </Col>
           </Row>
