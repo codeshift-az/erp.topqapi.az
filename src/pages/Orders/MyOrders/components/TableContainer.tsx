@@ -182,7 +182,7 @@ const TableContainer = () => {
               controls={
                 <Link to="/orders/new" className="btn btn-primary mb-2 me-2">
                   <i className={`mdi mdi-plus-circle-outline me-1`} />
-                  Əlavə et
+                  Yeni Satış
                 </Link>
               }
               loading={

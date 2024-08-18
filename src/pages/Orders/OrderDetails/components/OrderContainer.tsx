@@ -249,9 +249,10 @@ const OrderContainer = () => {
                             status.loading &&
                             status.lastAction === updateOrder.typePrefix
                           }
-                          onClick={() =>
-                            handleStatusUpdate(ORDER_STATUS.REGISTERED)
-                          }>
+                          onClick={() => {
+                            handleStatusUpdate(ORDER_STATUS.REGISTERED);
+                            navigate("/orders");
+                          }}>
                           <i className={`mdi mdi-check me-1`} />
                           Satış tamamlandı
                         </Button>
