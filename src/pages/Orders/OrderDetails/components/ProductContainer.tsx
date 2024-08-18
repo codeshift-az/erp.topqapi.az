@@ -18,10 +18,19 @@ import { Status } from "@/types/store";
 import { OrderItem } from "@/types/models";
 
 // Helpers
-import { formatPrice, getFormData, hasPermission, hasPermissionByStatus } from "@/helpers";
+import {
+  formatPrice,
+  getFormData,
+  hasPermission,
+  hasPermissionByStatus,
+} from "@/helpers";
 
 // Actions
-import { createOrderItem, updateOrderItem, deleteOrderItem } from "@/store/actions";
+import {
+  createOrderItem,
+  updateOrderItem,
+  deleteOrderItem,
+} from "@/store/actions";
 
 // Related Components
 import ProductModal from "./ProductModal";
@@ -29,7 +38,9 @@ import ProductModal from "./ProductModal";
 const ProductContainer = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.account);
-  const { item: order, status } = useSelector((state: RootState) => state.order);
+  const { item: order, status } = useSelector(
+    (state: RootState) => state.order
+  );
 
   // Product Modal
   const [item, setItem] = useState<OrderItem | null>(null);
@@ -93,17 +104,9 @@ const ProductContainer = () => {
 
   // Return Action
   const handleReturn = (id: number) => {
-    dispatch(updateOrderItem({ id: id, data: getFormData({ is_return: true }) }));
-  };
-
-  // Factory Ready Action
-  const handleFactoryReady = (id: number) => {
-    dispatch(updateOrderItem({ id: id, data: getFormData({ is_factory_ready: true }) }));
-  };
-
-  // Factory Return Action
-  const handleFactoryReturn = (id: number) => {
-    dispatch(updateOrderItem({ id: id, data: getFormData({ is_factory_ready: false }) }));
+    dispatch(
+      updateOrderItem({ id: id, data: getFormData({ is_return: true }) })
+    );
   };
 
   if (!order || status.loading) return null;
@@ -123,8 +126,6 @@ const ProductContainer = () => {
                     <th>Qiymət</th>
                     <th>Miqdar</th>
                     <th>Cəm</th>
-                    {(order.status === ORDER_STATUS.PENDING ||
-                      order.status === ORDER_STATUS.RETURN) && <th>Istehsalat</th>}
                     {(order.status < ORDER_STATUS.READY ||
                       order.status === ORDER_STATUS.RETURN) && <th>Anbar</th>}
                   </tr>
@@ -143,57 +144,49 @@ const ProductContainer = () => {
                       <td>{item.supplier.name}</td>
                       <td>{formatPrice(item.price)}</td>
                       <td>{item.quantity}</td>
-                      <td>{formatPrice(Number(item.price) * Number(item.quantity))}</td>
+                      <td>
+                        {formatPrice(
+                          Number(item.price) * Number(item.quantity)
+                        )}
+                      </td>
 
-                      {user?.type === USER_TYPES.STORE && order.status === ORDER_STATUS.PENDING && (
-                        <td>
-                          {item.is_factory_ready ? (
-                            <a role="alert" className={`badge badge-soft-success font-size-11 m-1`}>
-                              Hazırdır
-                            </a>
-                          ) : (
-                            <a role="alert" className={`badge badge-soft-warning font-size-11 m-1`}>
-                              Hazırlanır
-                            </a>
-                          )}
-                        </td>
-                      )}
-
-                      {hasPermission(user, [USER_TYPES.WAREHOUSE]) &&
-                        (order.status === ORDER_STATUS.PENDING ||
-                          order.status === ORDER_STATUS.RETURN) && (
+                      {user?.type === USER_TYPES.STORE &&
+                        order.status === ORDER_STATUS.PENDING && (
                           <td>
-                            {!item.is_factory_ready ? (
+                            {item.is_factory_ready ? (
                               <a
-                                role="button"
-                                className="action-icon text-success"
-                                onClick={() => handleFactoryReady(item.id)}>
-                                <i className="mdi mdi-check font-size-18" />
+                                role="alert"
+                                className={`badge badge-soft-success font-size-11 m-1`}>
+                                Hazırdır
                               </a>
                             ) : (
                               <a
-                                role="button"
-                                className="action-icon text-danger"
-                                onClick={() => handleFactoryReturn(item.id)}>
-                                <i className="mdi mdi-refresh font-size-18" />
+                                role="alert"
+                                className={`badge badge-soft-warning font-size-11 m-1`}>
+                                Hazırlanır
                               </a>
                             )}
                           </td>
                         )}
 
-                      {user?.type === USER_TYPES.STORE && order.status === ORDER_STATUS.PENDING && (
-                        <td>
-                          {item.is_sold ? (
-                            <a role="alert" className={`badge badge-soft-success font-size-11 m-1`}>
-                              Hazırdır
-                            </a>
-                          ) : (
-                            <a role="alert" className={`badge badge-soft-warning font-size-11 m-1`}>
-                              Hazırlanır
-                            </a>
-                          )}
-                        </td>
-                      )}
+                      {user?.type === USER_TYPES.STORE &&
+                        order.status === ORDER_STATUS.PENDING && (
+                          <td>
+                            {item.is_sold ? (
+                              <a
+                                role="alert"
+                                className={`badge badge-soft-success font-size-11 m-1`}>
+                                Hazırdır
+                              </a>
+                            ) : (
+                              <a
+                                role="alert"
+                                className={`badge badge-soft-warning font-size-11 m-1`}>
+                                Hazırlanır
+                              </a>
+                            )}
+                          </td>
+                        )}
 
                       {hasPermissionByStatus(user, order.status) &&
                         !item.is_sold &&
@@ -254,11 +247,15 @@ const ProductContainer = () => {
             </div>
 
             {hasPermissionByStatus(user, order.status) &&
-              (order.status < ORDER_STATUS.READY || order.status === ORDER_STATUS.RETURN) && (
+              (order.status < ORDER_STATUS.READY ||
+                order.status === ORDER_STATUS.RETURN) && (
                 <Row className="mt-4">
                   <Col sm="6">
                     <div className="text-sm-end mt-2 mt-sm-0">
-                      <Button color="primary" className="mb-2 me-2" onClick={onCreate}>
+                      <Button
+                        color="primary"
+                        className="mb-2 me-2"
+                        onClick={onCreate}>
                         <i className={`mdi mdi-plus-circle-outline me-1`} />
                         Əlavə et
                       </Button>
@@ -289,7 +286,9 @@ const ProductContainer = () => {
           icon={verifyModalData.icon}
           action={verifyModalData.action}
           onVerify={verifyModalData.onVerify}
-          onClose={() => setVerifyModalData((prev) => ({ ...prev, show: false }))}
+          onClose={() =>
+            setVerifyModalData((prev) => ({ ...prev, show: false }))
+          }
           message={verifyModalData.message}
         />
       )}
