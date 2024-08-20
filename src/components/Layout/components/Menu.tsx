@@ -205,7 +205,7 @@ const getMenuItems: (user: User, branches: Branch[]) => IMenuItem[] = (
 
   if (branches) {
     branches.forEach((branch) => {
-      menuItems[1].subItems?.push({
+      menuItems[0].subItems?.push({
         id: "branch-orders-" + branch.id,
         label: branch.name,
         link: `/branch/${branch.id}/orders`,
