@@ -157,6 +157,9 @@ const TableContainer = () => {
           />
         );
       },
+      footer: () => {
+        return <Fields.PriceField amount={allStats?.total_investment || 0} />;
+      },
     }),
     columnHelper.display({
       header: "Qalıq Pul",

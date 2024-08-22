@@ -26,6 +26,7 @@ export type WarehouseItemStats = {
 export type WarehouseItemAllStats = {
   total_quantity: number;
   total_sale_count: number;
+  total_investment: number;
   total_investment_left: number;
 };
 
