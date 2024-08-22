@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 
 // Reactstrap
-import { Row, Col, Card, CardBody } from "reactstrap";
+import { Row, Col, Card, CardBody, UncontrolledTooltip } from "reactstrap";
 
 // React Table
 import { createColumnHelper } from "@tanstack/react-table";
@@ -175,6 +175,33 @@ const TableContainer = () => {
       footer: () => {
         return (
           <Fields.PriceField amount={allStats?.total_investment_left || 0} />
+        );
+      },
+    }),
+    columnHelper.accessor("date", {
+      header: "Tarix",
+      cell: (cell) => {
+        return <Fields.DateField value={cell.getValue()} />;
+      },
+      meta: {
+        filterComponent: (column) => (
+          <Filters.DateRangeFilter column={column} />
+        ),
+      },
+    }),
+    columnHelper.display({
+      header: "Əməliyyatlar",
+      cell: (cell) => {
+        return (
+          <Link
+            role="button"
+            className="text-primary"
+            to={`/warehouse/entries/${cell.row.original.entry}`}>
+            <i className="mdi mdi-eye font-size-18" id="deletetooltip" />
+            <UncontrolledTooltip placement="top" target="deletetooltip">
+              Ətraflı
+            </UncontrolledTooltip>
+          </Link>
         );
       },
     }),

@@ -11,6 +11,8 @@ export type WarehouseItem = DefaultModel & {
   sale_count: number;
   catalog_price: number;
   is_sold: boolean;
+  date: string;
+  entry: number;
 };
 
 export type WarehouseItemStats = {
