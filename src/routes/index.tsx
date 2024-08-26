@@ -47,7 +47,7 @@ const protectedRoutes = [
   {
     path: "/expenses",
     component: <Pages.Expenses />,
-    types: [USER_TYPES.WAREHOUSE],
+    types: [USER_TYPES.WAREHOUSE, USER_TYPES.STORE],
   },
 
   // ------------------------------ //

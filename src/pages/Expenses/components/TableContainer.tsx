@@ -8,19 +8,24 @@ import { AppDispatch, RootState } from "@/store";
 import { Row, Col, Card, CardBody, Button } from "reactstrap";
 
 // React Table
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 
 // Components
 import DataTable from "@/components/DataTable";
 import * as Fields from "@/components/DataTable/Fields";
 import * as Filters from "@/components/DataTable/Filters";
-import { usePagination, useSorting, useColumnFiltering } from "@/components/DataTable/Hooks";
+import {
+  usePagination,
+  useSorting,
+  useColumnFiltering,
+} from "@/components/DataTable/Hooks";
 
 // Types
 import { Expense } from "@/types/models";
 
 // Actions
 import { getExpenses } from "@/store/actions";
+import { USER_TYPES } from "@/constants";
 
 interface Props {
   onCreate?: () => void;
@@ -36,13 +41,31 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
   const { ordering, sorting, onSortingChange } = useSorting();
 
   // Column Filtering
-  const { filters, columnFilters, onColumnFiltersChange } = useColumnFiltering();
+  const { filters, columnFilters, onColumnFiltersChange } =
+    useColumnFiltering();
+
+  // User
+  const { user } = useSelector((state: RootState) => state.account);
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, items, status, count } = useSelector((state: RootState) => state.expense);
+  const { update, items, status, count } = useSelector(
+    (state: RootState) => state.expense
+  );
 
   const fetchItems = () => {
+    if (user?.type === USER_TYPES.STORE) {
+      dispatch(
+        getExpenses({
+          ...filters,
+          page,
+          limit,
+          ordering,
+          branch_id: user.branch.id,
+        })
+      );
+      return;
+    }
     dispatch(getExpenses({ ...filters, page, limit, ordering }));
   };
 
@@ -57,7 +80,7 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
   // Columns
   const columnHelper = createColumnHelper<Expense>();
 
-  const columns = [
+  const columns: ColumnDef<Expense, any>[] = [
     columnHelper.display({
       header: "#",
       enableSorting: false,
@@ -86,7 +109,9 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
         return <Fields.DateField value={cell.getValue()} />;
       },
       meta: {
-        filterComponent: (column) => <Filters.DateRangeFilter column={column} />,
+        filterComponent: (column) => (
+          <Filters.DateRangeFilter column={column} />
+        ),
       },
     }),
     columnHelper.display({
@@ -96,16 +121,35 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
         return (
           <div className="d-flex gap-3">
             {onUpdate && (
-              <Fields.EditButton onClick={() => onUpdate(cell.row.original as Expense)} />
+              <Fields.EditButton
+                onClick={() => onUpdate(cell.row.original as Expense)}
+              />
             )}
             {onDelete && (
-              <Fields.DeleteButton onClick={() => onDelete(cell.row.original as Expense)} />
+              <Fields.DeleteButton
+                onClick={() => onDelete(cell.row.original as Expense)}
+              />
             )}
           </div>
         );
       },
     }),
   ];
+
+  if (user?.type != USER_TYPES.STORE) {
+    const branchColumn = columnHelper.accessor("branch", {
+      header: "Filial",
+      id: "branch",
+      cell: (cell) => {
+        return <Fields.TextField text={cell.getValue().name} />;
+      },
+      meta: {
+        filterComponent: (column) => <Filters.TextFilter column={column} />,
+      },
+    });
+
+    columns.splice(2, 0, branchColumn);
+  }
 
   return (
     <Row>
@@ -116,12 +160,17 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
               data={items || []}
               columns={columns}
               controls={
-                <Button color="primary" className="mb-2 me-2" onClick={onCreate}>
+                <Button
+                  color="primary"
+                  className="mb-2 me-2"
+                  onClick={onCreate}>
                   <i className={`mdi mdi-plus-circle-outline me-1`} />
                   Əlavə et
                 </Button>
               }
-              loading={status.loading && status.lastAction === getExpenses.typePrefix}
+              loading={
+                status.loading && status.lastAction === getExpenses.typePrefix
+              }
               // Pagination
               pagination={pagination}
               onPaginationChange={onPaginationChange}

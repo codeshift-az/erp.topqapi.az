@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 // Redux
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
 
 // Reactstrap
 import {
@@ -20,12 +20,18 @@ import {
   Button,
 } from "reactstrap";
 
+// React Select
+import Select from "react-select";
+
 // Yup and Formik for validation
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
 // Actions
-import { createExpense, updateExpense } from "@/store/actions";
+import { createExpense, getBranches, updateExpense } from "@/store/actions";
+import { USER_TYPES } from "@/constants";
+import { Option } from "@/types/option";
+import { getOptions, getSelectStyle } from "@/helpers";
 
 interface Props {
   data: any;
@@ -38,6 +44,9 @@ interface Props {
 const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
   const title = isEdit ? "Xərc məlumatlarını redaktə et" : "Xərc əlavə et";
 
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { user } = useSelector((state: RootState) => state.account);
   const { status, errors } = useSelector((state: RootState) => state.expense);
 
   const [alertError, setAlertError] = useState<string>("");
@@ -48,12 +57,17 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
 
     initialValues: {
       name: (data && data.name) || "",
+      branch:
+        (data && data.branch && data.branch.id) ||
+        (user && user.type === USER_TYPES.STORE && user.branch.id) ||
+        "",
       amount: (data && data.amount) || "",
       date: (data && data.date) || new Date().toISOString().split("T")[0],
     },
 
     validationSchema: Yup.object({
       name: Yup.string().required("Zəhmət olmasa ad daxil edin!"),
+      branch: Yup.number(),
       amount: Yup.number()
         .required("Zəhmət olmasa məbləğ daxil edin!")
         .min(1, "Məbləğ 0-dan böyük olmalıdır!"),
@@ -67,6 +81,10 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
       if (!data || values["name"] !== data["name"])
         formData.append("name", values["name"]);
 
+      // Branch
+      if (!data || values["branch"] !== data["branch"])
+        formData.append("branch", values["branch"]);
+
       // Amount
       if (!data || values["amount"] !== data["amount"])
         formData.append("amount", values["amount"]);
@@ -78,6 +96,24 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
       handleSubmit(formData);
     },
   });
+
+  // Branch Options
+  const { items: branches } = useSelector((state: RootState) => state.branch);
+
+  const [branchName, setBranchName] = useState<string>("");
+  const [branchOptions, setBranchOptions] = useState<Option[]>([]);
+
+  useEffect(() => {
+    dispatch(getBranches({ name: branchName }));
+  }, [branchName]);
+
+  useEffect(() => {
+    setBranchOptions(getOptions(branches));
+  }, [branches]);
+
+  useEffect(() => {
+    if (data && data.branch) setBranchName(data.branch.name);
+  }, [data]);
 
   // Success
   useEffect(() => {
@@ -149,6 +185,39 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
               ) : null}
             </Col>
           </Row>
+
+          {/* Branch */}
+          <Col className="col-12 mb-3">
+            <Label>Filial</Label>
+
+            <Select
+              name="branch"
+              options={branchOptions || []}
+              isDisabled={user?.type === USER_TYPES.STORE}
+              onInputChange={(e) => setBranchName(e)}
+              styles={getSelectStyle(validation, "branch")}
+              onChange={(e) => {
+                if (e && typeof e === "object" && e.value)
+                  validation.setFieldValue("branch", e.value);
+              }}
+              onBlur={() => {
+                validation.setFieldTouched("branch", true);
+              }}
+              value={
+                validation.values.branch &&
+                branchOptions &&
+                branchOptions.find(
+                  (option) => option.value === validation.values.branch
+                )
+              }
+            />
+
+            {validation.touched.branch && validation.errors.branch ? (
+              <FormFeedback type="invalid" className="d-block">
+                {validation.errors.branch.toString()}
+              </FormFeedback>
+            ) : null}
+          </Col>
 
           <Row>
             {/* Amount */}
