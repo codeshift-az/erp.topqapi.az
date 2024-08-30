@@ -1,5 +1,7 @@
 export const formatDate = (date: string, withTime = false) => {
-  return withTime ? new Date(date).toLocaleString() : new Date(date).toLocaleDateString();
+  return withTime
+    ? new Date(date).toLocaleString()
+    : new Date(date).toLocaleDateString();
 };
 
 export const toISOStringWithoutTime = (date: Date) => {
@@ -10,11 +12,16 @@ export const toISOStringWithoutTime = (date: Date) => {
 export const convertDateRangeFilter = (filter: any) => {
   Object.keys(filter).forEach((key) => {
     const value = filter[key];
-    if (key === "date") {
+    if (key.includes("date") && value) {
       if (Array.isArray(value) && value.length === 2) {
         filter[`${key}_start`] = toISOStringWithoutTime(value[0]);
         filter[`${key}_end`] = toISOStringWithoutTime(value[1]);
-        console.log(filter[`${key}_start`], value[0], filter[`${key}_end`], value[1]);
+        console.log(
+          filter[`${key}_start`],
+          value[0],
+          filter[`${key}_end`],
+          value[1]
+        );
         delete filter[key];
       } else {
         filter[key] = toISOStringWithoutTime(new Date(value));
