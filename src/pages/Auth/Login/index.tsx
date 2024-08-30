@@ -24,9 +24,6 @@ import {
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
-// Project Config
-import { PROJECT_NAME, CREATER_URL, CREATER_NAME } from "@/config";
-
 // Assets
 import { LogoSmall, LoginBackground } from "@/assets/images";
 
@@ -37,8 +34,9 @@ import { getAccessToken, getRefreshToken } from "@/helpers/auth";
 // Redux Actions
 import { login, refreshToken, verifyToken } from "@/store/auth/actions";
 
+const PROJECT_NAME = import.meta.env.VITE_PROJECT_NAME;
+
 const Login = () => {
-  // TODO: Update Login Process and remeber me feature
   document.title = getPageTitle("Giriş");
 
   const navigate = useNavigate();
@@ -206,8 +204,8 @@ const Login = () => {
                   © {new Date().getFullYear()} {PROJECT_NAME}
                   <br />
                   Develop and Design by{" "}
-                  <a href={CREATER_URL} target="_blank">
-                    {CREATER_NAME}
+                  <a href="https://www.codeshift.az" target="_blank">
+                    CodeShift
                   </a>
                 </p>
               </div>

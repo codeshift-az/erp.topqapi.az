@@ -3,8 +3,7 @@ import React from "react";
 // Reactstrap
 import { Container, Row, Col } from "reactstrap";
 
-// Config
-import { PROJECT_NAME, CREATER_URL, CREATER_NAME } from "@/config";
+const PROJECT_NAME = import.meta.env.VITE_PROJECT_NAME;
 
 const Footer = () => {
   return (
@@ -18,8 +17,8 @@ const Footer = () => {
             <Col md={6}>
               <div className="text-sm-end d-none d-sm-block">
                 Develop and Design by{" "}
-                <a href={CREATER_URL} target="_blank">
-                  {CREATER_NAME}
+                <a href="https://www.codeshift.az" target="_blank">
+                  CodeShift
                 </a>
               </div>
             </Col>

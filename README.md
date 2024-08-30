@@ -1,76 +1,41 @@
-# React Admin Panel Template
+# TOPQAPI ERP
 
-## Description
-
-This is a template for a React Admin Panel.
+ERP system for TOPQAPI company.
 
 ## Requirements
 
-- Node.js
-- npm
+- [Node.js](https://nodejs.org/en/) >= 20.11.0
+- [npm](https://www.npmjs.com/) >= >= 10.3.0
+- [yarn](https://yarnpkg.com/) >= 1.22.22
 
 ## Installation
 
-### Development
-
 1. Clone the repository
 
-   ```bash
-   git clone https://github.com/tarlansoltanov/erp.topqapi.az.git
-   ```
+    ```bash
+    git clone https://github.com/codeshift-az/erp.topqapi.az.git
+    ```
 
 2. Install dependencies
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    yarn
+    ```
 
-   or
+## Usage
 
-   ```bash
-   yarn
-   ```
+### Development
 
-3. Run the development server
+Run the development server
 
-   ```bash
-   npm run dev
-   ```
-
-   or
-
-   ```bash
-   yarn dev
-   ```
+```bash
+yarn dev
+```
 
 ### Production
 
-1. Clone the repository
+Build the project
 
-   ```bash
-   git clone https://github.com/tarlansoltanov/erp.topqapi.az.git
-   ```
-
-2. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-   or
-
-   ```bash
-   yarn
-   ```
-
-3. Build the project
-
-   ```bash
-   npm run build
-   ```
-
-   or
-
-   ```bash
-   yarn build
-   ```
+```bash
+yarn build
+```

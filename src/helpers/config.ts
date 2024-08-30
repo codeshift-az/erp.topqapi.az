@@ -1,4 +1,4 @@
-import { PROJECT_NAME } from "@/config";
+const PROJECT_NAME = import.meta.env.VITE_PROJECT_NAME;
 
 export const getPageTitle = (title: string) => {
   return title ? `${title} | ${PROJECT_NAME}` : `${PROJECT_NAME}`;
