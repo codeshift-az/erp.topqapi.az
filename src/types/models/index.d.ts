@@ -4,7 +4,6 @@ export type * from "./staff";
 export type * from "./order";
 export type * from "./branch";
 export type * from "./catalog";
-export type * from "./factory";
 export type * from "./expense";
 export type * from "./product";
 export type * from "./payment";

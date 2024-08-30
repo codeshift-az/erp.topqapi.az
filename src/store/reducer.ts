@@ -39,12 +39,6 @@ import orderReducer from "./order/slice";
 import orderItemReducer from "./order/item/slice";
 import orderCartReducer from "./order/cart/slice";
 
-// Factory
-import factoryProductReducer from "./factory/product/slice";
-import factoryStorageReducer from "./factory/storage/slice";
-import factorySaleReducer from "./factory/sale/slice";
-import factoryUsageReducer from "./factory/usage/slice";
-
 // Payment
 import paymentReducer from "./payment/slice";
 
@@ -76,11 +70,6 @@ const rootReducer = combineReducers({
   order: orderReducer,
   orderItem: orderItemReducer,
   orderCart: orderCartReducer,
-
-  factoryProduct: factoryProductReducer,
-  factoryStorage: factoryStorageReducer,
-  factorySale: factorySaleReducer,
-  factoryUsage: factoryUsageReducer,
 
   payment: paymentReducer,
 });

@@ -202,36 +202,6 @@ const protectedRoutes = [
 
   // ------------------------------ //
 
-  // Factory Products
-  {
-    path: "/factory/products",
-    component: <Pages.FactoryProducts />,
-    types: [USER_TYPES.WAREHOUSE],
-  },
-
-  // Factory Storage
-  {
-    path: "/factory/storage",
-    component: <Pages.FactoryStorage />,
-    types: [USER_TYPES.WAREHOUSE],
-  },
-
-  // Factory Sales
-  {
-    path: "/factory/sales",
-    component: <Pages.FactorySales />,
-    types: [USER_TYPES.WAREHOUSE],
-  },
-
-  // Factory Usages
-  {
-    path: "/factory/usages",
-    component: <Pages.FactoryUsages />,
-    types: [USER_TYPES.WAREHOUSE],
-  },
-
-  // ------------------------------ //
-
   // Payments
   {
     path: "/payments",

@@ -28,12 +28,6 @@ import OrderDetails from "./Orders/OrderDetails";
 import OrderInvoice from "./Orders/OrderInvoice";
 import OrderItems from "./Orders/Items";
 
-// Factory
-import FactoryProducts from "./Factory/Products";
-import FactoryStorage from "./Factory/Storage";
-import FactorySales from "./Factory/Sales";
-import FactoryUsages from "./Factory/Usages";
-
 // Payments
 import Payments from "./Payments";
 
@@ -63,9 +57,5 @@ export {
   OrderDetails,
   OrderInvoice,
   OrderItems,
-  FactoryProducts,
-  FactoryStorage,
-  FactorySales,
-  FactoryUsages,
   Payments,
 };

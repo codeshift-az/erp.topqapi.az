@@ -107,43 +107,6 @@ const getMenuItems: (user: User, branches: Branch[]) => IMenuItem[] = (
       ],
     },
     {
-      id: "factory",
-      label: "İstehsalat",
-      icon: "bx bx-store",
-      link: "/factory",
-      types: [USER_TYPES.WAREHOUSE],
-      subItems: [
-        {
-          id: "factory-usages",
-          label: "İstifadələr",
-          link: "/factory/usages",
-          parentId: "factory",
-          types: [USER_TYPES.WAREHOUSE],
-        },
-        {
-          id: "factory-sales",
-          label: "Satışlar",
-          link: "/factory/sales",
-          parentId: "factory",
-          types: [USER_TYPES.WAREHOUSE],
-        },
-        {
-          id: "factory-storage",
-          label: "Anbar",
-          link: "/factory/storage",
-          parentId: "factory",
-          types: [USER_TYPES.WAREHOUSE],
-        },
-        {
-          id: "factory-products",
-          label: "Məhsullar",
-          link: "/factory/products",
-          parentId: "factory",
-          types: [USER_TYPES.WAREHOUSE],
-        },
-      ],
-    },
-    {
       id: "branches",
       label: "Filiallar",
       icon: "bx bx-building",
