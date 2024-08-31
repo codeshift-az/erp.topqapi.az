@@ -15,10 +15,14 @@ import VerifyModal from "@/components/VerifyModal";
 import { getPageTitle } from "@/helpers";
 
 // Types
-import { ProductRecord } from "@/types/models";
+import { CatalogItem } from "@/types/models";
 
 // Actions
-import { createProductRecord, updateProductRecord, deleteProductRecord } from "@/store/actions";
+import {
+  createCatalogItem,
+  updateCatalogItem,
+  deleteCatalogItem,
+} from "@/store/actions";
 
 // Related components
 import TableContainer from "./components/TableContainer";
@@ -33,7 +37,7 @@ const ProductCatalog = () => {
   const { status } = useSelector((state: RootState) => state.catalog);
 
   // Selected item
-  const [item, setItem] = useState<ProductRecord | null>(null);
+  const [item, setItem] = useState<CatalogItem | null>(null);
 
   // Form Modal
   const [formModal, setFormModal] = useState<boolean>(false);
@@ -43,29 +47,29 @@ const ProductCatalog = () => {
     setFormModal(true);
   };
 
-  const onUpdate = (data: ProductRecord) => {
+  const onUpdate = (data: CatalogItem) => {
     setItem(data);
     setFormModal(true);
   };
 
   const handleSubmit = (formData: FormData) => {
     if (item !== null) {
-      dispatch(updateProductRecord({ id: item!.id, data: formData }));
+      dispatch(updateCatalogItem({ id: item!.id, data: formData }));
     } else {
-      dispatch(createProductRecord(formData));
+      dispatch(createCatalogItem(formData));
     }
   };
 
   // Delete Modal
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
-  const onDelete = (data: ProductRecord) => {
+  const onDelete = (data: CatalogItem) => {
     setItem(data);
     setDeleteModal(true);
   };
 
   const handleDelete = () => {
-    if (item) dispatch(deleteProductRecord(item.id));
+    if (item) dispatch(deleteCatalogItem(item.id));
     setDeleteModal(false);
   };
 
@@ -75,11 +79,18 @@ const ProductCatalog = () => {
         <Container fluid>
           <Breadcrumbs
             title={title}
-            breadcrumbItems={[{ title: "Ana Səhifə", url: "/" }, { title: title }]}
+            breadcrumbItems={[
+              { title: "Ana Səhifə", url: "/" },
+              { title: title },
+            ]}
           />
 
           {/* Render Table Container */}
-          <TableContainer onCreate={onCreate} onUpdate={onUpdate} onDelete={onDelete} />
+          <TableContainer
+            onCreate={onCreate}
+            onUpdate={onUpdate}
+            onDelete={onDelete}
+          />
 
           {/* Render Form Modal */}
           {formModal && (
@@ -98,7 +109,7 @@ const ProductCatalog = () => {
               status={status}
               show={deleteModal}
               onVerify={handleDelete}
-              action={deleteProductRecord.typePrefix}
+              action={deleteCatalogItem.typePrefix}
               onClose={() => setDeleteModal(false)}
               message="Seçilmiş məlumatı silmək istədiyinizə əminsiniz?"
             />

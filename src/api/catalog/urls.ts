@@ -1,3 +1,3 @@
-// CATALOG_PRODUCT
-export const CATALOG_PRODUCT_LIST_URL = "/catalog/products/";
-export const CATALOG_PRODUCT_DETAIL_URL = (id: number) => `/catalog/products/${id}/`;
+// CATALOG_ITEM
+export const CATALOG_ITEM_LIST_URL = "/catalog/items/";
+export const CATALOG_ITEM_DETAIL_URL = (id: number) => `/catalog/items/${id}/`;

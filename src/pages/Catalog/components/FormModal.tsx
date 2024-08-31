@@ -37,8 +37,8 @@ import { Option } from "@/types/option";
 import {
   getProducts,
   getSuppliers,
-  createProductRecord,
-  updateProductRecord,
+  createCatalogItem,
+  updateCatalogItem,
 } from "@/store/actions";
 
 interface Props {
@@ -137,8 +137,8 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
   useEffect(() => {
     if (show && status) {
       if (
-        ((isEdit && status.lastAction === updateProductRecord.typePrefix) ||
-          (!isEdit && status.lastAction === createProductRecord.typePrefix)) &&
+        ((isEdit && status.lastAction === updateCatalogItem.typePrefix) ||
+          (!isEdit && status.lastAction === createCatalogItem.typePrefix)) &&
         status.success
       ) {
         validation.resetForm();

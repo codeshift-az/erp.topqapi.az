@@ -4,22 +4,22 @@ import { createSlice } from "@reduxjs/toolkit";
 import { LOADING, SUCCESS, FAILURE } from "@/constants";
 
 // Types
-import { ProductRecord } from "@/types/models";
+import { CatalogItem } from "@/types/models";
 import { Status } from "@/types/store";
 
 // Actions
 import {
-  getProductRecords,
-  createProductRecord,
-  updateProductRecord,
-  deleteProductRecord,
+  getCatalogItems,
+  createCatalogItem,
+  updateCatalogItem,
+  deleteCatalogItem,
 } from "./actions";
 
 interface StateProps {
   status: Status;
   errors: any;
   update: boolean;
-  items: ProductRecord[] | null;
+  items: CatalogItem[] | null;
   count: number;
 }
 
@@ -50,57 +50,57 @@ export const sellerSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getProductRecords.pending, (state) => {
-        state.status = { ...LOADING, lastAction: getProductRecords.typePrefix };
+      .addCase(getCatalogItems.pending, (state) => {
+        state.status = { ...LOADING, lastAction: getCatalogItems.typePrefix };
         state.errors = null;
       })
-      .addCase(getProductRecords.fulfilled, (state, { payload }) => {
-        state.status = { ...SUCCESS, lastAction: getProductRecords.typePrefix };
+      .addCase(getCatalogItems.fulfilled, (state, { payload }) => {
+        state.status = { ...SUCCESS, lastAction: getCatalogItems.typePrefix };
         state.items = payload.results;
         state.count = payload.count;
         state.update = false;
       })
-      .addCase(getProductRecords.rejected, (state, { payload }) => {
-        state.status = { ...FAILURE, lastAction: getProductRecords.typePrefix };
+      .addCase(getCatalogItems.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: getCatalogItems.typePrefix };
         state.errors = payload;
       });
     builder
-      .addCase(createProductRecord.pending, (state) => {
-        state.status = { ...LOADING, lastAction: createProductRecord.typePrefix };
+      .addCase(createCatalogItem.pending, (state) => {
+        state.status = { ...LOADING, lastAction: createCatalogItem.typePrefix };
         state.errors = null;
       })
-      .addCase(createProductRecord.fulfilled, (state) => {
-        state.status = { ...SUCCESS, lastAction: createProductRecord.typePrefix };
+      .addCase(createCatalogItem.fulfilled, (state) => {
+        state.status = { ...SUCCESS, lastAction: createCatalogItem.typePrefix };
         state.update = true;
       })
-      .addCase(createProductRecord.rejected, (state, { payload }) => {
-        state.status = { ...FAILURE, lastAction: createProductRecord.typePrefix };
+      .addCase(createCatalogItem.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: createCatalogItem.typePrefix };
         state.errors = payload;
       });
     builder
-      .addCase(updateProductRecord.pending, (state) => {
-        state.status = { ...LOADING, lastAction: updateProductRecord.typePrefix };
+      .addCase(updateCatalogItem.pending, (state) => {
+        state.status = { ...LOADING, lastAction: updateCatalogItem.typePrefix };
         state.errors = null;
       })
-      .addCase(updateProductRecord.fulfilled, (state) => {
-        state.status = { ...SUCCESS, lastAction: updateProductRecord.typePrefix };
+      .addCase(updateCatalogItem.fulfilled, (state) => {
+        state.status = { ...SUCCESS, lastAction: updateCatalogItem.typePrefix };
         state.update = true;
       })
-      .addCase(updateProductRecord.rejected, (state, { payload }) => {
-        state.status = { ...FAILURE, lastAction: updateProductRecord.typePrefix };
+      .addCase(updateCatalogItem.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: updateCatalogItem.typePrefix };
         state.errors = payload;
       });
     builder
-      .addCase(deleteProductRecord.pending, (state) => {
-        state.status = { ...LOADING, lastAction: deleteProductRecord.typePrefix };
+      .addCase(deleteCatalogItem.pending, (state) => {
+        state.status = { ...LOADING, lastAction: deleteCatalogItem.typePrefix };
         state.errors = null;
       })
-      .addCase(deleteProductRecord.fulfilled, (state) => {
-        state.status = { ...SUCCESS, lastAction: deleteProductRecord.typePrefix };
+      .addCase(deleteCatalogItem.fulfilled, (state) => {
+        state.status = { ...SUCCESS, lastAction: deleteCatalogItem.typePrefix };
         state.update = true;
       })
-      .addCase(deleteProductRecord.rejected, (state, { payload }) => {
-        state.status = { ...FAILURE, lastAction: deleteProductRecord.typePrefix };
+      .addCase(deleteCatalogItem.rejected, (state, { payload }) => {
+        state.status = { ...FAILURE, lastAction: deleteCatalogItem.typePrefix };
         state.errors = payload;
       });
   },

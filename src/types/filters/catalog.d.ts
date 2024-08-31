@@ -1,6 +1,6 @@
 import { DefaultFilter } from "./default";
 
-export type ProductRecordFilter = DefaultFilter & {
+export type CatalogItemFilter = DefaultFilter & {
   product?: string;
   supplier?: string;
 };
