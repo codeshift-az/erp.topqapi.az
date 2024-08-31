@@ -1,0 +1,19 @@
+name: Deployment
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+        
+    steps:
+      - uses: actions/checkout@v4.1.7
+      - name: Deployment
+        uses: appleboy/ssh-action@master
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          script: cd ~/website && git checkout . && git pull --rebase && yarn && yarn build
