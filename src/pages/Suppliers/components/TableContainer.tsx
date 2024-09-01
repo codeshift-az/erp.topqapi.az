@@ -133,18 +133,11 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
       enableSorting: false,
       cell: (cell) => {
         return (
-          <div className="d-flex gap-3">
-            {onUpdate && (
-              <Fields.EditButton
-                onClick={() => onUpdate(cell.row.original as Supplier)}
-              />
-            )}
-            {onDelete && (
-              <Fields.DeleteButton
-                onClick={() => onDelete(cell.row.original as Supplier)}
-              />
-            )}
-          </div>
+          <Fields.Actions
+            data={cell.row.original}
+            onUpdate={onUpdate}
+            onDelete={onDelete}
+          />
         );
       },
     }),

@@ -20,17 +20,19 @@ import {
   useColumnFiltering,
 } from "@/components/DataTable/Hooks";
 
+// Constants
+import { USER_TYPES } from "@/constants";
+
 // Types
 import { Expense } from "@/types/models";
 
 // Actions
 import { getExpenses } from "@/store/actions";
-import { USER_TYPES } from "@/constants";
 
 interface Props {
-  onCreate?: () => void;
-  onUpdate?: (data: Expense) => void;
-  onDelete?: (data: Expense) => void;
+  onCreate: () => void;
+  onUpdate: (data: Expense) => void;
+  onDelete: (data: Expense) => void;
 }
 
 const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
@@ -49,7 +51,7 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, items, status, count } = useSelector(
+  const { items, count, update, status } = useSelector(
     (state: RootState) => state.expense
   );
 
@@ -119,18 +121,11 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
       enableSorting: false,
       cell: (cell) => {
         return (
-          <div className="d-flex gap-3">
-            {onUpdate && (
-              <Fields.EditButton
-                onClick={() => onUpdate(cell.row.original as Expense)}
-              />
-            )}
-            {onDelete && (
-              <Fields.DeleteButton
-                onClick={() => onDelete(cell.row.original as Expense)}
-              />
-            )}
-          </div>
+          <Fields.Actions
+            data={cell.row.original}
+            onUpdate={onUpdate}
+            onDelete={onDelete}
+          />
         );
       },
     }),

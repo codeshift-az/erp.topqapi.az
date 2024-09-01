@@ -27,9 +27,9 @@ import { CatalogItem } from "@/types/models";
 import { getCatalogItems } from "@/store/actions";
 
 interface Props {
-  onCreate?: () => void;
-  onUpdate?: (data: CatalogItem) => void;
-  onDelete?: (data: CatalogItem) => void;
+  onCreate: () => void;
+  onUpdate: (data: CatalogItem) => void;
+  onDelete: (data: CatalogItem) => void;
 }
 
 const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
@@ -40,12 +40,11 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
   const { ordering, sorting, onSortingChange } = useSorting();
 
   // Column Filtering
-  const { filters, columnFilters, onColumnFiltersChange } =
-    useColumnFiltering();
+  const { filters, columnFilters, onColumnFiltersChange } = useColumnFiltering();
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, items, status, count } = useSelector(
+  const { items, count, update, status } = useSelector(
     (state: RootState) => state.catalog
   );
 
@@ -101,18 +100,11 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
       enableSorting: false,
       cell: (cell) => {
         return (
-          <div className="d-flex gap-3">
-            {onUpdate && (
-              <Fields.EditButton
-                onClick={() => onUpdate(cell.row.original as CatalogItem)}
-              />
-            )}
-            {onDelete && (
-              <Fields.DeleteButton
-                onClick={() => onDelete(cell.row.original as CatalogItem)}
-              />
-            )}
-          </div>
+          <Fields.Actions
+            data={cell.row.original}
+            onUpdate={onUpdate}
+            onDelete={onDelete}
+          />
         );
       },
     }),

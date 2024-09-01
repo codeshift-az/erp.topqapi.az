@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 
 // Reactstrap
-import { Row, Col, Card, CardBody, UncontrolledTooltip } from "reactstrap";
+import { Row, Col, Card, CardBody } from "reactstrap";
 
 // React Table
 import { createColumnHelper } from "@tanstack/react-table";
@@ -124,16 +124,10 @@ const TableContainer = () => {
       enableSorting: false,
       cell: (cell) => {
         return (
-          <div className="d-flex gap-3">
-            <Link
-              to={`/warehouse/entries/${cell.row.original.id}`}
-              className="text-primary">
-              <i className="mdi mdi-eye font-size-18" id="viewtooltip" />
-              <UncontrolledTooltip placement="top" target="viewtooltip">
-                Ətraflı
-              </UncontrolledTooltip>
-            </Link>
-          </div>
+          <Fields.Actions
+            data={cell.row.original}
+            onView={`/warehouse/entries/${cell.row.original.id}`}
+          />
         );
       },
     }),

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 
 // Reactstrap
-import { Row, Col, Card, CardBody, UncontrolledTooltip } from "reactstrap";
+import { Row, Col, Card, CardBody } from "reactstrap";
 
 // React Table
 import { createColumnHelper } from "@tanstack/react-table";
@@ -196,15 +196,10 @@ const TableContainer = () => {
       header: "Əməliyyatlar",
       cell: (cell) => {
         return (
-          <Link
-            role="button"
-            className="text-primary"
-            to={`/warehouse/entries/${cell.row.original.entry}`}>
-            <i className="mdi mdi-eye font-size-18" id="deletetooltip" />
-            <UncontrolledTooltip placement="top" target="deletetooltip">
-              Ətraflı
-            </UncontrolledTooltip>
-          </Link>
+          <Fields.Actions
+            data={cell.row.original}
+            onView={`/warehouse/entries/${cell.row.original.entry}`}
+          />
         );
       },
     }),

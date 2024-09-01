@@ -14,7 +14,11 @@ import { createColumnHelper } from "@tanstack/react-table";
 import DataTable from "@/components/DataTable";
 import * as Fields from "@/components/DataTable/Fields";
 import * as Filters from "@/components/DataTable/Filters";
-import { usePagination, useSorting, useColumnFiltering } from "@/components/DataTable/Hooks";
+import {
+  useSorting,
+  usePagination,
+  useColumnFiltering,
+} from "@/components/DataTable/Hooks";
 
 // Types
 import { Worker } from "@/types/models";
@@ -23,9 +27,9 @@ import { Worker } from "@/types/models";
 import { getWorkers } from "@/store/actions";
 
 interface Props {
-  onCreate?: () => void;
-  onUpdate?: (data: Worker) => void;
-  onDelete?: (data: Worker) => void;
+  onCreate: () => void;
+  onUpdate: (data: Worker) => void;
+  onDelete: (data: Worker) => void;
 }
 
 const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
@@ -36,11 +40,14 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
   const { ordering, sorting, onSortingChange } = useSorting();
 
   // Column Filtering
-  const { filters, columnFilters, onColumnFiltersChange } = useColumnFiltering();
+  const { filters, columnFilters, onColumnFiltersChange } =
+    useColumnFiltering();
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, items, status, count } = useSelector((state: RootState) => state.worker);
+  const { items, count, update, status } = useSelector(
+    (state: RootState) => state.worker
+  );
 
   const fetchItems = () => {
     dispatch(getWorkers({ ...filters, page, limit, ordering }));
@@ -103,14 +110,11 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
       enableSorting: false,
       cell: (cell) => {
         return (
-          <div className="d-flex gap-3">
-            {onUpdate && (
-              <Fields.EditButton onClick={() => onUpdate(cell.row.original as Worker)} />
-            )}
-            {onDelete && (
-              <Fields.DeleteButton onClick={() => onDelete(cell.row.original as Worker)} />
-            )}
-          </div>
+          <Fields.Actions
+            data={cell.row.original}
+            onUpdate={onUpdate}
+            onDelete={onDelete}
+          />
         );
       },
     }),
@@ -125,12 +129,17 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
               data={items || []}
               columns={columns}
               controls={
-                <Button color="primary" className="mb-2 me-2" onClick={onCreate}>
+                <Button
+                  color="primary"
+                  className="mb-2 me-2"
+                  onClick={onCreate}>
                   <i className={`mdi mdi-plus-circle-outline me-1`} />
                   Əlavə et
                 </Button>
               }
-              loading={status.loading && status.lastAction === getWorkers.typePrefix}
+              loading={
+                status.loading && status.lastAction === getWorkers.typePrefix
+              }
               // Pagination
               pagination={pagination}
               onPaginationChange={onPaginationChange}

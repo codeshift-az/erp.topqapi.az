@@ -28,9 +28,9 @@ import { Payment } from "@/types/models";
 import { getPayments } from "@/store/actions";
 
 interface Props {
-  onCreate?: () => void;
-  onUpdate?: (data: Payment) => void;
-  onDelete?: (data: Payment) => void;
+  onCreate: () => void;
+  onUpdate: (data: Payment) => void;
+  onDelete: (data: Payment) => void;
 }
 
 const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
@@ -46,7 +46,7 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, items, status, count } = useSelector(
+  const { items, count, update, status } = useSelector(
     (state: RootState) => state.payment
   );
 
@@ -114,18 +114,11 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
       enableSorting: false,
       cell: (cell) => {
         return (
-          <div className="d-flex gap-3">
-            {onUpdate && (
-              <Fields.EditButton
-                onClick={() => onUpdate(cell.row.original as Payment)}
-              />
-            )}
-            {onDelete && (
-              <Fields.DeleteButton
-                onClick={() => onDelete(cell.row.original as Payment)}
-              />
-            )}
-          </div>
+          <Fields.Actions
+            data={cell.row.original}
+            onUpdate={onUpdate}
+            onDelete={onDelete}
+          />
         );
       },
     }),
