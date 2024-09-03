@@ -20,13 +20,11 @@ import WarehouseItems from "./Warehouse/Items";
 import WarehouseProducts from "./Warehouse/Products";
 
 // Orders
-import MyOrders from "./Orders/MyOrders";
-import AllOrders from "./Orders/AllOrders";
-import BranchOrders from "./Orders/BranchOrders";
+import Orders from "./Orders/Orders";
+import OrderItems from "./Orders/Items";
 import NewOrder from "./Orders/NewOrder";
 import OrderDetails from "./Orders/OrderDetails";
 import OrderInvoice from "./Orders/OrderInvoice";
-import OrderItems from "./Orders/Items";
 
 // Payments
 import Payments from "./Payments";
@@ -50,12 +48,10 @@ export {
   WarehouseEntryInvoice,
   WarehouseItems,
   WarehouseProducts,
-  MyOrders,
-  AllOrders,
-  BranchOrders,
+  Orders,
   NewOrder,
+  OrderItems,
   OrderDetails,
   OrderInvoice,
-  OrderItems,
   Payments,
 };

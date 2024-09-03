@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // Redux
@@ -16,8 +16,8 @@ import DataTable from "@/components/DataTable";
 import * as Fields from "@/components/DataTable/Fields";
 import * as Filters from "@/components/DataTable/Filters";
 import {
-  usePagination,
   useSorting,
+  usePagination,
   useColumnFiltering,
 } from "@/components/DataTable/Hooks";
 
@@ -25,12 +25,17 @@ import {
 import { ORDER_STATUS, ORDER_STATUS_LABELS } from "@/constants";
 
 // Types
-import { Order } from "@/types/models";
+import { Order, OrderStats } from "@/types/models";
 
 // Actions
-import { getOrders, getOrderStats } from "@/store/actions";
+import { getOrders } from "@/store/actions";
+import { getOrderStats } from "@/api/order";
 
-const TableContainer = () => {
+interface Props {
+  branchID: number | null;
+}
+
+const TableContainer = ({ branchID }: Props) => {
   // Pagination
   const { page, limit, pagination, onPaginationChange } = usePagination();
 
@@ -43,18 +48,28 @@ const TableContainer = () => {
 
   // Table data
   const dispatch = useDispatch<AppDispatch>();
-  const { update, items, stats, status, count } = useSelector(
+  const { update, items, status, count } = useSelector(
     (state: RootState) => state.order
   );
 
+  const [stats, setStats] = useState<OrderStats | null>(null);
+
   const fetchItems = () => {
-    dispatch(getOrders({ ...filters, page, limit, ordering }));
-    dispatch(getOrderStats(filters));
+    dispatch(
+      getOrders({ ...filters, page, limit, ordering, branch_id: branchID })
+    );
+    getOrderStats({ ...filters, branch_id: branchID })
+      .then((response) => {
+        setStats(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
     fetchItems();
-  }, [columnFilters, pagination, sorting]);
+  }, [columnFilters, pagination, sorting, branchID]);
 
   useEffect(() => {
     if (update) fetchItems();
@@ -83,6 +98,24 @@ const TableContainer = () => {
         return <Fields.NumberField value={stats?.total_orders || 0} />;
       },
     }),
+    columnHelper.accessor("status", {
+      header: "status",
+      cell: (cell) => {
+        const status = ORDER_STATUS_LABELS[cell.getValue()];
+        return <Fields.TagField value={status.label} color={status.color} />;
+      },
+      meta: {
+        filterComponent: (column) => (
+          <Filters.SelectFilter
+            column={column}
+            options={Object.keys(ORDER_STATUS_LABELS).map((key) => ({
+              value: key,
+              label: ORDER_STATUS_LABELS[Number(key)].label,
+            }))}
+          />
+        ),
+      },
+    }),
     columnHelper.accessor("customer", {
       header: "Müştəri",
       cell: (cell) => {
@@ -92,21 +125,9 @@ const TableContainer = () => {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
       },
     }),
-    columnHelper.display({
-      header: "Kateqoriyalar",
-      cell: (cell) => {
-        return (
-          <Fields.TextField
-            text={cell.row.original.items
-              .map((item) => item.product.category.name)
-              .join(", ")}
-            length={255}
-          />
-        );
-      },
-    }),
     columnHelper.accessor("phone", {
       header: "Telefon",
+      enableHiding: true,
       cell: (cell) => {
         return <Fields.TextField text={cell.getValue()} />;
       },
@@ -181,24 +202,6 @@ const TableContainer = () => {
       },
       footer: () => {
         return <Fields.PriceField amount={stats?.total_profit || 0} />;
-      },
-    }),
-    columnHelper.accessor("status", {
-      header: "status",
-      cell: (cell) => {
-        const status = ORDER_STATUS_LABELS[cell.getValue()];
-        return <Fields.TagField value={status.label} color={status.color} />;
-      },
-      meta: {
-        filterComponent: (column) => (
-          <Filters.SelectFilter
-            column={column}
-            options={Object.keys(ORDER_STATUS_LABELS).map((key) => ({
-              value: key,
-              label: ORDER_STATUS_LABELS[Number(key)].label,
-            }))}
-          />
-        ),
       },
     }),
     columnHelper.display({

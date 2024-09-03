@@ -11,7 +11,7 @@ import { Row, Col, Card, CardBody, Button, Table } from "reactstrap";
 import VerifyModal from "@/components/VerifyModal";
 
 // Constants
-import { ORDER_STATUS, USER_TYPES } from "@/constants";
+import { ORDER_STATUS, USER_ROLES } from "@/constants";
 
 // Types
 import { Status } from "@/types/store";
@@ -150,7 +150,7 @@ const ProductContainer = () => {
                         )}
                       </td>
 
-                      {user?.type === USER_TYPES.STORE &&
+                      {user?.type === USER_ROLES.STORE &&
                         order.status === ORDER_STATUS.PENDING && (
                           <td>
                             {item.is_factory_ready ? (
@@ -169,7 +169,7 @@ const ProductContainer = () => {
                           </td>
                         )}
 
-                      {user?.type === USER_TYPES.STORE &&
+                      {user?.type === USER_ROLES.STORE &&
                         order.status === ORDER_STATUS.PENDING && (
                           <td>
                             {item.is_sold ? (
@@ -226,7 +226,7 @@ const ProductContainer = () => {
                         )}
 
                       {item.is_sold &&
-                        hasPermission(user, [USER_TYPES.WAREHOUSE]) &&
+                        hasPermission(user, [USER_ROLES.WAREHOUSE]) &&
                         (order.status < ORDER_STATUS.READY ||
                           order.status === ORDER_STATUS.RETURN) && (
                           <td>

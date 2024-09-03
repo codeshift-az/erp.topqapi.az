@@ -15,9 +15,11 @@ import MetisMenu from "@metismenu/react";
 // Types
 import { Branch } from "@/types/models";
 
+// API
+import { getBranches } from "@/api/branch";
+
 // Menu Items
 import { getMenuItems, IMenuItem } from "./Menu";
-import { getBranches } from "@/api/branch";
 
 const SidebarContent = () => {
   // User
@@ -188,9 +190,11 @@ const SidebarContent = () => {
             {menuItems.map((menuItem) => (
               <li key={menuItem.id}>
                 <Link
-                  to={menuItem.link}
+                  to={menuItem.subItems ? "/" : menuItem.url}
+                  role={menuItem.subItems ? "button" : undefined}
                   className={menuItem.subItems && "has-arrow"}>
                   <i className={menuItem.icon}></i>
+
                   {menuItem.badge && (
                     <span
                       className={`badge rounded-pill ${menuItem.badge.color} float-end`}>
@@ -199,11 +203,25 @@ const SidebarContent = () => {
                   )}
                   <span>{menuItem.label}</span>
                 </Link>
+
                 {menuItem.subItems && (
                   <ul>
                     {menuItem.subItems.map((subMenuItem) => (
                       <li key={subMenuItem.id}>
-                        <Link to={subMenuItem.link}>{subMenuItem.label}</Link>
+                        <Link
+                          to={subMenuItem.url}
+                          className={subMenuItem.subItems && "has-arrow"}>
+                          {subMenuItem.label}
+                        </Link>
+                        {subMenuItem.subItems && (
+                          <ul className="sub-menu">
+                            {subMenuItem.subItems.map((item) => (
+                              <li key={item.id}>
+                                <Link to={item.url}>{item.label}</Link>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </li>
                     ))}
                   </ul>

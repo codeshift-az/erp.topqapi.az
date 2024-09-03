@@ -28,7 +28,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 
 // Constants
-import { USER_TYPES } from "@/constants";
+import { USER_ROLES } from "@/constants";
 
 // Helpers
 import { formatPrice, getOptions, getSelectStyle } from "@/helpers";
@@ -327,7 +327,7 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
               <Select
                 name="branch"
                 options={branchOptions || []}
-                isDisabled={user?.type === USER_TYPES.STORE}
+                isDisabled={user?.type === USER_ROLES.STORE}
                 onInputChange={(e) => setBranchName(e)}
                 styles={getSelectStyle(validation, "branch")}
                 onChange={(e) => {

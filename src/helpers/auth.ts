@@ -5,9 +5,17 @@ import { jwtDecode } from "jwt-decode";
 import { TokenPair, User } from "@/types/models";
 
 // Constants
-import { ACCESS_TOKEN, ORDER_STATUS, REFRESH_TOKEN, USER_TYPES } from "@/constants";
+import {
+  USER_ROLES,
+  ACCESS_TOKEN,
+  ORDER_STATUS,
+  REFRESH_TOKEN,
+} from "@/constants";
 
-export const setAuthCookies = ({ access, refresh }: TokenPair, remember: boolean = false) => {
+export const setAuthCookies = (
+  { access, refresh }: TokenPair,
+  remember: boolean = false
+) => {
   const accessDecoded = jwtDecode(access);
 
   Cookies.set(ACCESS_TOKEN, access, {
@@ -40,28 +48,32 @@ export const getRefreshToken = () => {
   return token ? token : "";
 };
 
-export const hasPermission = (user: User | null, types?: number[], is_delete: boolean = false) => {
+export const hasPermission = (
+  user: User | null,
+  permissions?: number[],
+  is_delete: boolean = false
+) => {
   if (!user) return false;
 
-  if (is_delete) return user.type === USER_TYPES.SUPERADMIN;
+  if (is_delete) return user.type === USER_ROLES.SUPERADMIN;
 
-  if (!types) return true;
+  if (!permissions) return true;
 
-  if (user.type === USER_TYPES.ADMIN) return true;
+  if (user.type === USER_ROLES.ADMIN) return true;
 
-  if (user.type === USER_TYPES.SUPERADMIN) return true;
+  if (user.type === USER_ROLES.SUPERADMIN) return true;
 
-  return types.includes(user.type);
+  return permissions.includes(user.type);
 };
 
 export const hasPermissionByStatus = (user: User | null, status?: number) => {
   if (!user) return false;
 
-  if (user.type === USER_TYPES.ADMIN) return true;
+  if (user.type === USER_ROLES.ADMIN) return true;
 
   if (!status) return true;
 
-  if (user.type === USER_TYPES.STORE) return status < ORDER_STATUS.PENDING;
+  if (user.type === USER_ROLES.STORE) return status < ORDER_STATUS.PENDING;
 
   return true;
 };

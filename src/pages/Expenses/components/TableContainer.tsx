@@ -21,7 +21,7 @@ import {
 } from "@/components/DataTable/Hooks";
 
 // Constants
-import { USER_TYPES } from "@/constants";
+import { USER_ROLES } from "@/constants";
 
 // Types
 import { Expense } from "@/types/models";
@@ -56,7 +56,7 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
   );
 
   const fetchItems = () => {
-    if (user?.type === USER_TYPES.STORE) {
+    if (user?.type === USER_ROLES.STORE) {
       dispatch(
         getExpenses({
           ...filters,
@@ -131,7 +131,7 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
     }),
   ];
 
-  if (user?.type != USER_TYPES.STORE) {
+  if (user?.type != USER_ROLES.STORE) {
     const branchColumn = columnHelper.accessor("branch", {
       header: "Filial",
       id: "branch",

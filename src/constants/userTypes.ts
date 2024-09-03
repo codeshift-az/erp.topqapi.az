@@ -1,4 +1,4 @@
-export const USER_TYPES = {
+export const USER_ROLES = {
   SUPERADMIN: 0,
   ADMIN: 1,
   WAREHOUSE: 2,

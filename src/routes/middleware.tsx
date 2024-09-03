@@ -16,10 +16,10 @@ import { refreshToken, verifyToken, getAccount } from "@/store/actions";
 
 interface Props {
   children: React.ReactNode;
-  types?: number[];
+  permissions?: number[];
 }
 
-const Authmiddleware = ({ children, types }: Props) => {
+const Authmiddleware = ({ children, permissions }: Props) => {
   const { isAuth } = useSelector((state: RootState) => state.auth);
   const { user } = useSelector((state: RootState) => state.account);
 
@@ -29,7 +29,8 @@ const Authmiddleware = ({ children, types }: Props) => {
   const checkAuth = async (access: string, refresh: string) => {
     if (access) {
       await dispatch(verifyToken(access)).then((result) => {
-        if (result.meta.requestStatus === "rejected" && !refresh) navigate("/auth/login");
+        if (result.meta.requestStatus === "rejected" && !refresh)
+          navigate("/auth/login");
       });
       return;
     } else if (refresh) {
@@ -62,7 +63,7 @@ const Authmiddleware = ({ children, types }: Props) => {
   useEffect(() => {
     if (!isAuth) return;
     if (!user) return;
-    if (!hasPermission(user, types)) navigate("/");
+    if (!hasPermission(user, permissions)) navigate("/");
     setPermission(true);
   }, [isAuth, user]);
 

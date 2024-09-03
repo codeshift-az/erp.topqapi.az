@@ -27,11 +27,17 @@ import Select from "react-select";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
+// Constants
+import { USER_ROLES } from "@/constants";
+
+// Types
+import { Option } from "@/types/option";
+
+// Helpers
+import { getOptions, getSelectStyle } from "@/helpers";
+
 // Actions
 import { createExpense, getBranches, updateExpense } from "@/store/actions";
-import { USER_TYPES } from "@/constants";
-import { Option } from "@/types/option";
-import { getOptions, getSelectStyle } from "@/helpers";
 
 interface Props {
   data: any;
@@ -59,7 +65,7 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
       name: (data && data.name) || "",
       branch:
         (data && data.branch && data.branch.id) ||
-        (user && user.type === USER_TYPES.STORE && user.branch.id) ||
+        (user && user.type === USER_ROLES.STORE && user.branch.id) ||
         "",
       amount: (data && data.amount) || "",
       date: (data && data.date) || new Date().toISOString().split("T")[0],
@@ -193,7 +199,7 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
             <Select
               name="branch"
               options={branchOptions || []}
-              isDisabled={user?.type === USER_TYPES.STORE}
+              isDisabled={user?.type === USER_ROLES.STORE}
               onInputChange={(e) => setBranchName(e)}
               styles={getSelectStyle(validation, "branch")}
               onChange={(e) => {

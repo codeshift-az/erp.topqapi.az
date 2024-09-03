@@ -12,7 +12,7 @@ import { Button, Card, CardBody, CardTitle, Col, Table } from "reactstrap";
 import VerifyModal from "@/components/VerifyModal";
 
 // Constants
-import { USER_TYPES, ORDER_STATUS, ORDER_STATUS_LABELS } from "@/constants";
+import { USER_ROLES, ORDER_STATUS, ORDER_STATUS_LABELS } from "@/constants";
 
 // Helpers
 import {
@@ -188,7 +188,7 @@ const OrderContainer = () => {
                   </tr>
 
                   {order.status >= ORDER_STATUS.READY &&
-                    hasPermission(user, [USER_TYPES.WAREHOUSE]) && (
+                    hasPermission(user, [USER_ROLES.WAREHOUSE]) && (
                       <tr>
                         <td>Ümumi gəlir: </td>
                         <td>{formatPrice(order.profit)}</td>
@@ -273,7 +273,7 @@ const OrderContainer = () => {
                     </tr>
                   )}
 
-                  {hasPermission(user, [USER_TYPES.WAREHOUSE]) && (
+                  {hasPermission(user, [USER_ROLES.WAREHOUSE]) && (
                     <React.Fragment>
                       {order.status === ORDER_STATUS.REGISTERED && (
                         <tr>

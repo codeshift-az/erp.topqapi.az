@@ -11,7 +11,7 @@ import { Row, Col, Card, CardBody, Button, Table } from "reactstrap";
 import VerifyModal from "@/components/VerifyModal";
 
 // Constants
-import { ORDER_STATUS, USER_TYPES } from "@/constants";
+import { ORDER_STATUS, USER_ROLES } from "@/constants";
 
 // Types
 import { Status } from "@/types/store";
@@ -21,7 +21,11 @@ import { OrderExpense } from "@/types/models";
 import { formatPrice, hasPermission } from "@/helpers";
 
 // Actions
-import { createOrderExpense, updateOrderExpense, deleteOrderExpense } from "@/store/actions";
+import {
+  createOrderExpense,
+  updateOrderExpense,
+  deleteOrderExpense,
+} from "@/store/actions";
 
 // Related Components
 import ExpenseModal from "./ExpenseModal";
@@ -30,7 +34,9 @@ const ExpenseContainer = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const { user } = useSelector((state: RootState) => state.account);
-  const { item: order, status } = useSelector((state: RootState) => state.order);
+  const { item: order, status } = useSelector(
+    (state: RootState) => state.order
+  );
 
   // Expense Modal
   const [item, setItem] = useState<OrderExpense | null>(null);
@@ -113,7 +119,7 @@ const ExpenseContainer = () => {
                       </td>
                       <td>{formatPrice(item.price)}</td>
 
-                      {hasPermission(user, [USER_TYPES.WAREHOUSE]) &&
+                      {hasPermission(user, [USER_ROLES.WAREHOUSE]) &&
                         order.status < ORDER_STATUS.INSTALLED && (
                           <td>
                             <div className="d-flex gap-3">
@@ -143,12 +149,15 @@ const ExpenseContainer = () => {
               </Table>
             </div>
 
-            {hasPermission(user, [USER_TYPES.WAREHOUSE]) &&
+            {hasPermission(user, [USER_ROLES.WAREHOUSE]) &&
               order.status < ORDER_STATUS.INSTALLED && (
                 <Row className="mt-4">
                   <Col sm="6">
                     <div className="text-sm-end mt-2 mt-sm-0">
-                      <Button color="primary" className="mb-2 me-2" onClick={onCreate}>
+                      <Button
+                        color="primary"
+                        className="mb-2 me-2"
+                        onClick={onCreate}>
                         <i className={`mdi mdi-plus-circle-outline me-1`} />
                         Əlavə et
                       </Button>
@@ -179,7 +188,9 @@ const ExpenseContainer = () => {
           icon={verifyModalData.icon}
           action={verifyModalData.action}
           onVerify={verifyModalData.onVerify}
-          onClose={() => setVerifyModalData((prev) => ({ ...prev, show: false }))}
+          onClose={() =>
+            setVerifyModalData((prev) => ({ ...prev, show: false }))
+          }
           message={verifyModalData.message}
         />
       )}
