@@ -220,10 +220,6 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
     if (data && data.seller) setSellerName(data.seller.name);
   }, [data]);
 
-  useEffect(() => {
-    validation.values.seller = "";
-  }, [validation.values.branch]);
-
   // Driver Options
   const { items: drivers } = useSelector((state: RootState) => state.driver);
 
@@ -250,7 +246,11 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
 
   useEffect(() => {
     dispatch(
-      getWorkers({ name: workerName, date: validation.values.install_date })
+      getWorkers({
+        name: workerName,
+        date: validation.values.install_date,
+        order_id: data && data.id,
+      })
     );
   }, [workerName, validation.values.install_date]);
 
@@ -261,10 +261,6 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
   useEffect(() => {
     if (data && data.worker) setWorkerName(data.worker.name);
   }, [data]);
-
-  useEffect(() => {
-    validation.values.worker = "";
-  }, [validation.values.install_date]);
 
   const [priceSum, setPriceSum] = useState<number>(0);
 
@@ -331,8 +327,10 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
                 onInputChange={(e) => setBranchName(e)}
                 styles={getSelectStyle(validation, "branch")}
                 onChange={(e) => {
-                  if (e && typeof e === "object" && e.value)
+                  if (e && typeof e === "object" && e.value) {
+                    validation.setFieldValue("seller", "");
                     validation.setFieldValue("branch", e.value);
+                  }
                 }}
                 onBlur={() => {
                   validation.setFieldTouched("branch", true);
@@ -708,7 +706,10 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
                 type="date"
                 placeholder="Quraşdırılma tarixi daxil edin"
                 onBlur={validation.handleBlur}
-                onChange={validation.handleChange}
+                onChange={(e) => {
+                  validation.setFieldValue("worker", "");
+                  validation.handleChange(e);
+                }}
                 value={validation.values.install_date}
                 invalid={
                   validation.touched.install_date &&
