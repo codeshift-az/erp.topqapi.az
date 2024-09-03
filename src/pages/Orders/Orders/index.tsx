@@ -79,7 +79,7 @@ const Orders = () => {
           <Breadcrumbs
             title={title}
             breadcrumbItems={
-              branch
+              branch && user?.type === USER_ROLES.ADMIN
                 ? [
                     { title: "Ana Səhifə", url: "/" },
                     { title: "Filiallar", url: "/branches" },

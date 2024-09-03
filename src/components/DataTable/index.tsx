@@ -15,6 +15,7 @@ import {
   ColumnFiltersState,
   getSortedRowModel,
   getFilteredRowModel,
+  TableState,
 } from "@tanstack/react-table";
 
 // React Table Types
@@ -26,6 +27,7 @@ interface Props {
   controls?: React.ReactNode;
   className?: string;
   loading?: boolean;
+  state?: Partial<TableState>;
   // Pagination
   pagination?: PaginationState;
   onPaginationChange?: OnChangeFn<PaginationState>;
@@ -43,6 +45,7 @@ const DataTable = ({
   columns,
   controls,
   loading,
+  state,
   className,
   // Pagination
   pagination,
@@ -73,6 +76,7 @@ const DataTable = ({
     manualFiltering: true,
     onColumnFiltersChange,
     state: {
+      ...state,
       pagination,
       sorting,
       columnFilters,
@@ -107,7 +111,10 @@ const DataTable = ({
       </Row>
 
       <div className="table-responsive">
-        <Table bordered hover className={`custom-header-css ${className || ""}`}>
+        <Table
+          bordered
+          hover
+          className={`custom-header-css ${className || ""}`}>
           <thead className="table-light table-nowrap">
             {tableInstance.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
@@ -120,7 +127,10 @@ const DataTable = ({
                         : {})}>
                       {header.isPlaceholder
                         ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
 
                       {header.column.getIsSorted() === "asc" ? (
                         <span> 🔼</span>
@@ -129,7 +139,9 @@ const DataTable = ({
                       ) : null}
                     </div>
 
-                    {header.column.columnDef?.meta?.filterComponent(header.column)}
+                    {header.column.columnDef?.meta?.filterComponent(
+                      header.column
+                    )}
                   </th>
                 ))}
               </tr>
@@ -158,7 +170,10 @@ const DataTable = ({
                 <tr key={row.id}>
                   {row.getVisibleCells().map((cell) => (
                     <td key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </td>
                   ))}
                 </tr>
@@ -173,7 +188,10 @@ const DataTable = ({
                   <th key={header.id}>
                     {header.isPlaceholder
                       ? null
-                      : flexRender(header.column.columnDef.footer, header.getContext())}
+                      : flexRender(
+                          header.column.columnDef.footer,
+                          header.getContext()
+                        )}
                   </th>
                 ))}
               </tr>
@@ -205,7 +223,8 @@ const DataTable = ({
           <Col className="col-md-auto d-none d-md-block">
             Səhifə{" "}
             <strong>
-              {tableInstance.getState().pagination.pageIndex + 1} / {tableInstance.getPageCount()}
+              {tableInstance.getState().pagination.pageIndex + 1} /{" "}
+              {tableInstance.getPageCount()}
             </strong>
           </Col>
 
@@ -231,7 +250,9 @@ const DataTable = ({
               </Button>
               <Button
                 color="primary"
-                onClick={() => tableInstance.setPageIndex(tableInstance.getPageCount() - 1)}
+                onClick={() =>
+                  tableInstance.setPageIndex(tableInstance.getPageCount() - 1)
+                }
                 disabled={!tableInstance.getCanNextPage()}>
                 {">>"}
               </Button>

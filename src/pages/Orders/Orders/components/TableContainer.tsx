@@ -22,7 +22,7 @@ import {
 } from "@/components/DataTable/Hooks";
 
 // Constants
-import { ORDER_STATUS, ORDER_STATUS_LABELS } from "@/constants";
+import { ORDER_STATUS, ORDER_STATUS_LABELS, USER_ROLES } from "@/constants";
 
 // Types
 import { Order, OrderStats } from "@/types/models";
@@ -36,6 +36,8 @@ interface Props {
 }
 
 const TableContainer = ({ branchID }: Props) => {
+  const { user } = useSelector((state: RootState) => state.account);
+
   // Pagination
   const { page, limit, pagination, onPaginationChange } = usePagination();
 
@@ -89,7 +91,12 @@ const TableContainer = ({ branchID }: Props) => {
     columnHelper.accessor("id", {
       header: "Satış Kodu",
       cell: (cell) => {
-        return <Fields.TextField text={`#${cell.getValue()}`} />;
+        return (
+          <Fields.LinkField
+            text={`#${cell.getValue()}`}
+            url={`/orders/${cell.getValue()}`}
+          />
+        );
       },
       meta: {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
@@ -138,6 +145,7 @@ const TableContainer = ({ branchID }: Props) => {
     columnHelper.accessor("branch", {
       header: "Filial",
       cell: (cell) => {
+        if (user?.type === USER_ROLES.STORE) return null;
         return <Fields.TextField text={cell.getValue().name} />;
       },
       meta: {
@@ -167,6 +175,7 @@ const TableContainer = ({ branchID }: Props) => {
     columnHelper.accessor("worker", {
       header: "Usta",
       cell: (cell) => {
+        if (user?.type === USER_ROLES.STORE) return null;
         return <Fields.TextField text={cell.getValue()?.name} />;
       },
       meta: {
@@ -176,6 +185,7 @@ const TableContainer = ({ branchID }: Props) => {
     columnHelper.accessor("install_date", {
       header: "Quraşdırılma Tarixi",
       cell: (cell) => {
+        if (user?.type === USER_ROLES.STORE) return null;
         return <Fields.DateField value={cell.getValue()} />;
       },
       meta: {
@@ -190,17 +200,20 @@ const TableContainer = ({ branchID }: Props) => {
         return <Fields.PriceField amount={cell.getValue()} />;
       },
       footer: () => {
+        if (user?.type === USER_ROLES.STORE) return null;
         return <Fields.PriceField amount={stats?.total_amount || 0} />;
       },
     }),
     columnHelper.accessor("profit", {
       header: "Gəlir",
       cell: (cell) => {
+        if (user?.type === USER_ROLES.STORE) return null;
         const status = cell.row.original.status;
         if (status < ORDER_STATUS.READY) return null;
         return <Fields.PriceField amount={cell.getValue()} />;
       },
       footer: () => {
+        if (user?.type === USER_ROLES.STORE) return null;
         return <Fields.PriceField amount={stats?.total_profit || 0} />;
       },
     }),
@@ -218,6 +231,13 @@ const TableContainer = ({ branchID }: Props) => {
     }),
   ];
 
+  const columnVisibility = {
+    branch: user?.type !== USER_ROLES.STORE,
+    worker: user?.type !== USER_ROLES.STORE,
+    install_date: user?.type !== USER_ROLES.STORE,
+    profit: user?.type !== USER_ROLES.STORE,
+  };
+
   return (
     <Row>
       <Col xs="12">
@@ -225,6 +245,7 @@ const TableContainer = ({ branchID }: Props) => {
           <CardBody>
             <DataTable
               data={items || []}
+              state={{ columnVisibility }}
               columns={columns}
               controls={
                 <Link to="/orders/new" className="btn btn-primary mb-2 me-2">
