@@ -204,6 +204,21 @@ const TableContainer = ({ branchID }: Props) => {
         return <Fields.PriceField amount={stats?.total_amount || 0} />;
       },
     }),
+    columnHelper.accessor("payed", {
+      header: "Qalıq Məbləğ",
+      cell: (cell) => {
+        const total_price = cell.row.original.total_price;
+        return <Fields.PriceField amount={total_price - cell.getValue()} />;
+      },
+      footer: () => {
+        if (user?.type === USER_ROLES.STORE) return null;
+        return (
+          <Fields.PriceField
+            amount={(stats?.total_amount || 0) - (stats?.total_payed || 0)}
+          />
+        );
+      },
+    }),
     columnHelper.accessor("profit", {
       header: "Gəlir",
       cell: (cell) => {
@@ -232,7 +247,7 @@ const TableContainer = ({ branchID }: Props) => {
   ];
 
   const columnVisibility = {
-    branch: user?.type !== USER_ROLES.STORE,
+    branch: user?.type !== USER_ROLES.STORE && branchID === null,
     worker: user?.type !== USER_ROLES.STORE,
     install_date: user?.type !== USER_ROLES.STORE,
     profit: user?.type !== USER_ROLES.STORE,

@@ -66,6 +66,7 @@ export type OrderStats = {
   total_orders: number;
   total_amount: number;
   total_profit: number;
+  total_payed: number;
 };
 
 export type OrderCartItem = DefaultModel & {
