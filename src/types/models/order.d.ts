@@ -14,7 +14,6 @@ export type OrderItem = DefaultModel & {
   quantity: number;
   price: number;
   is_sold: boolean;
-  is_factory_ready: boolean;
   profit: number;
   date: string;
 };
@@ -43,7 +42,6 @@ export type Order = DefaultModel & {
 
   note: string;
 
-  discount: number;
   payed: number;
   seller_share: number;
   sale_date: string;

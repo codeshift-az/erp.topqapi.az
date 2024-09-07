@@ -114,18 +114,8 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <td>Ümumi Cəm :</td>
-                    <td>{formatPrice(order.total_price)}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Endirim: </td>
-                    <td>{formatPrice(order.discount)}</td>
-                  </tr>
-
-                  <tr>
                     <th>Toplam :</th>
-                    <th>{formatPrice(order.total_price - order.discount)}</th>
+                    <th>{formatPrice(order.total_price)}</th>
                   </tr>
 
                   <tr>
@@ -135,11 +125,7 @@ const OrderContainer = () => {
 
                   <tr>
                     <th>Qalıq məbləğ (Borc) :</th>
-                    <th>
-                      {formatPrice(
-                        order.total_price - order.discount - order.payed
-                      )}
-                    </th>
+                    <th>{formatPrice(order.total_price - order.payed)}</th>
                   </tr>
 
                   <tr>
@@ -316,9 +302,7 @@ const OrderContainer = () => {
                       )}
 
                       {order.status === ORDER_STATUS.PENDING &&
-                        order.items.every((item) => item.is_sold) &&
-                        order.worker &&
-                        order.driver && (
+                        order.items.every((item) => item.is_sold) && (
                           <tr>
                             <th colSpan={2}>
                               <Button
@@ -386,8 +370,7 @@ const OrderContainer = () => {
                               color="success"
                               className="mb-2 col-12"
                               disabled={
-                                Number(order.payed) !==
-                                  order.total_price - order.discount ||
+                                Number(order.payed) !== order.total_price ||
                                 (status.loading &&
                                   status.lastAction === updateOrder.typePrefix)
                               }

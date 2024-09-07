@@ -41,7 +41,8 @@ const OrderContainer = () => {
   useEffect(() => {
     if (items && items.length > 0) {
       const sum = items.reduce(
-        (a, b) => Number(a) + Number(b["price"] || 0) * Number(b["quantity"] || 0),
+        (a, b) =>
+          Number(a) + Number(b["price"] || 0) * Number(b["quantity"] || 0),
         0
       );
       setPriceSum(sum);
@@ -89,16 +90,6 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <td>Ümumi Cəm :</td>
-                    <td>{formatPrice(priceSum)}</td>
-                  </tr>
-
-                  <tr>
-                    <td>Endirim: </td>
-                    <td>{formatPrice(0)}</td>
-                  </tr>
-
-                  <tr>
                     <th>Toplam :</th>
                     <th>{formatPrice(priceSum)}</th>
                   </tr>
@@ -124,32 +115,12 @@ const OrderContainer = () => {
                   </tr>
 
                   <tr>
-                    <td>Taksi: </td>
-                    <td></td>
-                  </tr>
-
-                  <tr>
                     <td>Çatdırılma Tarixi: </td>
                     <td></td>
                   </tr>
 
                   <tr>
-                    <td>Çatdırılma məbləği: </td>
-                    <td></td>
-                  </tr>
-
-                  <tr>
-                    <td>Usta: </td>
-                    <td></td>
-                  </tr>
-
-                  <tr>
                     <td>Quraşdırılma Tarixi: </td>
-                    <td></td>
-                  </tr>
-
-                  <tr>
-                    <td>Quraşdırılma məbləği: </td>
                     <td></td>
                   </tr>
 
@@ -161,7 +132,10 @@ const OrderContainer = () => {
                   <tr>
                     <th colSpan={2}>
                       <div className="d-flex justify-content-between">
-                        <Button color="primary" className="mb-2 col-12" onClick={onEdit}>
+                        <Button
+                          color="primary"
+                          className="mb-2 col-12"
+                          onClick={onEdit}>
                           <i className={`mdi mdi-pencil me-1`} />
                           Məlumatları daxil et
                         </Button>

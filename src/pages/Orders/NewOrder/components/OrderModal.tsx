@@ -37,13 +37,7 @@ import { formatPrice, getOptions, getSelectStyle } from "@/helpers";
 import { Option } from "@/types/option";
 
 // Actions
-import {
-  getBranches,
-  getSellers,
-  createOrder,
-  getDrivers,
-  getWorkers,
-} from "@/store/actions";
+import { getBranches, getSellers, createOrder } from "@/store/actions";
 
 interface Props {
   show: boolean;
@@ -71,16 +65,11 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
       customer: "",
       phone: "",
       address: "",
-      discount: "",
       payed: "",
       seller_share: "",
       sale_date: new Date().toISOString().split("T")[0],
-      driver: "",
       delivery_date: "",
-      delivery_price: "",
-      worker: "",
       install_date: "",
-      install_price: "",
       note: "",
     },
 
@@ -90,16 +79,11 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
       customer: Yup.string().required("Zəhmət olmasa müştəri adı daxil edin!"),
       phone: Yup.string().required("Zəhmət olmasa telefon nömrəsi daxil edin!"),
       address: Yup.string().required("Zəhmət olmasa ünvan daxil edin!"),
-      discount: Yup.number(),
       payed: Yup.number().required("Zəhmət olmasa ödənilən məbləğ daxil edin!"),
       seller_share: Yup.number(),
       sale_date: Yup.string().required("Zəhmət olmasa tarix daxil edin!"),
-      driver: Yup.number(),
       delivery_date: Yup.string(),
-      delivery_price: Yup.string(),
-      worker: Yup.number(),
       install_date: Yup.string(),
-      install_price: Yup.number(),
       note: Yup.string(),
     }),
 
@@ -121,9 +105,6 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
       // Address
       formData.append("address", values["address"]);
 
-      // Discount
-      formData.append("discount", values["discount"].toString());
-
       // Payed
       formData.append("payed", values["payed"].toString());
 
@@ -133,20 +114,8 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
       // Sale Date
       formData.append("sale_date", values["sale_date"]);
 
-      // Driver
-      formData.append("driver", values["driver"]);
-
-      // Delivery Price
-      formData.append("delivery_price", values["delivery_price"].toString());
-
       // Delivery Date
       formData.append("delivery_date", values["delivery_date"]);
-
-      // Worker
-      formData.append("worker", values["worker"]);
-
-      // Install Price
-      formData.append("install_price", values["install_price"].toString());
 
       // Install Date
       formData.append("install_date", values["install_date"]);
@@ -200,40 +169,6 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
   useEffect(() => {
     validation.values.seller = "";
   }, [validation.values.branch]);
-
-  // Driver Options
-  const { items: drivers } = useSelector((state: RootState) => state.driver);
-
-  const [driverName, setDriverName] = useState<string>("");
-  const [driverOptions, setDriverOptions] = useState<Option[]>([]);
-
-  useEffect(() => {
-    dispatch(getDrivers({ name: driverName }));
-  }, [driverName]);
-
-  useEffect(() => {
-    setDriverOptions(getOptions(drivers));
-  }, [drivers]);
-
-  // Worker Options
-  const { items: workers } = useSelector((state: RootState) => state.worker);
-
-  const [workerName, setWorkerName] = useState<string>("");
-  const [workerOptions, setWorkerOptions] = useState<Option[]>([]);
-
-  useEffect(() => {
-    dispatch(
-      getWorkers({ name: workerName, date: validation.values.install_date })
-    );
-  }, [workerName, validation.values.install_date]);
-
-  useEffect(() => {
-    setWorkerOptions(getOptions(workers));
-  }, [workers]);
-
-  useEffect(() => {
-    validation.values.worker = "";
-  }, [validation.values.install_date]);
 
   const [priceSum, setPriceSum] = useState<number>(0);
 
@@ -439,42 +374,15 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
           </Row>
 
           <Row>
-            {/* Discount */}
-            <Col className="col-12 col-lg-6 mb-3">
-              <Label>Endirim</Label>
-
-              <Input
-                type="number"
-                name="discount"
-                placeholder="Endirim daxil edin"
-                onBlur={validation.handleBlur}
-                onChange={validation.handleChange}
-                value={validation.values.discount}
-                invalid={
-                  validation.touched.discount && validation.errors.discount
-                    ? true
-                    : false
-                }
-              />
-
-              {validation.touched.discount && validation.errors.discount ? (
-                <FormFeedback type="invalid">
-                  {validation.errors.discount.toString()}
-                </FormFeedback>
-              ) : null}
-            </Col>
-
             {/* Total */}
-            <Col className="col-12 col-lg-6 mb-3">
+            <Col className="col-12 mb-3">
               <Label>Cəm</Label>
 
               <Input
                 type="text"
                 name="total"
                 placeholder="Ümumi Cəm"
-                value={formatPrice(
-                  priceSum - Number(validation.values.discount || 0)
-                )}
+                value={formatPrice(priceSum)}
                 disabled={true}
               />
             </Col>
@@ -515,9 +423,7 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 name="debt"
                 placeholder="Qalıq"
                 value={formatPrice(
-                  priceSum -
-                    Number(validation.values.discount || 0) -
-                    Number(validation.values.payed || 0)
+                  priceSum - Number(validation.values.payed || 0)
                 )}
                 disabled={true}
               />
@@ -579,73 +485,6 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
           </Row>
 
           <Row>
-            {/* Driver */}
-            <Col className="col-12 col-lg-6 mb-3">
-              <Label>Taksi</Label>
-
-              <Select
-                name="driver"
-                options={driverOptions || []}
-                onInputChange={(e) => setDriverName(e)}
-                styles={getSelectStyle(validation, "driver")}
-                onChange={(e) => {
-                  if (e && typeof e === "object" && e.value)
-                    validation.setFieldValue("driver", e.value);
-                }}
-                onBlur={() => {
-                  validation.setFieldTouched("driver", true);
-                }}
-                value={
-                  validation.values.driver &&
-                  driverOptions &&
-                  driverOptions.find(
-                    (option) => option.value === validation.values.driver
-                  )
-                }
-              />
-
-              {validation.touched.driver && validation.errors.driver ? (
-                <FormFeedback type="invalid" className="d-block">
-                  {validation.errors.driver.toString()}
-                </FormFeedback>
-              ) : null}
-            </Col>
-
-            {/* Worker */}
-            <Col className="col-12 col-lg-6 mb-3">
-              <Label>Usta</Label>
-
-              <Select
-                name="worker"
-                options={workerOptions || []}
-                isDisabled={!validation.values.install_date}
-                onInputChange={(e) => setWorkerName(e)}
-                styles={getSelectStyle(validation, "worker")}
-                onChange={(e) => {
-                  if (e && typeof e === "object" && e.value)
-                    validation.setFieldValue("worker", e.value);
-                }}
-                onBlur={() => {
-                  validation.setFieldTouched("worker", true);
-                }}
-                value={
-                  validation.values.worker &&
-                  workerOptions &&
-                  workerOptions.find(
-                    (option) => option.value === validation.values.worker
-                  )
-                }
-              />
-
-              {validation.touched.worker && validation.errors.worker ? (
-                <FormFeedback type="invalid" className="d-block">
-                  {validation.errors.worker.toString()}
-                </FormFeedback>
-              ) : null}
-            </Col>
-          </Row>
-
-          <Row>
             {/* Delivery Date */}
             <Col className="col-12 col-lg-6 mb-3">
               <Label>Çatdırılma Tarixi</Label>
@@ -682,7 +521,10 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
                 type="date"
                 placeholder="Quraşdırılma tarixi daxil edin"
                 onBlur={validation.handleBlur}
-                onChange={validation.handleChange}
+                onChange={(e) => {
+                  validation.setFieldValue("worker", "");
+                  validation.handleChange(e);
+                }}
                 value={validation.values.install_date}
                 invalid={
                   validation.touched.install_date &&
@@ -696,62 +538,6 @@ const OrderModal = ({ show, toggle, handleSubmit }: Props) => {
               validation.errors.install_date ? (
                 <FormFeedback type="invalid">
                   {validation.errors.install_date.toString()}
-                </FormFeedback>
-              ) : null}
-            </Col>
-          </Row>
-
-          <Row>
-            {/* Delivery Price */}
-            <Col className="col-12 col-lg-6 mb-3">
-              <Label>Çatdırılma məbləği</Label>
-
-              <Input
-                type="number"
-                name="delivery_price"
-                placeholder="Çatdırılma məbləği daxil edin"
-                onBlur={validation.handleBlur}
-                onChange={validation.handleChange}
-                value={validation.values.delivery_price}
-                invalid={
-                  validation.touched.delivery_price &&
-                  validation.errors.delivery_price
-                    ? true
-                    : false
-                }
-              />
-
-              {validation.touched.delivery_price &&
-              validation.errors.delivery_price ? (
-                <FormFeedback type="invalid">
-                  {validation.errors.delivery_price.toString()}
-                </FormFeedback>
-              ) : null}
-            </Col>
-
-            {/* Install Price */}
-            <Col className="col-12 col-lg-6 mb-3">
-              <Label>Quraşdırılma məbləği</Label>
-
-              <Input
-                type="number"
-                name="install_price"
-                placeholder="Quraşdırılma məbləği daxil edin"
-                onBlur={validation.handleBlur}
-                onChange={validation.handleChange}
-                value={validation.values.install_price}
-                invalid={
-                  validation.touched.install_price &&
-                  validation.errors.install_price
-                    ? true
-                    : false
-                }
-              />
-
-              {validation.touched.install_price &&
-              validation.errors.install_price ? (
-                <FormFeedback type="invalid">
-                  {validation.errors.install_price.toString()}
                 </FormFeedback>
               ) : null}
             </Col>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 // Redux
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/store";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 // Reactstrap
 import {
@@ -32,14 +32,14 @@ import { getOptions, getSelectStyle } from "@/helpers";
 
 // Types
 import { Option } from "@/types/option";
+import { ProductFilter, SupplierFilter } from "@/types/filters";
+
+// API
+import { getProducts } from "@/api/product";
+import { getSuppliers } from "@/api/supplier";
 
 // Actions
-import {
-  getProducts,
-  getSuppliers,
-  createOrderCartItem,
-  updateOrderCartItem,
-} from "@/store/actions";
+import { createOrderCartItem, updateOrderCartItem } from "@/store/actions";
 
 interface Props {
   data: any;
@@ -51,8 +51,6 @@ interface Props {
 
 const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
   const title = isEdit ? "Məhsul məlumatlarını redaktə et" : "Məhsul əlavə Et";
-
-  const dispatch = useDispatch<AppDispatch>();
 
   const { status, errors } = useSelector((state: RootState) => state.orderCart);
 
@@ -110,48 +108,41 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
   });
 
   // Product Options
-  const { items: products } = useSelector((state: RootState) => state.product);
-
   const [productName, setProductName] = useState<string>("");
   const [productOptions, setProductOptions] = useState<Option[]>([]);
 
+  const setProducts = (filters: ProductFilter) => {
+    getProducts(filters).then((response) => {
+      if (response) setProductOptions(getOptions(response.results));
+    });
+  };
+
   useEffect(() => {
-    dispatch(getProducts({ name: productName }));
+    if (productName) setProducts({ name: productName });
   }, [productName]);
 
-  useEffect(() => {
-    setProductOptions(getOptions(products));
-  }, [products]);
-
-  useEffect(() => {
-    if (data && data.product) setProductName(data.product.name);
-  }, [data]);
-
   // Supplier Options
-  const { items: suppliers } = useSelector(
-    (state: RootState) => state.supplier
-  );
-
   const [supplierName, setSupplierName] = useState<string>("");
   const [supplierOptions, setSupplierOptions] = useState<Option[]>([]);
 
+  const setSuppliers = (filters: SupplierFilter) => {
+    getSuppliers(filters).then((response) => {
+      if (response) setSupplierOptions(getOptions(response.results));
+    });
+  };
+
   useEffect(() => {
-    dispatch(
-      getSuppliers({ name: supplierName, product: validation.values.product })
-    );
+    if (validation.values.product || supplierName) {
+      setSuppliers({ name: supplierName, product: validation.values.product });
+    }
   }, [supplierName, validation.values.product]);
 
   useEffect(() => {
-    setSupplierOptions(getOptions(suppliers));
-  }, [suppliers]);
-
-  useEffect(() => {
-    if (data && data.supplier) setSupplierName(data.supplier.name);
+    if (data && data.product) setProducts({ id: data.product.id });
+    else setProducts({});
+    if (data && data.supplier) setSuppliers({ id: data.supplier.id });
+    else setSuppliers({});
   }, [data]);
-
-  useEffect(() => {
-    validation.values.supplier = "";
-  }, [validation.values.product]);
 
   // Success
   useEffect(() => {
@@ -208,8 +199,10 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
                 onInputChange={(e) => setProductName(e)}
                 styles={getSelectStyle(validation, "product")}
                 onChange={(e) => {
-                  if (e && typeof e === "object" && e.value)
+                  if (e && typeof e === "object" && e.value) {
+                    validation.setFieldValue("supplier", "");
                     validation.setFieldValue("product", e.value);
+                  }
                 }}
                 onBlur={() => {
                   validation.setFieldTouched("product", true);

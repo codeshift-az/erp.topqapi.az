@@ -153,25 +153,6 @@ const ProductContainer = () => {
                       {user?.type === USER_ROLES.STORE &&
                         order.status === ORDER_STATUS.PENDING && (
                           <td>
-                            {item.is_factory_ready ? (
-                              <a
-                                role="alert"
-                                className={`badge badge-soft-success font-size-11 m-1`}>
-                                Hazırdır
-                              </a>
-                            ) : (
-                              <a
-                                role="alert"
-                                className={`badge badge-soft-warning font-size-11 m-1`}>
-                                Hazırlanır
-                              </a>
-                            )}
-                          </td>
-                        )}
-
-                      {user?.type === USER_ROLES.STORE &&
-                        order.status === ORDER_STATUS.PENDING && (
-                          <td>
                             {item.is_sold ? (
                               <a
                                 role="alert"

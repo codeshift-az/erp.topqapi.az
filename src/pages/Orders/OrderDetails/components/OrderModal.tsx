@@ -73,7 +73,6 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       customer: (data && data.customer) || "",
       phone: (data && data.phone) || "",
       address: (data && data.address) || "",
-      discount: (data && data.discount) || "",
       payed: (data && data.payed) || "",
       seller_share: (data && data.seller_share) || "",
       sale_date:
@@ -93,7 +92,6 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       customer: Yup.string().required("Zəhmət olmasa müştəri adı daxil edin!"),
       phone: Yup.string().required("Zəhmət olmasa telefon nömrəsi daxil edin!"),
       address: Yup.string().required("Zəhmət olmasa ünvan daxil edin!"),
-      discount: Yup.number(),
       payed: Yup.number().required("Zəhmət olmasa ödənilən məbləğ daxil edin!"),
       sale_date: Yup.string().required(
         "Zəhmət olmasa satış tarixi daxil edin!"
@@ -130,10 +128,6 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
       // Address
       if (!data || values["address"] !== data["address"])
         formData.append("address", values["address"]);
-
-      // Discount
-      if (!data || values["discount"] !== data["discount"])
-        formData.append("discount", values["discount"]);
 
       // Payed
       if (!data || values["payed"] !== data["payed"])
@@ -465,40 +459,15 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
           </Row>
 
           <Row>
-            {/* Discount */}
-            <Col className="col-12 col-lg-6 mb-3">
-              <Label>Endirim</Label>
-
-              <Input
-                type="number"
-                name="discount"
-                placeholder="Endirim daxil edin"
-                onBlur={validation.handleBlur}
-                onChange={validation.handleChange}
-                value={validation.values.discount}
-                invalid={
-                  validation.touched.discount && validation.errors.discount
-                    ? true
-                    : false
-                }
-              />
-
-              {validation.touched.discount && validation.errors.discount ? (
-                <FormFeedback type="invalid">
-                  {validation.errors.discount.toString()}
-                </FormFeedback>
-              ) : null}
-            </Col>
-
             {/* Total */}
-            <Col className="col-12 col-lg-6 mb-3">
+            <Col className="col-12 mb-3">
               <Label>Cəm</Label>
 
               <Input
                 type="text"
                 name="total"
                 placeholder="Ümumi Cəm"
-                value={formatPrice(priceSum - validation.values.discount)}
+                value={formatPrice(priceSum)}
                 disabled={true}
               />
             </Col>
@@ -538,11 +507,7 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
                 type="text"
                 name="debt"
                 placeholder="Qalıq"
-                value={formatPrice(
-                  priceSum -
-                    validation.values.discount -
-                    validation.values.payed
-                )}
+                value={formatPrice(priceSum - validation.values.payed)}
                 disabled={true}
               />
             </Col>
@@ -602,72 +567,132 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
             </Col>
           </Row>
 
-          <Row>
-            {/* Driver */}
-            <Col className="col-12 col-lg-6 mb-3">
-              <Label>Taksi</Label>
+          {user?.type !== USER_ROLES.STORE && (
+            <>
+              <Row>
+                {/* Driver */}
+                <Col className="col-12 col-lg-6 mb-3">
+                  <Label>Taksi</Label>
 
-              <Select
-                name="driver"
-                options={driverOptions || []}
-                onInputChange={(e) => setDriverName(e)}
-                styles={getSelectStyle(validation, "driver")}
-                onChange={(e) => {
-                  if (e && typeof e === "object" && e.value)
-                    validation.setFieldValue("driver", e.value);
-                }}
-                onBlur={() => {
-                  validation.setFieldTouched("driver", true);
-                }}
-                value={
-                  validation.values.driver &&
-                  driverOptions &&
-                  driverOptions.find(
-                    (option) => option.value === validation.values.driver
-                  )
-                }
-              />
+                  <Select
+                    name="driver"
+                    options={driverOptions || []}
+                    onInputChange={(e) => setDriverName(e)}
+                    styles={getSelectStyle(validation, "driver")}
+                    onChange={(e) => {
+                      if (e && typeof e === "object" && e.value)
+                        validation.setFieldValue("driver", e.value);
+                    }}
+                    onBlur={() => {
+                      validation.setFieldTouched("driver", true);
+                    }}
+                    value={
+                      validation.values.driver &&
+                      driverOptions &&
+                      driverOptions.find(
+                        (option) => option.value === validation.values.driver
+                      )
+                    }
+                  />
 
-              {validation.touched.driver && validation.errors.driver ? (
-                <FormFeedback type="invalid" className="d-block">
-                  {validation.errors.driver.toString()}
-                </FormFeedback>
-              ) : null}
-            </Col>
+                  {validation.touched.driver && validation.errors.driver ? (
+                    <FormFeedback type="invalid" className="d-block">
+                      {validation.errors.driver.toString()}
+                    </FormFeedback>
+                  ) : null}
+                </Col>
 
-            {/* Worker */}
-            <Col className="col-12 col-lg-6 mb-3">
-              <Label>Usta</Label>
+                {/* Worker */}
+                <Col className="col-12 col-lg-6 mb-3">
+                  <Label>Usta</Label>
 
-              <Select
-                name="worker"
-                options={workerOptions || []}
-                isDisabled={!validation.values.install_date}
-                onInputChange={(e) => setWorkerName(e)}
-                styles={getSelectStyle(validation, "worker")}
-                onChange={(e) => {
-                  if (e && typeof e === "object" && e.value)
-                    validation.setFieldValue("worker", e.value);
-                }}
-                onBlur={() => {
-                  validation.setFieldTouched("worker", true);
-                }}
-                value={
-                  validation.values.worker &&
-                  workerOptions &&
-                  workerOptions.find(
-                    (option) => option.value === validation.values.worker
-                  )
-                }
-              />
+                  <Select
+                    name="worker"
+                    options={workerOptions || []}
+                    isDisabled={!validation.values.install_date}
+                    onInputChange={(e) => setWorkerName(e)}
+                    styles={getSelectStyle(validation, "worker")}
+                    onChange={(e) => {
+                      if (e && typeof e === "object" && e.value)
+                        validation.setFieldValue("worker", e.value);
+                    }}
+                    onBlur={() => {
+                      validation.setFieldTouched("worker", true);
+                    }}
+                    value={
+                      validation.values.worker &&
+                      workerOptions &&
+                      workerOptions.find(
+                        (option) => option.value === validation.values.worker
+                      )
+                    }
+                  />
 
-              {validation.touched.worker && validation.errors.worker ? (
-                <FormFeedback type="invalid" className="d-block">
-                  {validation.errors.worker.toString()}
-                </FormFeedback>
-              ) : null}
-            </Col>
-          </Row>
+                  {validation.touched.worker && validation.errors.worker ? (
+                    <FormFeedback type="invalid" className="d-block">
+                      {validation.errors.worker.toString()}
+                    </FormFeedback>
+                  ) : null}
+                </Col>
+              </Row>
+
+              <Row>
+                {/* Delivery Price */}
+                <Col className="col-12 col-lg-6 mb-3">
+                  <Label>Çatdırılma məbləği</Label>
+
+                  <Input
+                    type="number"
+                    name="delivery_price"
+                    placeholder="Çatdırılma məbləği daxil edin"
+                    onBlur={validation.handleBlur}
+                    onChange={validation.handleChange}
+                    value={validation.values.delivery_price}
+                    invalid={
+                      validation.touched.delivery_price &&
+                      validation.errors.delivery_price
+                        ? true
+                        : false
+                    }
+                  />
+
+                  {validation.touched.delivery_price &&
+                  validation.errors.delivery_price ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.delivery_price.toString()}
+                    </FormFeedback>
+                  ) : null}
+                </Col>
+
+                {/* Install Price */}
+                <Col className="col-12 col-lg-6 mb-3">
+                  <Label>Quraşdırılma məbləği</Label>
+
+                  <Input
+                    type="number"
+                    name="install_price"
+                    placeholder="Quraşdırılma məbləği daxil edin"
+                    onBlur={validation.handleBlur}
+                    onChange={validation.handleChange}
+                    value={validation.values.install_price}
+                    invalid={
+                      validation.touched.install_price &&
+                      validation.errors.install_price
+                        ? true
+                        : false
+                    }
+                  />
+
+                  {validation.touched.install_price &&
+                  validation.errors.install_price ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.install_price.toString()}
+                    </FormFeedback>
+                  ) : null}
+                </Col>
+              </Row>
+            </>
+          )}
 
           <Row>
             {/* Delivery Date */}
@@ -723,62 +748,6 @@ const OrderModal = ({ data, show, toggle, handleSubmit }: Props) => {
               validation.errors.install_date ? (
                 <FormFeedback type="invalid">
                   {validation.errors.install_date.toString()}
-                </FormFeedback>
-              ) : null}
-            </Col>
-          </Row>
-
-          <Row>
-            {/* Delivery Price */}
-            <Col className="col-12 col-lg-6 mb-3">
-              <Label>Çatdırılma məbləği</Label>
-
-              <Input
-                type="number"
-                name="delivery_price"
-                placeholder="Çatdırılma məbləği daxil edin"
-                onBlur={validation.handleBlur}
-                onChange={validation.handleChange}
-                value={validation.values.delivery_price}
-                invalid={
-                  validation.touched.delivery_price &&
-                  validation.errors.delivery_price
-                    ? true
-                    : false
-                }
-              />
-
-              {validation.touched.delivery_price &&
-              validation.errors.delivery_price ? (
-                <FormFeedback type="invalid">
-                  {validation.errors.delivery_price.toString()}
-                </FormFeedback>
-              ) : null}
-            </Col>
-
-            {/* Install Price */}
-            <Col className="col-12 col-lg-6 mb-3">
-              <Label>Quraşdırılma məbləği</Label>
-
-              <Input
-                type="number"
-                name="install_price"
-                placeholder="Quraşdırılma məbləği daxil edin"
-                onBlur={validation.handleBlur}
-                onChange={validation.handleChange}
-                value={validation.values.install_price}
-                invalid={
-                  validation.touched.install_price &&
-                  validation.errors.install_price
-                    ? true
-                    : false
-                }
-              />
-
-              {validation.touched.install_price &&
-              validation.errors.install_price ? (
-                <FormFeedback type="invalid">
-                  {validation.errors.install_price.toString()}
                 </FormFeedback>
               ) : null}
             </Col>

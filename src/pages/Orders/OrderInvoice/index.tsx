@@ -23,7 +23,9 @@ const OrderInvoice = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const { item: order, status } = useSelector((state: RootState) => state.order);
+  const { item: order, status } = useSelector(
+    (state: RootState) => state.order
+  );
 
   useEffect(() => {
     const id = location.pathname.split("/")?.[2];
@@ -64,7 +66,9 @@ const OrderInvoice = () => {
               <Card>
                 <CardBody>
                   <div className="invoice-title">
-                    <h4 className="float-end font-size-16">Satış #{order.id} Fakturası</h4>
+                    <h4 className="float-end font-size-16">
+                      Satış #{order.id} Fakturası
+                    </h4>
                   </div>
 
                   <hr />
@@ -145,10 +149,13 @@ const OrderInvoice = () => {
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{item.product.name}</td>
-                            <td className="text-end">{Number(item.price).toFixed(2)} AZN</td>
+                            <td className="text-end">
+                              {Number(item.price).toFixed(2)} AZN
+                            </td>
                             <td className="text-end">{item.quantity}</td>
                             <td className="text-end">
-                              {(Number(item.price) * item.quantity).toFixed(2)} AZN
+                              {(Number(item.price) * item.quantity).toFixed(2)}{" "}
+                              AZN
                             </td>
                           </tr>
                         ))}
@@ -161,20 +168,14 @@ const OrderInvoice = () => {
                           <td className="border-0 text-end">
                             <h6 className="m-0">
                               {order.items
-                                .reduce((acc, item) => acc + Number(item.price) * item.quantity, 0)
+                                .reduce(
+                                  (acc, item) =>
+                                    acc + Number(item.price) * item.quantity,
+                                  0
+                                )
                                 .toFixed(2)}{" "}
                               AZN
                             </h6>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td colSpan={4} className="border-0 text-end">
-                            <strong>Endirim</strong>
-                          </td>
-
-                          <td className="border-0 text-end">
-                            <h6 className="m-0">{Number(order.discount).toFixed(2)} AZN</h6>
                           </td>
                         </tr>
 
@@ -185,12 +186,13 @@ const OrderInvoice = () => {
 
                           <td className="border-0 text-end">
                             <h6 className="m-0">
-                              {(
-                                order.items.reduce(
-                                  (acc, item) => acc + Number(item.price) * item.quantity,
+                              {order.items
+                                .reduce(
+                                  (acc, item) =>
+                                    acc + Number(item.price) * item.quantity,
                                   0
-                                ) - order.discount
-                              ).toFixed(2)}{" "}
+                                )
+                                .toFixed(2)}{" "}
                               AZN
                             </h6>
                           </td>
@@ -202,7 +204,9 @@ const OrderInvoice = () => {
                           </td>
 
                           <td className="border-0 text-end">
-                            <h6 className="m-0">{Number(order.payed).toFixed(2)} AZN</h6>
+                            <h6 className="m-0">
+                              {Number(order.payed).toFixed(2)} AZN
+                            </h6>
                           </td>
                         </tr>
 
@@ -215,11 +219,10 @@ const OrderInvoice = () => {
                             <h6 className="m-0">
                               {(
                                 order.items.reduce(
-                                  (acc, item) => acc + Number(item.price) * item.quantity,
+                                  (acc, item) =>
+                                    acc + Number(item.price) * item.quantity,
                                   0
-                                ) -
-                                order.discount -
-                                order.payed
+                                ) - order.payed
                               ).toFixed(2)}{" "}
                               AZN
                             </h6>
@@ -231,7 +234,10 @@ const OrderInvoice = () => {
 
                   <div className="d-print-none">
                     <div className="float-end">
-                      <Button color="success" className="me-2 mb-2" onClick={printInvoice}>
+                      <Button
+                        color="success"
+                        className="me-2 mb-2"
+                        onClick={printInvoice}>
                         <i className="mdi mdi-printer me-1" />
                         Çap et
                       </Button>
