@@ -370,7 +370,8 @@ const OrderContainer = () => {
                               color="success"
                               className="mb-2 col-12"
                               disabled={
-                                Number(order.payed) !== order.total_price ||
+                                Number(order.payed) !==
+                                  Number(order.total_price) ||
                                 (status.loading &&
                                   status.lastAction === updateOrder.typePrefix)
                               }
