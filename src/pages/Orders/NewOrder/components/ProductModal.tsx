@@ -71,7 +71,7 @@ const ProductModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
     validationSchema: Yup.object({
       product: Yup.number().required("Zəhmət olmasa məhsul seçin!"),
       supplier: Yup.number().required("Zəhmət olmasa firma seçin!"),
-      size: Yup.string().max(20, "Ölçü 20 simvoldan çox ola bilməz!"),
+      size: Yup.string().max(255, "Ölçü 255 simvoldan çox ola bilməz!"),
       price: Yup.number()
         .required("Zəhmət olmasa qiymət daxil edin!")
         .min(0, "Qiymət 0 vəya 0-dan böyük olmalıdır!"),
