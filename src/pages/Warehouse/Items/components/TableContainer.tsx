@@ -77,12 +77,15 @@ const TableContainer = () => {
         filterComponent: (column) => <Filters.TextFilter column={column} />,
       },
     }),
-    columnHelper.display({
+    columnHelper.accessor("category", {
       header: "Kateqoriya",
       cell: (cell) => {
         return (
           <Fields.TextField text={cell.row.original.product.category.name} />
         );
+      },
+      meta: {
+        filterComponent: (column) => <Filters.TextFilter column={column} />,
       },
     }),
     columnHelper.accessor("supplier", {

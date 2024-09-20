@@ -5,6 +5,7 @@ import { Supplier } from "./supplier";
 
 export type WarehouseItem = DefaultModel & {
   product: Product;
+  category: string;
   supplier: Supplier;
   quantity: number;
   price: string;
