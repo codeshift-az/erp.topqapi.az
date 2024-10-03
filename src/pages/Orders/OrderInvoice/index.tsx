@@ -138,6 +138,7 @@ const OrderInvoice = () => {
                         <tr>
                           <th style={{ width: "70px" }}>#</th>
                           <th>Məhsul</th>
+                          <th className="text-end">Ölçü</th>
                           <th className="text-end">Qiymət</th>
                           <th className="text-end">Say</th>
                           <th className="text-end">Cəm</th>
@@ -149,6 +150,7 @@ const OrderInvoice = () => {
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{item.product.name}</td>
+                            <td className="text-end">{item.size}</td>
                             <td className="text-end">
                               {Number(item.price).toFixed(2)} AZN
                             </td>
