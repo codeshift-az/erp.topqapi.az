@@ -59,7 +59,9 @@ const EntryContainer = () => {
                     <th>Ümumi Cəm :</th>
                     <th>
                       {items?.reduce(
-                        (a, b) => Number(a) + Number(b["price"] || 0) * Number(b["quantity"] || 0),
+                        (a, b) =>
+                          Number(a) +
+                          Number(b["price"] || 0) * Number(b["quantity"] || 0),
                         0
                       ) || 0}{" "}
                       AZN
@@ -69,7 +71,10 @@ const EntryContainer = () => {
                   <tr>
                     <th colSpan={2}>
                       <div className="d-flex justify-content-between">
-                        <Button color="primary" className="mb-2 col-12" onClick={onEdit}>
+                        <Button
+                          color="primary"
+                          className="mb-2 col-12"
+                          onClick={onEdit}>
                           <i className={`mdi mdi-pencil me-1`} />
                           Məlumatları daxil et
                         </Button>

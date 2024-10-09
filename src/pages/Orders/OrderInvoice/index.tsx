@@ -82,7 +82,7 @@ const OrderInvoice = () => {
                         <br />
                         Telefon: {order.phone}
                         <br />
-                        Ünvan: {order.address}
+                        <p style={{ color: "red" }}>Ünvan: {order.address}</p>
                         <br />
                       </address>
 
@@ -133,14 +133,16 @@ const OrderInvoice = () => {
                   </div>
 
                   <div className="table-responsive">
-                    <Table className="table-nowrap">
+                    <Table className="table-nowrap table-bordered table-striped border-secondary-subtle">
                       <thead>
                         <tr>
                           <th style={{ width: "70px" }}>#</th>
-                          <th>Məhsul</th>
+                          <th style={{ color: "red" }}>Məhsul</th>
                           <th className="text-end">Ölçü</th>
-                          <th className="text-end">Qiymət</th>
                           <th className="text-end">Say</th>
+                          <th style={{ color: "red" }} className="text-end">
+                            Qiymət
+                          </th>
                           <th className="text-end">Cəm</th>
                         </tr>
                       </thead>
@@ -149,12 +151,14 @@ const OrderInvoice = () => {
                         {order.items.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{item.product.name}</td>
+                            <td style={{ color: "red" }}>
+                              {item.product.name}
+                            </td>
                             <td className="text-end">{item.size}</td>
-                            <td className="text-end">
+                            <td className="text-end">{item.quantity}</td>
+                            <td style={{ color: "red" }} className="text-end">
                               {Number(item.price).toFixed(2)} AZN
                             </td>
-                            <td className="text-end">{item.quantity}</td>
                             <td className="text-end">
                               {(Number(item.price) * item.quantity).toFixed(2)}{" "}
                               AZN
@@ -167,7 +171,9 @@ const OrderInvoice = () => {
                             <strong>Ümumi Cəm</strong>
                           </td>
 
-                          <td className="border-0 text-end">
+                          <td
+                            style={{ color: "red" }}
+                            className="border-0 text-end">
                             <h6 className="m-0">
                               {order.items
                                 .reduce(
@@ -179,25 +185,7 @@ const OrderInvoice = () => {
                               AZN
                             </h6>
                           </td>
-                        </tr>
-
-                        <tr>
-                          <td colSpan={4} className="border-0 text-end">
-                            <strong>Yekun</strong>
-                          </td>
-
-                          <td className="border-0 text-end">
-                            <h6 className="m-0">
-                              {order.items
-                                .reduce(
-                                  (acc, item) =>
-                                    acc + Number(item.price) * item.quantity,
-                                  0
-                                )
-                                .toFixed(2)}{" "}
-                              AZN
-                            </h6>
-                          </td>
+                          <td className="border-0" />
                         </tr>
 
                         <tr>
@@ -205,11 +193,14 @@ const OrderInvoice = () => {
                             <strong>Ödənilən</strong>
                           </td>
 
-                          <td className="border-0 text-end">
+                          <td
+                            style={{ color: "red" }}
+                            className="border-0 text-end">
                             <h6 className="m-0">
                               {Number(order.payed).toFixed(2)} AZN
                             </h6>
                           </td>
+                          <td className="border-0" />
                         </tr>
 
                         <tr>
@@ -217,7 +208,9 @@ const OrderInvoice = () => {
                             <strong>Qalıq</strong>
                           </td>
 
-                          <td className="border-0 text-end">
+                          <td
+                            style={{ color: "red" }}
+                            className="border-0 text-end">
                             <h6 className="m-0">
                               {(
                                 order.items.reduce(
@@ -229,6 +222,7 @@ const OrderInvoice = () => {
                               AZN
                             </h6>
                           </td>
+                          <td className="border-0" />
                         </tr>
                       </tbody>
                     </Table>
