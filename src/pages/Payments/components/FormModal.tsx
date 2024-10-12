@@ -61,12 +61,14 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
       supplier: (data && data.supplier && data.supplier.id) || "",
       amount: (data && data.amount) || "",
       date: (data && data.date) || new Date().toISOString().split("T")[0],
+      note: (data && data.note) || "",
     },
 
     validationSchema: Yup.object({
       supplier: Yup.number().required("Zəhmət olmasa firma seçin!"),
       amount: Yup.number().required("Zəhmət olmasa məbləğ daxil edin!"),
       date: Yup.string().required("Zəhmət olmasa tarix daxil edin!"),
+      note: Yup.string(),
     }),
 
     onSubmit: (values) => {
@@ -83,6 +85,10 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
       // Date
       if (!data || values["date"] !== data["date"])
         formData.append("date", values["date"]);
+
+      // Note
+      if (!data || values["note"] !== data["note"])
+        formData.append("note", values["note"]);
 
       handleSubmit(formData);
     },
@@ -233,6 +239,33 @@ const FormModal = ({ data, show, isEdit, toggle, handleSubmit }: Props) => {
               {validation.touched.date && validation.errors.date ? (
                 <FormFeedback type="invalid">
                   {validation.errors.date.toString()}
+                </FormFeedback>
+              ) : null}
+            </Col>
+          </Row>
+
+          <Row>
+            {/* Note */}
+            <Col className="col-12 mb-3">
+              <Label>Qeyd</Label>
+
+              <Input
+                name="note"
+                type="textarea"
+                placeholder={"Qeyd daxil edin"}
+                onBlur={validation.handleBlur}
+                onChange={validation.handleChange}
+                value={validation.values.note}
+                invalid={
+                  validation.touched.note && validation.errors.note
+                    ? true
+                    : false
+                }
+              />
+
+              {validation.touched.note && validation.errors.note ? (
+                <FormFeedback type="invalid">
+                  {validation.errors.note.toString()}
                 </FormFeedback>
               ) : null}
             </Col>

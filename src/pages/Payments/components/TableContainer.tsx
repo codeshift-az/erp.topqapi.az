@@ -16,8 +16,8 @@ import DataTable from "@/components/DataTable";
 import * as Fields from "@/components/DataTable/Fields";
 import * as Filters from "@/components/DataTable/Filters";
 import {
-  usePagination,
   useSorting,
+  usePagination,
   useColumnFiltering,
 } from "@/components/DataTable/Hooks";
 
@@ -107,6 +107,15 @@ const TableContainer = ({ onCreate, onUpdate, onDelete }: Props) => {
         filterComponent: (column) => (
           <Filters.DateRangeFilter column={column} />
         ),
+      },
+    }),
+    columnHelper.accessor("note", {
+      header: "Qeyd",
+      cell: (cell) => {
+        return <Fields.TextField text={cell.getValue()} />;
+      },
+      meta: {
+        filterComponent: (column) => <Filters.TextFilter column={column} />,
       },
     }),
     columnHelper.display({

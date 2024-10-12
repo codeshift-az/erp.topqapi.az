@@ -7,4 +7,5 @@ export type Payment = DefaultModel & {
   supplier: Supplier;
   amount: number;
   date: string;
+  note: string;
 };
